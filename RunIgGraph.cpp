@@ -1,5 +1,3 @@
-// -v data/igh_refs_simple/human_IGHV.fa -d data/igh_refs_simple/human_IGHD.fa -j data/igh_refs_simple/human_IGHJ.fa -k 21 -r ../ten_ab.fa
-
 
 #include <iostream>
 #include <fstream>
@@ -11,7 +9,6 @@
 #include <tclap/CmdLine.h> 	  // for parsing command line args
 #include "ProcessMemUsage.h" 	  // for checking process memory usage
 
-//#include "seq_utils/NASequence.h"
 #include "file_io/FastaParser.h"  // for parsing FASTA files
 #include "file_io/FastaMult.h"
 #include "file_io/FastaRefID.h"

@@ -3,6 +3,10 @@
 *.txt
 *.tab
 
+# ignore executables
+iggraph
+unit_test
+
 ## C++ specific ignores from github's template
 # Compiled Object files
 *.slo
