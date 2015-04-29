@@ -13,9 +13,8 @@
 #include "CanonicalAntibodyGraph.h"
 #include "ColorProfileMatrix.h"
 
-#include "unit_tests/TestCreateProfile.h"
+#include "tests/TestCreateProfile.h"
 
-//#ifdef DEBUG_CREATEPROFILE
 #ifdef DEBUG
 #define CREATEPROFILE_DEBUG_PRINT(EXPR) DEBUG_PRINT("[CREATE_PROFILE]", EXPR)
 #else

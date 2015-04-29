@@ -22,7 +22,7 @@ void TestColorProfileMatrix::setup() {
 void TestColorProfileMatrix::tear_down() { delete cab; }
 
 void TestColorProfileMatrix::test_cp_matrix_scores_1() {
-    ifstream in("unit_tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.txt");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
     getline(in, seq);
@@ -58,7 +58,7 @@ void TestColorProfileMatrix::test_cp_matrix_scores_1() {
 }
 
 void TestColorProfileMatrix::test_cp_matrix_scores_2() {
-    ifstream in("unit_tests/data/ten_ab.fa");
+    ifstream in("tests/data/ten_ab.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string read_id;  string seq = ""; 
     for(int i = 0; i < 2; i++) {

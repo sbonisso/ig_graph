@@ -16,8 +16,8 @@
 
 #include "ReferenceMap.h"
 
-#include "unit_tests/TestCanonicalAntibodyGraph.h"
-//#include "unit_tests/TestColorProfileMatrix.h"
+#include "tests/TestCanonicalAntibodyGraph.h"
+//#include "tests/TestColorProfileMatrix.h"
 
 #ifdef DEBUG
 #define CANONAB_DEBUG_PRINT(EXPR) DEBUG_PRINT("[CANON_AB]", EXPR)

@@ -27,7 +27,7 @@ void TestCreateProfile::setup() {
 void TestCreateProfile::tear_down() { delete cab; }
 
 void TestCreateProfile::test_cp_preds_1() {
-    ifstream in("unit_tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.txt");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
     getline(in, seq);
@@ -50,7 +50,7 @@ void TestCreateProfile::test_cp_preds_1() {
 }
 
 void TestCreateProfile::test_cp_scores_1() {
-    ifstream in("unit_tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.txt");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
     getline(in, seq);
@@ -81,7 +81,7 @@ void TestCreateProfile::test_cp_scores_1() {
 
 
 void TestCreateProfile::test_cp_preds_2() {
-    ifstream in("unit_tests/data/ten_ab.fa");
+    ifstream in("tests/data/ten_ab.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string read_id;  string seq = ""; 
     for(int i = 0; i < 2; i++) {
@@ -109,7 +109,7 @@ void TestCreateProfile::test_cp_preds_2() {
  *
  */
 void TestCreateProfile::test_cp_scores_2() {
-    ifstream in("unit_tests/data/ten_ab.fa");
+    ifstream in("tests/data/ten_ab.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string read_id;  string seq = ""; 
     for(int i = 0; i < 2; i++) {

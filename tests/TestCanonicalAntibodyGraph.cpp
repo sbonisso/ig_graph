@@ -22,7 +22,7 @@ void TestCanonicalAntibodyGraph::test_paint_1() {
     CanonicalAntibodyGraph cab(21);
     cab.addVReferences(v_fasta);
     // read in seq from file
-    ifstream in("unit_tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.txt");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
     getline(in, seq);
@@ -38,7 +38,7 @@ void TestCanonicalAntibodyGraph::test_paint_2() {
     CanonicalAntibodyGraph cab(21);
     cab.addVReferences(v_fasta);
     // read in seq from file
-    ifstream in("unit_tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.txt");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
     getline(in, seq);
@@ -61,7 +61,7 @@ void TestCanonicalAntibodyGraph::test_paint_2_color_propagate() {
     CanonicalAntibodyGraph cab(21);
     cab.addVReferences(v_fasta);
     // read in seq from file
-    ifstream in("unit_tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.txt");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
     getline(in, seq);
@@ -92,7 +92,7 @@ void TestCanonicalAntibodyGraph::test_paint_2_simple() {
     CanonicalAntibodyGraph cab(21);
     cab.addVReferences(v_fasta);
     
-    ifstream in("unit_tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.txt");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
     getline(in, seq);
@@ -122,7 +122,7 @@ void TestCanonicalAntibodyGraph::test_paint_2_color_propagate_tip1() {
     CanonicalAntibodyGraph cab(21);
     cab.addVReferences(v_fasta);
     
-    ifstream in("unit_tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.txt");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
     getline(in, seq);
@@ -146,7 +146,7 @@ void TestCanonicalAntibodyGraph::test_paint_2_color_propagate_tip2() {
     CanonicalAntibodyGraph cab(21);
     cab.addVReferences(v_fasta);
     
-    ifstream in("unit_tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.txt");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
     getline(in, seq);
@@ -171,7 +171,7 @@ void TestCanonicalAntibodyGraph::test_paint_1_color_propagate_tip_j_start() {
     CanonicalAntibodyGraph cab(21);
     cab.addVReferences(j_fasta);
     //
-    ifstream in("unit_tests/data/ten_ab.fa");
+    ifstream in("tests/data/ten_ab.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string read_id;  string seq = ""; 
     for(int i = 0; i < 2; i++) {
@@ -198,7 +198,7 @@ void TestCanonicalAntibodyGraph::test_paint_1_color_propagate_tip_j_end() {
     CanonicalAntibodyGraph cab(21);
     cab.addVReferences(j_fasta);
     //
-    ifstream in("unit_tests/data/ten_ab.fa");
+    ifstream in("tests/data/ten_ab.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string read_id;  string seq = ""; 
     for(int i = 0; i < 2; i++) {

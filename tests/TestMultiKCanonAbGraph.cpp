@@ -18,7 +18,7 @@ void TestMultiKCanonAbGraph::test_multi_k_ident() {
     mk_cab.addJReferences(j_fasta);
     
     // read in seq from file
-    ifstream in("unit_tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.txt");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
     getline(in, seq);
@@ -40,7 +40,7 @@ void TestMultiKCanonAbGraph::test_multi_k_1() {
     cab.addDReferences(d_fasta);
     cab.addJReferences(j_fasta);       
     // read in seq from file // IGHV1-45*02,IGHD2-2*01,IGHJ3*02
-    ifstream in("unit_tests/data/ten_ab.fa");
+    ifstream in("tests/data/ten_ab.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string read_id;  string seq = ""; 
     for(int i = 0; i < 2; i++) {
