@@ -27,10 +27,11 @@ void TestCreateProfile::setup() {
 void TestCreateProfile::tear_down() { delete cab; }
 
 void TestCreateProfile::test_cp_preds_1() {
-    ifstream in("tests/data/trunc_seq.txt");
+    //ifstream in("tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
-    getline(in, seq);
+    getline(in, seq); getline(in, seq);
     //
     CreateProfile cp(cab, 2);
     //
@@ -50,10 +51,11 @@ void TestCreateProfile::test_cp_preds_1() {
 }
 
 void TestCreateProfile::test_cp_scores_1() {
-    ifstream in("tests/data/trunc_seq.txt");
+    //ifstream in("tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
-    getline(in, seq);
+    getline(in, seq); getline(in, seq);    
     //
     CreateProfile cp(cab);
     //

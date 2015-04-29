@@ -18,10 +18,10 @@ void TestMultiKCanonAbGraph::test_multi_k_ident() {
     mk_cab.addJReferences(j_fasta);
     
     // read in seq from file
-    ifstream in("tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
-    getline(in, seq);
+    getline(in, seq); getline(in, seq);
     //
     vector<int> v = mk_cab.getVPainting("IGHV1-18*01", seq);
     for(int i = 0; i < (int)v.size(); i++) {

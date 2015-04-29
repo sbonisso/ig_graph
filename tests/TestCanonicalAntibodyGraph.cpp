@@ -22,10 +22,11 @@ void TestCanonicalAntibodyGraph::test_paint_1() {
     CanonicalAntibodyGraph cab(21);
     cab.addVReferences(v_fasta);
     // read in seq from file
-    ifstream in("tests/data/trunc_seq.txt");
+    //ifstream in("tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
-    getline(in, seq);
+    getline(in, seq); getline(in, seq);
     //
     vector<int> v = cab.getVPainting("IGHV1-18*01", seq);
     for(int i = 0; i < (int)v.size(); i++) {
@@ -38,10 +39,10 @@ void TestCanonicalAntibodyGraph::test_paint_2() {
     CanonicalAntibodyGraph cab(21);
     cab.addVReferences(v_fasta);
     // read in seq from file
-    ifstream in("tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
-    getline(in, seq);
+    getline(in, seq); getline(in, seq);
     //
     seq[0] = 'A';
     seq[100] = 'A';
@@ -61,10 +62,10 @@ void TestCanonicalAntibodyGraph::test_paint_2_color_propagate() {
     CanonicalAntibodyGraph cab(21);
     cab.addVReferences(v_fasta);
     // read in seq from file
-    ifstream in("tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
-    getline(in, seq);
+    getline(in, seq); getline(in, seq);
         
     seq[0] = 'A';
     seq[100] = 'A';
@@ -92,10 +93,10 @@ void TestCanonicalAntibodyGraph::test_paint_2_simple() {
     CanonicalAntibodyGraph cab(21);
     cab.addVReferences(v_fasta);
     
-    ifstream in("tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
-    getline(in, seq);
+    getline(in, seq); getline(in, seq);
     //
     seq[0] = 'A';
     seq[100] = 'A';
@@ -122,10 +123,10 @@ void TestCanonicalAntibodyGraph::test_paint_2_color_propagate_tip1() {
     CanonicalAntibodyGraph cab(21);
     cab.addVReferences(v_fasta);
     
-    ifstream in("tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
-    getline(in, seq);
+    getline(in, seq); getline(in, seq);
     //
     seq[3] = 'A';
     //
@@ -146,10 +147,10 @@ void TestCanonicalAntibodyGraph::test_paint_2_color_propagate_tip2() {
     CanonicalAntibodyGraph cab(21);
     cab.addVReferences(v_fasta);
     
-    ifstream in("tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
-    getline(in, seq);
+    getline(in, seq); getline(in, seq);
     //
     seq[3] = 'A';
     //

@@ -22,10 +22,11 @@ void TestColorProfileMatrix::setup() {
 void TestColorProfileMatrix::tear_down() { delete cab; }
 
 void TestColorProfileMatrix::test_cp_matrix_scores_1() {
-    ifstream in("tests/data/trunc_seq.txt");
+    //ifstream in("tests/data/trunc_seq.txt");
+    ifstream in("tests/data/trunc_seq.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string seq;
-    getline(in, seq);
+    getline(in, seq); getline(in, seq);
     //
     CreateProfile cp(cab);
     //
