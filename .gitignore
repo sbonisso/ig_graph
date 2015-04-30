@@ -2,6 +2,8 @@
 *~
 *.txt
 *.tab
+*.csv
+*.pdf
 
 # ignore executables
 iggraph
