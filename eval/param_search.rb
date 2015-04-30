@@ -15,13 +15,13 @@ k_v = (5..25).to_a
 data_path = ARGV[0]
 outfile = ARGV[1]
 type = ARGV[2]
-if ARGV.size != 3 then
-  puts "usage: data_path outfile.csv [gene/allele]"
+if ARGV.size != 3 && ARGV.size !=4 then
+  puts "usage: data_path outfile.csv [gene/allele] [num_proc]"
   Process.exit(1)
 end
+num_proc = ARGV.size == 4 ? ARGV[3].to_i : 4
 #
-truth_cmd =  "awk -F\",\" '{split($1,a,\"_\"); split($0,b,\">\"); print b[2]\"\t\"a[2]\"\t\"$2\"\t\"$3}'"
-#truth_file = "truth.tab"
+truth_cmd = "awk -F\",\" '{split($1,a,\"_\"); split($0,b,\">\"); print b[2]\"\t\"a[2]\"\t\"$2\"\t\"$3}'"
 truth_file = Tempfile.new("truth")
 Open3.capture3("grep \"^>\" #{data_path} | #{truth_cmd} - > #{truth_file.path}")
 #
@@ -43,7 +43,7 @@ k_v.each_with_index do |k_vj, i|
 end
 #
 #
-lst = Parallel.map(param_h[0..1], :in_processes => 4) do |pv|
+lst = Parallel.map(param_h, :in_processes => num_proc) do |pv|
   k_vj, k_d = pv
   puts [k_vj, k_d].join("\t")
   #
@@ -55,7 +55,8 @@ lst = Parallel.map(param_h[0..1], :in_processes => 4) do |pv|
   cout,cerr,cpip = Open3.capture3(cmd)
   tmp_f.close
   #
-  valve_cmd = "#{valve_path} supervised -t #{truth_file.path} -p #{tmp_f.path} -y #{type}"
+  valve_cmd = 
+    "#{valve_path} supervised -t #{truth_file.path} -p #{tmp_f.path} -y #{type}"
   out,err,pip = Open3.capture3(valve_cmd)
   #
   v1 = out.split("\n")[0].split(/\s+/)
