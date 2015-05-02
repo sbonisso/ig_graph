@@ -35,20 +35,19 @@ if(!interactive()) {
     input.csv <- args[1]
     output.plot <- args[2]
     plot.type <- args[3]
-    if(length(args) != 3) {
-        print("USAGE: input.csv output.pdf [heatmap]");
-        stopifnot(length(args) == 4);
+    if(length(args) != 3 && length(args) != 4) {
+        print("USAGE: input.csv output.pdf [heatmap] [max_rate]");
+        ##stopifnot(length(args) == 4);
     }
+    max_rate <- if(length(args) == 4) as.numeric(args[4]) else 1.0
     ##
     ## read data
     ##
     d <- read.csv(input.csv, sep=",", header=TRUE)  
-    ##dM.dat <- d
-    print(dim(d))
-    print(names(d))
     ##
     ## plot the clone expression
     if(plot.type == "heatmap") {
+        d$total <- d$total / max_rate;
         plot.heatmap(d,output.plot);
     } else {
         print("INVALID plot type specified!");
