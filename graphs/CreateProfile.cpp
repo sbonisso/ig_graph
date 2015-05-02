@@ -115,7 +115,11 @@ vector<string> CreateProfile::getTopPredicted(int num_ret,
     for(int i = 0; i < num_ret; i++) {
 	int ind = max_inds[i];
 	if(seg == Segment::V_GENE) { refs[i] = (*cab_).getVRefID(ind); }
-	else if(seg == Segment::D_GENE) { refs[i] = (*cab_).getDRefID(ind); }
+	else if(seg == Segment::D_GENE) { 
+	    //refs[i] = (*cab_).getDRefID(ind); 
+	    if(v[ind] == 0) refs[i] = "?";
+	    else refs[i] = (*cab_).getDRefID(ind);
+	}
 	else if(seg == Segment::J_GENE) { refs[i] = (*cab_).getJRefID(ind); }
 	else {}	
     }

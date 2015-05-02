@@ -95,7 +95,6 @@ int main(int argc, char **argv) {
 	cerr<<"K =\t"<<k<<endl;
 	cerr<<"K_v = "<<v_k<<"\tK_d = "<<d_k<<"\tJ_k = "<<j_k<<endl;
 	cerr<<"MAX REPORT =\t"<<maxKeep<<endl;
-//		cout<<"SCORING =\t"<<(scoringScheme == 0 ? "STANDARD" : "PROB")<<endl;
     }catch(ArgException &e)  // catch any exceptions
     { cerr << "error: " << e.error() << " for arg " << e.argId() << endl; }
 
@@ -149,10 +148,12 @@ int main(int argc, char **argv) {
 	
 	ColorProfileMatrix cp_mat = cp.getColorProfile(seq);
 	
-	// vector<double> vscores = cp.getPredictedVScores(2);
-	// vector<double> dscores = cp.getPredictedDScores(2);
-	// vector<double> jscores = cp.getPredictedJScores(2);
-		
+	// vector<double> vscores = cp.getPredictedVScores();
+	// vector<double> dscores = cp.getPredictedDScores();
+	// vector<double> jscores = cp.getPredictedJScores();
+
+	// cout<<"D:\t"<<cp.getDScores()<<endl;
+	// cout<<cp_mat.getDColorProfile()<<endl;
 	// MAIN_DEBUG_PRINT("V:\t"<<cp.getVScores());
 	// MAIN_DEBUG_PRINT("D:\t"<<cp.getDScores());
 	// MAIN_DEBUG_PRINT("J:\t"<<cp.getJScores());
@@ -165,9 +166,9 @@ int main(int argc, char **argv) {
 	//    <<vscores<<"\t"<<dscores<<"\t"<<jscores<<endl;
 	out<<readID<<"\t"<<cp;
 	
-	MAIN_DEBUG_PRINT("V:\t"<<vpred);
-	MAIN_DEBUG_PRINT("D:\t"<<dpred);
-	MAIN_DEBUG_PRINT("J:\t"<<jpred);
+	// MAIN_DEBUG_PRINT("V:\t"<<vpred);
+	// MAIN_DEBUG_PRINT("D:\t"<<dpred);
+	// MAIN_DEBUG_PRINT("J:\t"<<jpred);
 	
 	index++;
     }
