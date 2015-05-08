@@ -10,7 +10,8 @@ class RunIgGraph < RunTool
   
   def initialize(read_f, 
                  ref_dir="#{File.dirname(__FILE__)}/../../data/igh_refs_simple/",
-                 kvj = 21, kd = 10)
+                 kvj = 21, kd = 10,
+                 score = :std)
     #
     super(read_f)
     #
@@ -21,6 +22,10 @@ class RunIgGraph < RunTool
     @jref = "#{ref_dir}/human_IGHJ.fa"
     @k_vj = kvj
     @k_d = kd
+    @scoring = if score == :std then 0
+               elsif score == :prob then 1
+               else 0
+               end
     #
     t1 = Time.new
     run()
@@ -33,6 +38,7 @@ class RunIgGraph < RunTool
   def run()
     cmd = "#{@bin_path} "
     cmd += "-v #{@vref} -d #{@dref} -j #{@jref} "
+    cmd += "-s #{@scoring} "
     cmd += "-r #{@read_fasta} -V #{@k_vj} -D #{@k_d} -J #{@k_vj} -o #{@pred_f.path}"
     #
     cout,cerr,cpip = Open3.capture3(cmd)
