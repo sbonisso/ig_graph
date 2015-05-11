@@ -50,6 +50,9 @@ public:
     /* vector<double> getProbScoring(); */
     /* vector<double> getMutationMatrixScoring(); */
     
+    // partition method
+    vector<pair<int,int> > getPartitions(vector<vector<int> > cp_mat);
+    
     //vector<vector<int> > cp_mat_;
     vector<vector<int> > cp_mat_v_;
     vector<vector<int> > cp_mat_d_;

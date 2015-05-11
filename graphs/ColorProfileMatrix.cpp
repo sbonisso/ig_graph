@@ -98,7 +98,8 @@ vector<double> ColorProfileMatrix::getLMerProbScore(//int lmerLen,
 /**
  *
  */
-vector<double> ColorProfileMatrix::getNormalizedLMerProbScoring(vector<vector<int> > cp_mat) {
+vector<double> 
+ColorProfileMatrix::getNormalizedLMerProbScoring(vector<vector<int> > cp_mat) {
     //vector<double> vscores = this->getLMerProbScore(lmer_len_, lmer_shift_);
     vector<double> vscores = this->getLMerProbScore(cp_mat);
     return this->transformVScores(vscores);
@@ -185,4 +186,27 @@ vector<int> ColorProfileMatrix::getSimpleScoring(vector<vector<int> > cp_mat) {
 	}
     }
     return vscores;
+}
+/**
+ * return partition of each reference as <start,end> pair
+ * @returns a vector of pairs, each pair representing the start_pos and 
+ *  end_pos of the reference assignment to the read
+ */
+vector<pair<int,int> > 
+ColorProfileMatrix::getPartitions(vector<vector<int> > cp_mat) {
+    vector<pair<int,int>> partitionPairs(cp_mat.size(), pair<int,int>(-1,-1));
+    int num_rows = (int)cp_mat.size();
+    for(int i = 0; i < num_rows; i++) {	
+	int len = (int)cp_mat[i].size();
+	// find index of first match
+	int strt_pos = 0;
+	for( ; cp_mat[i][strt_pos] < 0 && strt_pos < len; strt_pos++) { }
+	// find index of last match
+	int end_pos = len-1;
+	for( ; cp_mat[i][end_pos] < 0 && end_pos > 0; end_pos--) { }
+	partitionPairs[i].first = strt_pos;
+	partitionPairs[i].second = end_pos;
+    }
+    
+    return partitionPairs;
 }

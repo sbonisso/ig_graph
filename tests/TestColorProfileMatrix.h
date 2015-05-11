@@ -31,6 +31,8 @@ protected:
     void test_cp_matrix_scores_1();
     void test_cp_matrix_scores_2();
     
+    void test_cp_matrix_partition_1();
+    
     CanonicalAntibodyGraph *cab;
 };
 
