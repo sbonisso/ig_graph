@@ -7,6 +7,11 @@
 #include <time.h>
 #include <unordered_map>
 
+#include <seqan/sequence.h>
+#include <seqan/seq_io.h>
+#include <seqan/file.h>
+#include <seqan/translation.h> 
+
 #include "Utils.h"
 
 #include "ReferenceMap.h"
@@ -38,16 +43,10 @@ public:
     vector<double> getDScores() { return d_scores_; }
     vector<double> getJScores() { return j_scores_; }
     //
-    /* vector<string> getPredictedV(int num_ret); */
-    /* vector<string> getPredictedD(int num_ret); */
-    /* vector<string> getPredictedJ(int num_ret); */
     vector<string> getPredictedV();
     vector<string> getPredictedD();
     vector<string> getPredictedJ();
     //
-    /* vector<double> getPredictedVScores(int num_ret); */
-    /* vector<double> getPredictedDScores(int num_ret); */
-    /* vector<double> getPredictedJScores(int num_ret); */
     vector<double> getPredictedVScores();
     vector<double> getPredictedDScores();
     vector<double> getPredictedJScores();
@@ -55,6 +54,12 @@ public:
     vector<string> getVRefVect() { return (*cab_).getVRefs(); }
     vector<string> getDRefVect() { return (*cab_).getDRefs(); }
     vector<string> getJRefVect() { return (*cab_).getJRefs(); }
+    //
+    string getCDR3(string seq, ColorProfileMatrix &cp_mat);
+    //
+    pair<int,int> getPartitionV();
+    pair<int,int> getPartitionD();
+    pair<int,int> getPartitionJ();
     
     friend ostream& operator<< (ostream &out, CreateProfile &cp);
     
@@ -72,15 +77,26 @@ private:
     vector<string> getTopPredicted_old(int num_ret, vector<double> v, Segment seg);
     vector<string> getTopPredicted(int num_ret, vector<double> v, Segment seg);
 
-    vector<int> getNMaxIndex(int num_red, vector<double> &v);
+    vector<int> getNMaxIndex(int num_ret, vector<double> &v);
+
+    vector<double> getPredScores(int num_pred, vector<int> max_inds, vector<double> score_v);
 
     int n_;
     int max_report_;
 
     CanonicalAntibodyGraph *cab_;
+    // all scores
     vector<double> v_scores_;
     vector<double> d_scores_;
     vector<double> j_scores_;
+    // predicted (i.e., num_pred) scores
+    vector<double> v_pred_scores_;
+    vector<double> d_pred_scores_;
+    vector<double> j_pred_scores_;
+    // 
+    vector<int> v_max_ind_;
+    vector<int> d_max_ind_;
+    vector<int> j_max_ind_;
 };
 
 #endif
