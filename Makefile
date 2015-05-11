@@ -3,6 +3,7 @@ include Makefile.inc
 DIRS	= graphs seq_utils file_io
 EXE	= iggraph
 
+INC	= -I. -I ${CURDIR}/ext/seqan-library-2.0.0/include/
 LIBS	= -lemon -lboost_regex
 SOURCES = $(wildcard graphs/*.cpp) $(wildcard seq_utils/*.cpp) $(wildcard file_io/*.cpp)
 
@@ -18,12 +19,12 @@ subdirs :
 	-for d in $(DIRS); do (cd $$d; $(MAKE) $@ ); done
 
 $(EXE) : RunIgGraph.o $(OBJECTS)
-	$(ECHO) $(CC) -o $(EXE) $(OBJECTS) RunIgGraph.o $(LIBS)
-	$(CC) -o $(EXE) $(OBJECTS) RunIgGraph.o $(LIBS)
+	$(ECHO) $(CC) $(INC) -o $(EXE) $(OBJECTS) RunIgGraph.o $(LIBS)
+	$(CC) $(INC) -o $(EXE) $(OBJECTS) RunIgGraph.o $(LIBS)
 
 RunIgGraph.o: RunIgGraph.cpp
-	$(ECHO) $(CC) $(CFLAGS) $< -o $@
-	$(CC) $(CFLAGS)  $< -o $@
+	$(ECHO) $(CC) $(INC) $(CFLAGS) $< -o $@
+	$(CC) $(INC) $(CFLAGS)  $< -o $@
 
 debug : CFLAGS = $(DBGFLAGS)
 debug :	subdirs_debug $(EXE)
