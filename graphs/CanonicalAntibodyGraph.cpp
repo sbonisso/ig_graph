@@ -171,7 +171,7 @@ int CanonicalAntibodyGraph::propagateColorBulge(string ref_id,
     int init_ref_pos = row[start_ind-1];
     int ref_index = init_ref_pos;
     //
-    pushColor(start_ind, end_ind, read_substr, ref_substr, row, ref_index);
+    pushColor(start_ind, end_ind, read_substr, ref_substr, row, ref_index, false);
     return 0;
 }
 /**
@@ -179,13 +179,15 @@ int CanonicalAntibodyGraph::propagateColorBulge(string ref_id,
  */
 void CanonicalAntibodyGraph::pushColor(int start_ind, int end_ind,
 				       string &read_substr, string &ref_substr,
-				       vector<int> &row, int ref_index) {
+				       vector<int> &row, int ref_index, 
+				       bool is_tip) {
     int index = 0;
     // CANONAB_DEBUG_PRINT("READ IND:\t"<<start_ind<<"\t"<<end_ind);
     // CANONAB_DEBUG_PRINT("REF IND:\t"<<ref_index);
     // CANONAB_DEBUG_PRINT("REF:\t"<<ref_substr);
     // CANONAB_DEBUG_PRINT("READ:\t"<<read_substr);
     for(int i = start_ind; i < end_ind; i++) {
+	if(is_tip && ref_substr[index] != read_substr[index]) { break; }
 	if(ref_substr[index] == read_substr[index]) {
 	    row[i] = ref_index;
 	}
@@ -219,7 +221,7 @@ int CanonicalAntibodyGraph::propagateColorTip(string ref_id, string seq,
 	    int ref_index = row[end_ind]-ref_pos;	
 	    // if doesn't start at beginning, propagate
 	    if(start_ind < end_ind) {
-		pushColor(start_ind, end_ind, read_tip, ref_tip, row, ref_index);
+		pushColor(start_ind, end_ind, read_tip, ref_tip, row, ref_index, true);
 		num_tips++;
 	    }
 	}
@@ -235,7 +237,7 @@ int CanonicalAntibodyGraph::propagateColorTip(string ref_id, string seq,
     	int ref_index = row[start_ind];
 	// CANONAB_DEBUG_PRINT("READ IND:\t"<<start_ind<<"\t"<<end_ind);
 	// CANONAB_DEBUG_PRINT("READ TIP:\t"<<read_tip<<"\nREF TIP:\t"<<ref_tip);
-    	pushColor(start_ind, end_ind, read_tip, ref_tip, row, ref_index);
+    	pushColor(start_ind, end_ind, read_tip, ref_tip, row, ref_index, true);
     	num_tips++;
     }
     

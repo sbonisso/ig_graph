@@ -89,7 +89,7 @@ protected:
 			  ReferenceMap &h, vector<int> &row);
     void pushColor(int start_ind, int end_ind,
 		   string &read_substr, string &ref_substr,
-		   vector<int> &row, int ref_index);
+		   vector<int> &row, int ref_index, bool is_tip);
 
     bool hasAtLeastOneMatch(vector<int> &row);
 };
