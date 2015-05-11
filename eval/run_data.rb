@@ -103,7 +103,6 @@ def compare_unsupervised(pred_lst, out_file_base, type="allele", name_lst=nil)
   valve_bin = "/home/stef/git_repos/valve/bin/valve"
   valve_cmd = 
     "#{valve_bin} unsupervised -f #{tmp_f.path} -n #{name_f.path} -y #{type} -o #{out_file_base}"
-  puts valve_cmd
   out,err,pip =Open3.capture3(valve_cmd)
   
 end

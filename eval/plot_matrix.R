@@ -67,7 +67,7 @@ plot.half.heatmap <- function(d,output.plot) {
           ylab("") + xlab("") + 
           scale_fill_gradient(name="Jaccard index",
                               low = "#fdf6e3", high = "steelblue",
-                              breaks=seq(0, 1, by = 0.2), limits = c(0.3, 1)) +
+                              breaks=seq(0, 1, by = 0.2), limits = c(0.2, 1)) +
           scale_x_discrete(expand = c(0, 0)) +
           scale_y_discrete(expand = c(0, 0)) +          
           guides(fill = guide_colorbar(barwidth = 7, barheight = 1, title.position = "top",
