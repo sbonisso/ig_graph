@@ -254,7 +254,7 @@ if __FILE__ == $0 then
                            num_proc: options[:num_proc], 
                            tmpdir: tmp_dir, 
                            use_pbar: false,
-                           chunk_size: 500)
+                           chunk_size: 5000)
   require 'benchmark'
   Benchmark.bm do |x|
     x.report("IgBLast") { lig.label_ig_blast(options[:output]+"_igblast") }
