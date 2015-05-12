@@ -146,7 +146,11 @@ int main(int argc, char **argv) {
 	MAIN_DEBUG_PRINT("READID:\t"<<readID);	
 	MAIN_DEBUG_PRINT("SEQ:\t"<<seq);
 	
-	ColorProfileMatrix cp_mat = cp.getColorProfile(seq);
+	// one-stop shop for computing everything for sequence
+	cp.compute(seq);
+	
+	//ColorProfileMatrix cp_mat = cp.getColorProfile(seq);
+        //cp.computeCDR3(seq, cp_mat);
 	
 	// vector<double> vscores = cp.getPredictedVScores();
 	// vector<double> dscores = cp.getPredictedDScores();
