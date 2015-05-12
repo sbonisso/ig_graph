@@ -27,6 +27,7 @@ class RunIgGraph < RunTool
                else 0
                end
     #
+    @no_cdr3 = false
     @runtime_s = nil
     #run()   
   end
@@ -41,10 +42,11 @@ class RunIgGraph < RunTool
   #
   def run()
     t1 = Time.new
-    cmd = "#{@bin_path} "
-    cmd += "-v #{@vref} -d #{@dref} -j #{@jref} "
-    cmd += "-s #{@scoring} "
-    cmd += "-r #{@read_fasta} -V #{@k_vj} -D #{@k_d} -J #{@k_vj} -o #{@pred_f.path}"
+    cmd = "#{@bin_path}"
+    cmd += " -v #{@vref} -d #{@dref} -j #{@jref}"
+    cmd += " -s #{@scoring}"
+    cmd += " -r #{@read_fasta} -V #{@k_vj} -D #{@k_d} -J #{@k_vj} -o #{@pred_f.path}"
+    cmd += " --no_cdr3" if @no_cdr3
     #
     cout,cerr,cpip = Open3.capture3(cmd)
     @pred_f.close
@@ -58,6 +60,7 @@ class RunIgGraph < RunTool
     FileUtils.cp(@pred_f.path, out_file)
   end
   
+  attr_accessor :no_cdr3
   private :run
   
 end
