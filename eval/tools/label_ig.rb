@@ -233,6 +233,10 @@ if __FILE__ == $0 then
     opt.on("-g", "--orgnism ORG", "organism type [human/mouse]") do |orgStr|
       options[:organism] = orgStr || "human"
     end
+    options[:chunk_size] = 5000
+    opt.on("-c", "--chunk_size INT", "number of sequences in a chunk") do |c_i|
+      options[:chunk_size] = c_i.to_i
+    end
     opt.on("-h","--help","help") do
       puts optparse
     end
@@ -258,7 +262,7 @@ if __FILE__ == $0 then
                            num_proc: options[:num_proc], 
                            tmpdir: tmp_dir, 
                            use_pbar: false,
-                           chunk_size: 500)
+                           chunk_size: options[:chunk_size]) #5000)
   
   Benchmark.bm do |x|
     x.report("IgBlast") { 
