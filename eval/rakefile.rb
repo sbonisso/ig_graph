@@ -187,6 +187,7 @@ namespace :iggraph do
         "#{ENV['HOME']}/data/ig_seq/gen_data/7_SAM15574987_HС_naive.clusters.fa"
       cmd = "./label_ig.rb #{human_igseq} -p 7 -o ../human_label -g human"
       out,err,pip = Open3.capture3(cmd, :chdir => "tools")
+      puts out
       File.open("human_label_runtime.txt","w"){|f| f.puts out}
     end
   end
