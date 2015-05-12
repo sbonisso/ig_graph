@@ -6,3 +6,4 @@ IgGraph is for performing VDJ classification of antibody reads using the colored
 ###### Dependencies
 * lemon graph library
 * boost regex
+* SeqAn
