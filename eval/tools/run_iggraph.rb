@@ -27,15 +27,20 @@ class RunIgGraph < RunTool
                else 0
                end
     #
-    t1 = Time.new
+    @runtime_s = nil
+    #run()   
+  end
+  #
+  #
+  #
+  def compute()
     run()
-    t2 = Time.new
-    @runtime_s = t2-t1
   end
   #
   #
   #
   def run()
+    t1 = Time.new
     cmd = "#{@bin_path} "
     cmd += "-v #{@vref} -d #{@dref} -j #{@jref} "
     cmd += "-s #{@scoring} "
@@ -43,6 +48,8 @@ class RunIgGraph < RunTool
     #
     cout,cerr,cpip = Open3.capture3(cmd)
     @pred_f.close
+    t2 = Time.new
+    @runtime_s = t2-t1
   end
   #
   # copy preds file to out_file

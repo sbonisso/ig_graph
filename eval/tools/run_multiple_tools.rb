@@ -33,6 +33,7 @@ class RunMultipleTools
             raise "invalid tool #{tool_s}"
           end
     #
+    rig.compute
     rig.write_preds(pred_out)
     rig.cleanup
     run_time = rig.get_time

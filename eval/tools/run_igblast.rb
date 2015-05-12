@@ -13,17 +13,24 @@ class RunIgBlast < RunTool
     super(read_f)
     #
     @igb = nil
-    t1 = Time.new
+    @runtime_s = nil
+    #run()    
+  end
+  #
+  #
+  #
+  def compute()
     run()
-    t2 = Time.new
-    @runtime_s = t2-t1
   end
   #
   #
   #
   def run()
+    t1 = Time.new
     @igb = IgSeq::IgBlast.new
     out = @igb.run(@read_fasta)
+    t2 = Time.new
+    @runtime_s = t2-t1
   end
   #
   #

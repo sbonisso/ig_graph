@@ -18,19 +18,28 @@ class RunIHMMuneAlign < RunTool
     
     @out_base = "output_preds"
 
-    t1 = Time.new
+    @runtime_s = nil
+    #run()
+    #cat_output()
+    #rm_temp_files
+  end
+  #
+  #
+  #
+  def compute()
     run()
-    t2 = Time.new
-    @runtime_s = t2-t1
     cat_output()
     rm_temp_files
   end
   #
   #
   #
-  def run()    
+  def run()
+    t1 = Time.new
     cmd = "perl " + @bin_path + " " + @read_fasta + " "  + @out_base    
     out,err,pip = Open3.capture3(cmd, :chdir => @bin_dir)
+    t2 = Time.new
+    @runtime_s = t2-t1
   end
   #
   # cat output
