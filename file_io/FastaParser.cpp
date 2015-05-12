@@ -19,8 +19,9 @@ FastaParser::FastaParser(string fastaFilePath) {
  * @return A boolean if the file was opened properly or not
  */
 bool FastaParser::openFile() {
-	this->fin.open(this->filename.c_str());
-	return true;
+    this->fin.open(this->filename.c_str());
+    //return true;
+    return this->fin.is_open();
 }
 
 /*
