@@ -35,8 +35,10 @@ protected:
     void test_cp_scores_2();
     
     void test_max_n();
-    void test_cdr3();
-
+    
+    void test_cdr3_1();
+    void test_cdr3_2();
+    
     CanonicalAntibodyGraph *cab;
 };
 

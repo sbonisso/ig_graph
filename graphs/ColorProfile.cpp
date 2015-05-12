@@ -45,7 +45,7 @@ vector<double> ColorProfile::getMutationMatrixScoring() {
     COLORPROFILE_DEBUG_PRINT("num = "<<colorProfile.size());
     COLORPROFILE_DEBUG_PRINT("SEQ:\t"<<readSeq);
 
-    probScores.resize(colorProfile.size(), 0); 		// hack for unit test only
+    probScores.resize(colorProfile.size(), 0); 	      // hack for unit test only
     vector<double> vscores(colorProfile.size(), 0);
     // for each profile...
     for(int i = 0; i < (int)colorProfile.size(); i++) {

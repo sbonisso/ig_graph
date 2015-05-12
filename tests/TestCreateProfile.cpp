@@ -9,11 +9,15 @@ TestCreateProfile::TestCreateProfile() {
     TEST_ADD(TestCreateProfile::test_cp_scores_2);
 
     TEST_ADD(TestCreateProfile::test_max_n);
-    TEST_ADD(TestCreateProfile::test_cdr3);
+    
+    TEST_ADD(TestCreateProfile::test_cdr3_1);
+    TEST_ADD(TestCreateProfile::test_cdr3_2);
 }
 
 TestCreateProfile::~TestCreateProfile() {}
-
+/**
+ * setup tests with human refs
+ */
 void TestCreateProfile::setup() {
     string v_fasta = "data/igh_refs_simple/human_IGHV.fa";
     string d_fasta = "data/igh_refs_simple/human_IGHD.fa";
@@ -26,7 +30,9 @@ void TestCreateProfile::setup() {
 }
 
 void TestCreateProfile::tear_down() { delete cab; }
-
+/**
+ *
+ */
 void TestCreateProfile::test_cp_preds_1() {
     //ifstream in("tests/data/trunc_seq.txt");
     ifstream in("tests/data/trunc_seq.fa");
@@ -36,7 +42,8 @@ void TestCreateProfile::test_cp_preds_1() {
     //
     CreateProfile cp(cab, 2);
     //
-    ColorProfileMatrix cp_mat = cp.getColorProfile(seq);
+    //ColorProfileMatrix cp_mat = cp.getColorProfile(seq);
+    cp.compute(seq);
     //
     vector<string> vpred = cp.getPredictedV();
     vector<string> dpred = cp.getPredictedD();
@@ -50,7 +57,9 @@ void TestCreateProfile::test_cp_preds_1() {
     for(int i = 0; i < 2; i++) { TEST_ASSERT(dpred[0] == dtruth[0]); }
     for(int i = 0; i < 2; i++) { TEST_ASSERT(jpred[0] == jtruth[0]); }
 }
-
+/**
+ *
+ */
 void TestCreateProfile::test_cp_scores_1() {
     //ifstream in("tests/data/trunc_seq.txt");
     ifstream in("tests/data/trunc_seq.fa");
@@ -60,7 +69,8 @@ void TestCreateProfile::test_cp_scores_1() {
     //
     CreateProfile cp(cab);
     //
-    ColorProfileMatrix cp_mat = cp.getColorProfile(seq);
+    //ColorProfileMatrix cp_mat = cp.getColorProfile(seq);
+    cp.compute(seq);
     //
     vector<double> vscore = cp.getVScores();
     vector<double> dscore = cp.getDScores();
@@ -81,8 +91,9 @@ void TestCreateProfile::test_cp_scores_1() {
 	TEST_ASSERT_MSG(jscore[i] == j_truth[i], "J scores are incorrect");
     }
 }
-
-
+/**
+ *
+ */
 void TestCreateProfile::test_cp_preds_2() {
     ifstream in("tests/data/ten_ab.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
@@ -94,7 +105,8 @@ void TestCreateProfile::test_cp_preds_2() {
     //
     CreateProfile cp(cab, 2);
     //
-    ColorProfileMatrix cp_mat = cp.getColorProfile(seq);
+    //ColorProfileMatrix cp_mat = cp.getColorProfile(seq);
+    cp.compute(seq);
     //
     vector<string> vpred = cp.getPredictedV();
     vector<string> dpred = cp.getPredictedD();
@@ -122,7 +134,8 @@ void TestCreateProfile::test_cp_scores_2() {
     //
     CreateProfile cp(cab);
     //
-    ColorProfileMatrix cp_mat = cp.getColorProfile(seq);
+    //ColorProfileMatrix cp_mat = cp.getColorProfile(seq);
+    cp.compute(seq);
     //
     vector<double> vscore = cp.getVScores();
     vector<double> dscore = cp.getDScores();
@@ -145,7 +158,9 @@ void TestCreateProfile::test_cp_scores_2() {
     	TEST_ASSERT_MSG(jscore[i] == j_truth[i], "J scores are incorrect");
     }
 }
-
+/**
+ * test finding maximal n indeces
+ */
 void TestCreateProfile::test_max_n() {
     vector<double> test_scores = {39, 0, 0, 0, 43, 42, 43, 48, 46, 0, 0, 0, 0};
     
@@ -156,8 +171,26 @@ void TestCreateProfile::test_max_n() {
     TEST_ASSERT(max_index[1] == 8);
     TEST_ASSERT(max_index[2] == 4);    
 }
-
-void TestCreateProfile::test_cdr3() {
+/**
+ * test for making sure will properly display no found CDR3
+ * for a truncated sequence
+ */
+void TestCreateProfile::test_cdr3_1() {
+    ifstream in("tests/data/trunc_seq.fa");
+    if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
+    string seq;
+    getline(in, seq); getline(in, seq);            
+    //
+    CreateProfile cp(cab, 2);
+    //    
+    cp.compute(seq);
+    string cdr3_seq = cp.getCDR3();
+    TEST_ASSERT_MSG(cdr3_seq == "?", "CDR3 seq incorrect");    
+}
+/**
+ * test for capturing the CDR3 of a sequence
+ */
+void TestCreateProfile::test_cdr3_2() {
     ifstream in("tests/data/ten_ab.fa");
     if(!in.is_open()) { TEST_FAIL("file not open for reading"); }
     string read_id;  string seq = ""; 
@@ -167,18 +200,9 @@ void TestCreateProfile::test_cdr3() {
     }
     //
     CreateProfile cp(cab, 2);
-    //
-    ColorProfileMatrix cp_mat = cp.getColorProfile(seq);
-    //
-    vector<string> vpred = cp.getPredictedV();
-    vector<string> dpred = cp.getPredictedD();
-    vector<string> jpred = cp.getPredictedJ();
-    //
-    vector<double> vscores = cp.getPredictedVScores();
-    vector<double> dscores = cp.getPredictedDScores();
-    vector<double> jscores = cp.getPredictedJScores();
-    //
-    cout<<vpred<<endl;
-    cout<<endl;
-    cp.getCDR3(seq, cp_mat);
+    //    
+    cp.compute(seq);
+    string cdr3_seq = cp.getCDR3();
+    TEST_ASSERT_MSG(cdr3_seq == "GCAAGCCCATTGTAGTAGTACCAGCTGCTATCCCTGATG", 
+    		    "CDR3 seq incorrect");    
 }

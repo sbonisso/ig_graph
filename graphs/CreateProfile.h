@@ -38,6 +38,8 @@ public:
     ColorProfileMatrix getColorProfile(string seq);
 
     int getProfileSize();
+    
+    void compute(string seq);
     //
     vector<double> getVScores() { return v_scores_; }
     vector<double> getDScores() { return d_scores_; }
@@ -55,7 +57,9 @@ public:
     vector<string> getDRefVect() { return (*cab_).getDRefs(); }
     vector<string> getJRefVect() { return (*cab_).getJRefs(); }
     //
-    string getCDR3(string seq, ColorProfileMatrix &cp_mat);
+    string getCDR3();
+    //string computeCDR3(string seq, ColorProfileMatrix &cp_mat);
+    bool computeCDR3(string seq, ColorProfileMatrix &cp_mat);    
     //
     pair<int,int> getPartitionV();
     pair<int,int> getPartitionD();
@@ -80,7 +84,7 @@ private:
     vector<int> getNMaxIndex(int num_ret, vector<double> &v);
 
     vector<double> getPredScores(int num_pred, vector<int> max_inds, vector<double> score_v);
-
+    
     int n_;
     int max_report_;
 
@@ -97,6 +101,12 @@ private:
     vector<int> v_max_ind_;
     vector<int> d_max_ind_;
     vector<int> j_max_ind_;
+    //
+    vector<string> pred_v_;
+    vector<string> pred_d_;
+    vector<string> pred_j_;
+    //
+    string cdr3_str_;
 };
 
 #endif

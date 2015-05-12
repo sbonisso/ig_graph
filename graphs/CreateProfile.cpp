@@ -51,8 +51,14 @@ ColorProfileMatrix CreateProfile::getColorProfile(string seq) {
     for(int i = 0; i < (int)jscores.size(); i++) { 
 	j_scores_[i] = (double)jscores[i]; 
     }
-    
+    //    
     return cp;
+}
+/**
+ *
+ */
+string CreateProfile::getCDR3() {
+    return cdr3_str_;
 }
 /**
  *
@@ -167,13 +173,16 @@ vector<int> CreateProfile::getNMaxIndex(int num_ret, vector<double> &v) {
  * return predicted V, D, or J labels
  */
 vector<string> CreateProfile::getPredictedV() {    
-    return getTopPredicted(max_report_, v_scores_, Segment::V_GENE);
+    //return getTopPredicted(max_report_, v_scores_, Segment::V_GENE);
+    return pred_v_;
 }
 vector<string> CreateProfile::getPredictedD() {
-    return getTopPredicted(max_report_, d_scores_, Segment::D_GENE);
+    //return getTopPredicted(max_report_, d_scores_, Segment::D_GENE);
+    return pred_d_;
 }
 vector<string> CreateProfile::getPredictedJ() {
-    return getTopPredicted(max_report_, j_scores_, Segment::J_GENE);
+    //return getTopPredicted(max_report_, j_scores_, Segment::J_GENE);
+    return pred_j_;
 }
 /**
  * return scores of predicted V, D, or J labels
@@ -224,20 +233,33 @@ vector<double> CreateProfile::getPredScores(int num_ret,
     }
     return n_scores;
 }
+
+void CreateProfile::compute(string seq) {
+    ColorProfileMatrix cp_mat = this->getColorProfile(seq);
+    
+    this->pred_v_ = getTopPredicted(max_report_, v_scores_, Segment::V_GENE);
+    this->pred_d_ = getTopPredicted(max_report_, d_scores_, Segment::D_GENE);
+    this->pred_j_ = getTopPredicted(max_report_, j_scores_, Segment::J_GENE);
+    
+    // if couldn't find cdr3 (possibly from truncated sequence) return nothing
+    if(!this->computeCDR3(seq, cp_mat)) {
+	cdr3_str_ = "?";
+    }
+}
+
 /**
  * 
  */
-string CreateProfile::getCDR3(string seq, ColorProfileMatrix &cp_mat) {
-    cout<<"V:\t"<<v_max_ind_<<endl;
-    cout<<"D:\t"<<d_max_ind_<<endl;
-    cout<<"J:\t"<<j_max_ind_<<endl;
+//string CreateProfile::computeCDR3(string seq, ColorProfileMatrix &cp_mat) {
+bool CreateProfile::computeCDR3(string seq, ColorProfileMatrix &cp_mat) {
     //
     seqan::String<seqan::Dna> gSeq;
     seqan::assign(gSeq, seq);
     seqan::StringSet<seqan::String<seqan::AminoAcid> > tSeqs;
     seqan::translate(tSeqs, gSeq, seqan::WITH_FRAME_SHIFTS);
     //
-    int best_frame = 0;
+    int best_frame = 0; 
+    seqan::String<seqan::AminoAcid> frame_seq;
     int num_stop_bf = 100;
     for(int i = 0; i < (int)seqan::length(tSeqs); i++) {
 	int num_stop = 0;
@@ -247,17 +269,50 @@ string CreateProfile::getCDR3(string seq, ColorProfileMatrix &cp_mat) {
 	if(num_stop < num_stop_bf) { 
 	    best_frame = i;
 	    num_stop_bf = num_stop;
+	    frame_seq = tSeqs[i];
 	}
     }
     //
-    cout<<best_frame<<endl;
-    //v_range = cp_mat.
-    return "";
+    // cout<<seq<<endl;
+    // cout<<best_frame<<endl;
+    // cout<<frame_seq<<endl;
+    vector<pair<int,int> > v_part = cp_mat.getPartitions(cp_mat.getVColorProfile());
+    vector<pair<int,int> > d_part = cp_mat.getPartitions(cp_mat.getDColorProfile());
+    vector<pair<int,int> > j_part = cp_mat.getPartitions(cp_mat.getJColorProfile());
+    //v_range = cp_mat
+    // cout<<v_part[v_max_ind_[0]]<<endl;
+    // cout<<d_part[d_max_ind_[0]]<<endl;
+    // cout<<j_part[j_max_ind_[0]]<<endl;
+
+    //
+    pair<int,int> v_range = v_part[v_max_ind_[0]];
+    pair<int,int> j_range = j_part[j_max_ind_[0]];    
+    if(v_range.first > v_range.second) { return false; }
+    if(j_range.first > j_range.second) { return false; }
+    
+    // find 2nd cys - start codon after
+    int cdr3_start = 0;
+    for(int i = (v_range.second+best_frame)/3; i > 0; i--) {
+	if(frame_seq[i] == 'C') { 
+	    cdr3_start = ((i+1)*3 - best_frame);
+	    break;
+	}
+    }
+    int cdr3_end = 0;
+    // take 5bp from start of J
+    cdr3_end = j_range.first+5;
+    
+    // cout<<(cdr3_start+best_frame)/3<<"\t"<<(cdr3_end+best_frame)/3<<endl;
+    // cout<<cdr3_start<<"\t"<<cdr3_end<<endl;
+    
+    //return seq.substr(cdr3_start, cdr3_end-cdr3_start);
+    cdr3_str_ = seq.substr(cdr3_start, cdr3_end-cdr3_start);
+    return true;
 }
 /**
  * overload operator<< 
  */
-ostream& operator<< (ostream &out, CreateProfile &cp) {    
+ostream& operator<< (ostream &out, CreateProfile &cp) {
     //
     vector<string> vpred = cp.getPredictedV();
     vector<string> dpred = cp.getPredictedD();
@@ -273,8 +328,10 @@ ostream& operator<< (ostream &out, CreateProfile &cp) {
     string delim = ",";
     for(int i = 0; i < m; i++) { out<<vpred[i]<<(i == m-1 ? "\t" : delim); }
     for(int i = 0; i < m; i++) { out<<dpred[i]<<(i == m-1 ? "\t" : delim); }
-    //for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "\t" : delim); }
-    for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "" : delim); }
+    for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "\t" : delim); }
+    //for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "" : delim); }
+    
+    out<<cp.getCDR3();
     
     // for(int i = 0; i < m; i++) { out<<vscores[i]<<(i == m-1 ? "\t" : delim); }
     // for(int i = 0; i < m; i++) { out<<dscores[i]<<(i == m-1 ? "\t" : delim); }
