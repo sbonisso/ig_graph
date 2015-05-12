@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
 require 'rake/clean'  # for auto-cleaning
 require 'open3'
+require 'benchmark'
 require_relative 'run_data'
+require_relative 'tools/run_iggraph'
 
 namespace :iggraph do 
   num_proc = 8
@@ -142,6 +145,45 @@ namespace :iggraph do
     end
   end
   CLEAN << Dir.glob("stanford_s22_mat_*.pdf")
-  
 
+  desc 'benchmark iggraph options'
+  task :benchmark_iggraph_options do 
+    Benchmark.bm() do |bm|
+      fasta_f = "data/smab_data_mut10.fa"
+      fasta_p = File.expand_path(File.dirname(__FILE__)) + "/" + fasta_f      
+      bm.report("std") {
+        rigg = RunIgGraph.new(fasta_f)
+        rigg.compute
+        rigg.write_preds("/tmp/test_runigg_std.tab")
+        rigg.cleanup
+      }
+      bm.report("std+no_cdr3") {
+        rigg = RunIgGraph.new(fasta_f)
+        rigg.no_cdr3 = true
+        rigg.compute
+        rigg.write_preds("/tmp/test_runigg_nocdr3.tab")
+        rigg.cleanup
+      }
+      # bm.report("prob") {
+      # }
+    end
+  end
+
+  desc 'label mouse Ig-seq'
+  task :run_mouse_igseq do
+    mouse_igseq = "data/mosue_igseq.fa"
+    cmd = "./label_ig.rb #{mouse_igseq} -p 7 -o mouse_label"
+    out,err,pip = Open3.capture3(cmd, :chdir => "tools")
+    puts out
+  end
+  
+  desc 'label human Ig-seq'
+  task :run_human_igseq do
+    human_igseq = 
+      "#{ENV['HOME']}/data/ig_seq/gen_data/7_SAM15574987_HС_naive.clusters.fa"
+    cmd = "./label_ig.rb #{human_igseq} -p 7 -o human_label"
+    out,err,pip = Open3.capture3(cmd, :chdir => "tools")
+    puts out
+  end
+  
 end
