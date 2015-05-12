@@ -171,19 +171,24 @@ namespace :iggraph do
 
   desc 'label mouse Ig-seq'
   task :run_mouse_igseq do
-    mouse_igseq = "data/mosue_igseq.fa"
-    cmd = "./label_ig.rb #{mouse_igseq} -p 7 -o mouse_label"
-    out,err,pip = Open3.capture3(cmd, :chdir => "tools")
-    puts out
+    unless !Dir.glob("mouse_label*.tab").empty?
+      mouse_igseq = "data/mosue_igseq.fa"
+      cmd = "./label_ig.rb #{mouse_igseq} -p 7 -o ../mouse_label -g mouse"
+      out,err,pip = Open3.capture3(cmd, :chdir => "tools")
+      puts out
+      File.open("mouse_label_runtime.txt","w"){|f| f.puts out}
+    end
   end
   
   desc 'label human Ig-seq'
   task :run_human_igseq do
-    human_igseq = 
-      "#{ENV['HOME']}/data/ig_seq/gen_data/7_SAM15574987_HС_naive.clusters.fa"
-    cmd = "./label_ig.rb #{human_igseq} -p 7 -o human_label"
-    out,err,pip = Open3.capture3(cmd, :chdir => "tools")
-    puts out
+    unless !Dir.glob("human_label*.tab").empty?
+      human_igseq = 
+        "#{ENV['HOME']}/data/ig_seq/gen_data/7_SAM15574987_HС_naive.clusters.fa"
+      cmd = "./label_ig.rb #{human_igseq} -p 7 -o ../human_label -g human"
+      out,err,pip = Open3.capture3(cmd, :chdir => "tools")
+      File.open("human_label_runtime.txt","w"){|f| f.puts out}
+    end
   end
   
 end

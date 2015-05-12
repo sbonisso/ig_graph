@@ -9,11 +9,12 @@ require_relative 'run_tool'
 
 class RunIgBlast < RunTool
 
-  def initialize(read_f)
+  def initialize(read_f, organism="human")
     super(read_f)
     #
     @igb = nil
     @runtime_s = nil
+    @org = organism
     #run()    
   end
   #
@@ -28,6 +29,7 @@ class RunIgBlast < RunTool
   def run()
     t1 = Time.new
     @igb = IgSeq::IgBlast.new
+    @igb.org = @org
     out = @igb.run(@read_fasta)
     t2 = Time.new
     @runtime_s = t2-t1

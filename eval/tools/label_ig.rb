@@ -139,9 +139,10 @@ module IgSeq
     #   cleanup(file_lst)
     # end
     
-    def label_ig_blast(output_base)
+    def label_ig_blast(output_base, organism="human")
       file_lst = process() do |curr_file|
         igb = IgBlast.new
+        igb.org = organism
         igb.run(curr_file)
         #
         out_vdj = curr_file.split(".fa")[0] + "_vdj.tab"
@@ -181,12 +182,11 @@ module IgSeq
       cleanup(file_lst)
     end
 
-    def label_ig_graph(output_base)
+    def label_ig_graph(output_base, organism="human")
       file_lst = process() do |curr_file|
-        rigg = RunIgGraph.new(curr_file)
-        
+        rigg = RunIgGraph.new(curr_file, org: organism)
         out_vdj = curr_file.split(".fa")[0] + "_vdj.tab"
-        
+        rigg.compute
         rigg.write_preds(out_vdj)
         rigg.cleanup
       end
@@ -196,10 +196,10 @@ module IgSeq
       end.compact
       cat_outputs(vdj_file_lst, 
                   output_base + "_out.tab", 
-                  ["#id", "V", "D", "J"])
+                  ["#id", "V", "D", "J", "junc"])
       cleanup(file_lst)
     end
-
+    
   end
 
 end
@@ -210,6 +210,7 @@ if __FILE__ == $0 then
   require_relative "#{File.dirname(__FILE__)}/ig_blast"
   require_relative "#{File.dirname(__FILE__)}/label_ig"
   require 'optparse'
+  require 'benchmark'
   
   options = {}
   
@@ -228,13 +229,16 @@ if __FILE__ == $0 then
     opt.on("-s", "--scratch DIR", "path of scratch directory, defaults to /tmp") do |scratchDir|
       options[:scratch] = scratchDir
     end
+    options[:organism] = "human"
+    opt.on("-g", "--orgnism ORG", "organism type [human/mouse]") do |orgStr|
+      options[:organism] = orgStr || "human"
+    end
     opt.on("-h","--help","help") do
       puts optparse
     end
   end 
   optparse.parse!
   
-  #if !options.has_key?(:fasta) then
   if ARGV.size != 1
     puts optparse
     puts "MUST SPECIFY AN INPUT FASTA FILE!"
@@ -245,20 +249,24 @@ if __FILE__ == $0 then
     puts "MUST SPECIFY AN OUTPUT BASE STRING!"
     Process.exit(0)
   end
-
+  
   tmp_dir = options.has_key?(:scratch) ? options[:scratch] : Dir.tmpdir
   
   fasta_file = ARGV[0]
-
+  
   lig = IgSeq::LabelIg.new(fasta_file, 
                            num_proc: options[:num_proc], 
                            tmpdir: tmp_dir, 
                            use_pbar: false,
-                           chunk_size: 5000)
-  require 'benchmark'
+                           chunk_size: 500)
+  
   Benchmark.bm do |x|
-    x.report("IgBLast") { lig.label_ig_blast(options[:output]+"_igblast") }
-    x.report("IgGraph") { lig.label_ig_graph(options[:output]+"_iggraph") }
+    x.report("IgBlast") { 
+      lig.label_ig_blast(options[:output]+"_igblast", options[:organism]) 
+    }
+    x.report("IgGraph") { 
+      lig.label_ig_graph(options[:output]+"_iggraph", options[:organism])
+    }
   end
   
 end

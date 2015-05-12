@@ -8,18 +8,19 @@ require_relative 'run_tool'
 
 class RunIgGraph < RunTool
   
-  def initialize(read_f, 
-                 ref_dir="#{File.dirname(__FILE__)}/../../data/igh_refs_simple/",
-                 kvj = 21, kd = 10,
-                 score = :std)
+  def initialize(read_f,
+                 ref_dir: "#{File.dirname(__FILE__)}/../../data/igh_refs_simple/",
+                 kvj: 21, kd: 10,
+                 org: "human",
+                 score: :std)
     #
     super(read_f)
     #
     top_level = "#{File.dirname(__FILE__)}/../../"
     @bin_path = "#{top_level}/iggraph"
-    @vref = "#{ref_dir}/human_IGHV.fa"
-    @dref = "#{ref_dir}/human_IGHD.fa"
-    @jref = "#{ref_dir}/human_IGHJ.fa"
+    @vref = "#{ref_dir}/#{org}_IGHV.fa"
+    @dref = "#{ref_dir}/#{org}_IGHD.fa"
+    @jref = "#{ref_dir}/#{org}_IGHJ.fa"
     @k_vj = kvj
     @k_d = kd
     @scoring = if score == :std then 0
@@ -69,7 +70,8 @@ end
 if __FILE__ == $0 then
 
   test_f = "../tests/data/ten_ab.fa"
-  rigg = RunIgGraph.new(test_f)
+  rigg = RunIgGraph.new(test_f, org: "human")
+  rigg.compute
   rigg.write_preds("/tmp/test_runigg.tab")
   rigg.cleanup
   puts rigg.get_time
