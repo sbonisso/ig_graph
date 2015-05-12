@@ -32,6 +32,7 @@ int main(int argc, char **argv) {
     string readFasta, vRefFasta, dRefFasta, jRefFasta, outFile, paramDir;
     int k = 21, maxKeep = 3, scoringScheme = 0;
     int v_k = -1; int d_k = -1; int j_k = -1;
+    bool no_cdr3 = false;
     string homeDir(getenv("HOME"));
     string default_paramDir(homeDir+"/.nb_params/4mer_amp/");
     try {
@@ -65,6 +66,9 @@ int main(int argc, char **argv) {
 	ValueArg<int> scoringArg("s", "scoring", "[0 = standard, 1 = prob]", false, 1, "int");
 	cmd.add(scoringArg);
 
+	SwitchArg cdr3Arg("c", "no_cdr3", "Omit computing CDR3 sequence", false);
+	cmd.add(cdr3Arg);
+
 	ValueArg<std::string> paramDirArg("p", "param_dir", "path to parameter directory", false, default_paramDir, "string");
 	cmd.add(paramDirArg);
 
@@ -86,6 +90,7 @@ int main(int argc, char **argv) {
 	j_k = jkSizeArg.getValue();
 	maxKeep = maxReportArg.getValue();
 	scoringScheme = scoringArg.getValue();
+	no_cdr3 = cdr3Arg.getValue();
 	// parameter dir
 	paramDir = paramDirArg.getValue();
 
@@ -95,6 +100,7 @@ int main(int argc, char **argv) {
 	cerr<<"K =\t"<<k<<endl;
 	cerr<<"K_v = "<<v_k<<"\tK_d = "<<d_k<<"\tJ_k = "<<j_k<<endl;
 	cerr<<"MAX REPORT =\t"<<maxKeep<<endl;
+	cerr<<"NO CDR3 =\t"<<no_cdr3<<endl;
     }catch(ArgException &e)  // catch any exceptions
     { cerr << "error: " << e.error() << " for arg " << e.argId() << endl; }
 
@@ -132,11 +138,14 @@ int main(int argc, char **argv) {
     cab.addDReferences(dRefFasta);
     cab.addJReferences(jRefFasta);
     //
-    CreateProfile cp(&cab);
+    CreateProfile cp(&cab, !no_cdr3);
     MAIN_DEBUG_PRINT("SIZE:\t"<<cp.getProfileSize());
     //
     FastaRefID<FastaParser> fp(readFasta);
-    fp.openFile();
+    if(!fp.openFile()) {
+	cerr<<readFasta<<" not openend properly!\n";
+	exit(1);
+    }
     int index = 0;
     while(fp.hasNextSequence()) {
 	pair<string,string> entry = fp.getNextEntry();

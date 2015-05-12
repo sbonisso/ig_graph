@@ -2,21 +2,29 @@
 
 CreateProfile::CreateProfile() {
     n_ = 0;
+    comp_cdr3_ = true;
 }
+
+CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab) : 
+    CreateProfile(cab, true)
+{}
 /**
  *
  */
-CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab) {
+CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab, bool cmp_cdr3=true) {
     cab_ = cab;
     n_ = (*cab_).getNumReferences();
     v_scores_.resize( (*cab_).getNumV() );
     d_scores_.resize( (*cab_).getNumD() );
     j_scores_.resize( (*cab_).getNumJ() );
     max_report_ = 2;
+    comp_cdr3_ = cmp_cdr3;
 }
-CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab, int max_n) : 
-    CreateProfile(cab) {
+CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab, 
+			     int max_n, 
+			     bool cmp_cdr3=true) : CreateProfile(cab, cmp_cdr3){
     max_report_ = max_n;
+    comp_cdr3_ = cmp_cdr3;
 }
 /**
  *
@@ -242,9 +250,10 @@ void CreateProfile::compute(string seq) {
     this->pred_j_ = getTopPredicted(max_report_, j_scores_, Segment::J_GENE);
     
     // if couldn't find cdr3 (possibly from truncated sequence) return nothing
-    if(!this->computeCDR3(seq, cp_mat)) {
+    if(comp_cdr3_ && !this->computeCDR3(seq, cp_mat)) {
 	cdr3_str_ = "?";
     }
+
 }
 
 /**
@@ -328,10 +337,18 @@ ostream& operator<< (ostream &out, CreateProfile &cp) {
     string delim = ",";
     for(int i = 0; i < m; i++) { out<<vpred[i]<<(i == m-1 ? "\t" : delim); }
     for(int i = 0; i < m; i++) { out<<dpred[i]<<(i == m-1 ? "\t" : delim); }
-    for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "\t" : delim); }
-    //for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "" : delim); }
-    
-    out<<cp.getCDR3();
+
+    // for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "\t" : delim); }
+    // out<<cp.getCDR3(); 
+
+    // if compute CDR3, leave space for col
+    if(cp.comp_cdr3_) { 
+    	for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "\t" : delim); }
+    	out<<cp.getCDR3(); 
+    }
+    else {
+    	for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "" : delim); }
+    }
     
     // for(int i = 0; i < m; i++) { out<<vscores[i]<<(i == m-1 ? "\t" : delim); }
     // for(int i = 0; i < m; i++) { out<<dscores[i]<<(i == m-1 ? "\t" : delim); }

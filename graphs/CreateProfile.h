@@ -33,7 +33,8 @@ class CreateProfile {
 public:
     CreateProfile();
     CreateProfile(CanonicalAntibodyGraph *cab);
-    CreateProfile(CanonicalAntibodyGraph *cab, int max_n);
+    CreateProfile(CanonicalAntibodyGraph *cab, bool cmp_cdr3);
+    CreateProfile(CanonicalAntibodyGraph *cab, int max_n, bool cmp_cdr3);
     
     ColorProfileMatrix getColorProfile(string seq);
 
@@ -107,6 +108,7 @@ private:
     vector<string> pred_j_;
     //
     string cdr3_str_;
+    bool comp_cdr3_;
 };
 
 #endif
