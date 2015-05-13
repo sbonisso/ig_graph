@@ -67,6 +67,17 @@ namespace :iggraph do
   #CLEAN << "smab_runs.csv"
   #CLEAN << Dir.glob("smab_run_pred*")
 
+  desc 'run unsupervised on smAb data'
+  task :run_smab_data do 
+    unless File.exists?("smab_runs_unsup.csv")
+      tools = ["igblast", "iggraph"]
+      File.open("smab_runs.csv", "w") do |f|
+        run_data_unsupervised("./data/smab_data_mut10.fa", f, 
+                            "./smab_run_pred", tools)
+      end
+    end
+  end
+
   desc 'compare smAb data predictions'
   task :cmp_smab_data => :test_smab_data do 
     out_file_base = "smab_data_comparison"
@@ -78,7 +89,7 @@ namespace :iggraph do
     end
   end
   #CLOBBER << Dir.glob("smab_data_comparison*")
-
+  
   desc 'run on stanford_s22 data'
   task :test_stanford_s22_data do 
     unless File.exists?("stanford_s22_runs.csv")
@@ -172,7 +183,7 @@ namespace :iggraph do
   desc 'label mouse Ig-seq'
   task :run_mouse_igseq do
     unless !Dir.glob("mouse_label*.tab").empty?
-      mouse_igseq = "data/mosue_igseq.fa"
+      mouse_igseq = "../data/mouse_igseq.fa"
       cmd = "./label_ig.rb #{mouse_igseq} -p 7 -o ../mouse_label -g mouse"
       out,err,pip = Open3.capture3(cmd, :chdir => "tools")
       puts out
