@@ -103,7 +103,7 @@ void TestCanonicalAntibodyGraph::test_paint_2_simple() {
     seq[150] = 'T';    
     // test with normal color propagation
     string ref_id = "IGHV1-18*01";
-    vector<int> v = cab.getPainting(ref_id, seq, cab.v_kmers_, cab.k_);
+    vector<int> v = cab.getPainting(ref_id, seq, cab.v_kmers_, cab.k_, true);
     TEST_ASSERT_MSG(v[99] > -1, "Incorrect value at 99");
     TEST_ASSERT_MSG(v[100] == -1, "Incorrect value at 100");
     TEST_ASSERT_MSG(v[101] > -1, "Incorrect value at 101");
@@ -132,7 +132,7 @@ void TestCanonicalAntibodyGraph::test_paint_2_color_propagate_tip1() {
     //
     string ref_id = "IGHV1-18*01";
     vector<int> v = cab.initPainting(ref_id, seq, cab.v_kmers_, cab.k_);
-    cab.propagateColorTip(ref_id, seq, cab.v_kmers_, v);
+    cab.propagateColorTip(ref_id, seq, cab.v_kmers_, v, true);
     //
     TEST_ASSERT_MSG(v[0] >= 0, "Incorrect value at 0");
     TEST_ASSERT_MSG(v[1] >= 0, "Incorrect value at 1");
@@ -156,7 +156,7 @@ void TestCanonicalAntibodyGraph::test_paint_2_color_propagate_tip2() {
     //
     string ref_id = "IGHV1-18*01";
     vector<int> v = cab.initPainting(ref_id, seq, cab.v_kmers_, cab.k_);
-    cab.propagateColorTip(ref_id, seq, cab.v_kmers_, v);
+    cab.propagateColorTip(ref_id, seq, cab.v_kmers_, v, true);
     //
     TEST_ASSERT_MSG(v[0] >= 0, "Incorrect value at 0");
     TEST_ASSERT_MSG(v[1] >= 0, "Incorrect value at 1");
@@ -184,7 +184,7 @@ void TestCanonicalAntibodyGraph::test_paint_1_color_propagate_tip_j_start() {
     //
     string ref_id = "IGHJ3*02";
     vector<int> v = cab.initPainting(ref_id, seq, cab.v_kmers_, cab.k_);
-    cab.propagateColorTip(ref_id, seq, cab.v_kmers_, v);
+    cab.propagateColorTip(ref_id, seq, cab.v_kmers_, v, true);
     //
     TEST_ASSERT_MSG(v[331] == 9, "Incorrect value at 331");
     TEST_ASSERT_MSG(v[332] == 10, "Incorrect value at 332");
@@ -211,7 +211,7 @@ void TestCanonicalAntibodyGraph::test_paint_1_color_propagate_tip_j_end() {
     //
     string ref_id = "IGHJ3*02";
     vector<int> v = cab.initPainting(ref_id, seq, cab.v_kmers_, cab.k_);
-    cab.propagateColorTip(ref_id, seq, cab.v_kmers_, v);
+    cab.propagateColorTip(ref_id, seq, cab.v_kmers_, v, true);
     //
     TEST_ASSERT_MSG(v[363] >= 0, "Incorrect value at 363");
     TEST_ASSERT_MSG(v[364] >= 0, "Incorrect value at 364");

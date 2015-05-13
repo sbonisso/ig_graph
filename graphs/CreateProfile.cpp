@@ -308,12 +308,12 @@ bool CreateProfile::computeCDR3(string seq, ColorProfileMatrix &cp_mat) {
     // take 5bp from start of J
     cdr3_end = j_range.first+5;
     
-    cout<<seq<<endl;
-    cout<<best_frame<<endl;
-    cout<<frame_seq<<endl;
-    cout<<v_range<<endl<<j_range<<endl;
-    cout<<(cdr3_start+best_frame)/3<<"\t"<<(cdr3_end+best_frame)/3<<endl;
-    cout<<cdr3_start<<"\t"<<cdr3_end<<endl;
+    // cout<<seq<<endl;
+    // cout<<best_frame<<endl;
+    // cout<<frame_seq<<endl;
+    // cout<<v_range<<endl<<j_range<<endl;
+    // cout<<(cdr3_start+best_frame)/3<<"\t"<<(cdr3_end+best_frame)/3<<endl;
+    // cout<<cdr3_start<<"\t"<<cdr3_end<<endl;
     
     //return seq.substr(cdr3_start, cdr3_end-cdr3_start);
     cdr3_str_ = seq.substr(cdr3_start, cdr3_end-cdr3_start);
