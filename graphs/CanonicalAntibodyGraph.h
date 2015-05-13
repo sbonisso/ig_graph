@@ -78,7 +78,8 @@ protected:
     
     bool read_into_hash(string fasta_file, ReferenceMap &h, int k);
     
-    vector<int> getPainting(string ref_id, string seq, ReferenceMap &h, int k);
+    vector<int> getPainting(string ref_id, string seq, ReferenceMap &h, int k, 
+			    bool tip_trim);
     vector<int> initPainting(string ref_id, string seq, ReferenceMap &h, int k);
     
     void propagateColor(string ref_id, string seq, ReferenceMap &h, 
@@ -86,7 +87,7 @@ protected:
     int propagateColorBulge(string ref_id, string seq, ReferenceMap &h,
 			    vector<int> &row, int start_ind, int end_ind);
     int propagateColorTip(string ref_id, string seq, 
-			  ReferenceMap &h, vector<int> &row);
+			  ReferenceMap &h, vector<int> &row, bool tip_trim);
     void pushColor(int start_ind, int end_ind,
 		   string &read_substr, string &ref_substr,
 		   vector<int> &row, int ref_index, bool is_tip);

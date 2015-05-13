@@ -281,10 +281,7 @@ bool CreateProfile::computeCDR3(string seq, ColorProfileMatrix &cp_mat) {
 	    frame_seq = tSeqs[i];
 	}
     }
-    //
-    // cout<<seq<<endl;
-    // cout<<best_frame<<endl;
-    // cout<<frame_seq<<endl;
+    //   
     vector<pair<int,int> > v_part = cp_mat.getPartitions(cp_mat.getVColorProfile());
     vector<pair<int,int> > d_part = cp_mat.getPartitions(cp_mat.getDColorProfile());
     vector<pair<int,int> > j_part = cp_mat.getPartitions(cp_mat.getJColorProfile());
@@ -311,8 +308,12 @@ bool CreateProfile::computeCDR3(string seq, ColorProfileMatrix &cp_mat) {
     // take 5bp from start of J
     cdr3_end = j_range.first+5;
     
-    // cout<<(cdr3_start+best_frame)/3<<"\t"<<(cdr3_end+best_frame)/3<<endl;
-    // cout<<cdr3_start<<"\t"<<cdr3_end<<endl;
+    cout<<seq<<endl;
+    cout<<best_frame<<endl;
+    cout<<frame_seq<<endl;
+    cout<<v_range<<endl<<j_range<<endl;
+    cout<<(cdr3_start+best_frame)/3<<"\t"<<(cdr3_end+best_frame)/3<<endl;
+    cout<<cdr3_start<<"\t"<<cdr3_end<<endl;
     
     //return seq.substr(cdr3_start, cdr3_end-cdr3_start);
     cdr3_str_ = seq.substr(cdr3_start, cdr3_end-cdr3_start);
