@@ -1,5 +1,6 @@
 /*
  * ProcessMemUsage.h
+ * taken from SO response: http://stackoverflow.com/questions/669438
  *
  *  Created on: Jan 7, 2013
  *      Author: stef
@@ -43,7 +44,6 @@ void process_mem_usage(double& vm_usage, double& resident_set)
    stat_stream.close();
 
    long sz = sysconf(_SC_PAGESIZE);
-//   long page_size_kb = sysconf(_SC_PAGESIZE) / 1024; // in case x86-64 is configured to use 2MB pages
    long page_size_kb = sysconf(sz) / 1024; // in case x86-64 is configured to use 2MB pages
    vm_usage     = vsize / 1024.0;
    resident_set = rss * page_size_kb;
