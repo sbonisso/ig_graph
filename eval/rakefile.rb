@@ -6,11 +6,19 @@ require_relative 'run_data'
 require_relative 'tools/run_iggraph'
 
 namespace :iggraph do 
+  #
+  # unsupervised tasks
+  #
+  load 'unsupervised.rake'
+  #
+  #
   num_proc = 8
-  
+  #
+  #
   smab_path = "#{ENV['HOME']}/git_repos/smab_lib/bin/smAb"
   data_f = "data/smab_data_mut10.fa"
-  
+  #
+  #
   desc 'grid search over VJ/D k-mers for alleles'
   task :grid_search_k_allele do
     unless File.exists?("param_out_alleles.csv")
@@ -66,18 +74,7 @@ namespace :iggraph do
   end
   #CLEAN << "smab_runs.csv"
   #CLEAN << Dir.glob("smab_run_pred*")
-
-  desc 'run unsupervised on smAb data'
-  task :run_smab_data do 
-    unless File.exists?("smab_runs_unsup.csv")
-      tools = ["igblast", "iggraph"]
-      File.open("smab_runs.csv", "w") do |f|
-        run_data_unsupervised("./data/smab_data_mut10.fa", f, 
-                            "./smab_run_pred", tools)
-      end
-    end
-  end
-
+  
   desc 'compare smAb data predictions'
   task :cmp_smab_data => :test_smab_data do 
     out_file_base = "smab_data_comparison"
@@ -90,73 +87,6 @@ namespace :iggraph do
   end
   #CLOBBER << Dir.glob("smab_data_comparison*")
   
-  desc 'run on stanford_s22 data'
-  task :test_stanford_s22_data do 
-    unless File.exists?("stanford_s22_runs.csv")
-      #tools = ["igblast", "iggraph", "ihmmune"]
-      tools = ["igblast", "iggraph"]
-      #tools = ["igblast"]
-      File.open("stanford_s22_runs.csv", "w") do |f|
-        run_data_unsupervised("./data/Stanford_S22_upcase.fasta",
-                              f, 
-                              "./stanford_s22_run_pred",
-                              tools, 
-                              "allele")
-      end
-    end
-  end
-  #CLEAN << "stanford_s22_runs.csv"
-  #CLEAN << Dir.glob("stanford_s22_run_pred*")
-  
-  
-  desc 'compare Stanford_S22 data predictions'
-  task :cmp_stanford_s22_data => :test_stanford_s22_data do
-    out_file_base = "stanford_s22_data_comparison"
-    type = "allele"
-    unless !Dir.glob(out_file_base+"*").empty?
-      #
-      puts 'hi'
-      pred_lst = Dir.glob("./stanford_s22_run_pred*")
-      compare_unsupervised(pred_lst, out_file_base, "allele")
-    end
-  end
-  CLOBBER << Dir.glob("stanford_s22_data_comparison*")
-
-  desc 'compare all Stanford_S22 tools'  
-  s22_out_file_base = "stanford_s22_all_comparison"
-  task :cmp_all_stanford_s22 do     
-    name_re = Regexp.new(/(\w+)\_S22\_results\.txt$/)
-    unless !Dir.glob(s22_out_file_base + "*").empty?
-      ["gene", "allele"].each do |y|
-        out_file_base_s = [s22_out_file_base, y].join("_")
-        pred_lst = Dir.glob("./data/s22_results/*results.txt")        
-        #puts out_file_base_s
-        #
-        name_lst = pred_lst.map{|s| name_re.match(s)[1]}
-        pred_lst.push("./data/stanford_s22_run_pred_iggraph.tab")
-        name_lst.push("IgGraph")
-        # puts pred_lst.to_s
-        # puts name_lst.to_s
-        compare_unsupervised(pred_lst, 
-                             out_file_base_s, 
-                             y, 
-                             name_lst)
-      end
-    end
-  end
-  CLEAN << Dir.glob(s22_out_file_base + "*")
-
-  desc 'plot all Stanford_S22'
-  task :plot_all_stanford_s22 => :cmp_all_stanford_s22 do 
-    unless !Dir.glob("stanford_s22_mat_*.pdf").empty?
-      ["V", "D", "J", "total"].each do |seg|
-        cmd = "./plot_matrix.R stanford_s22_all_comparison_allele_#{seg}.csv stanford_s22_mat_#{seg}.pdf half_mat"
-        Open3.capture3(cmd)
-      end
-    end
-  end
-  CLEAN << Dir.glob("stanford_s22_mat_*.pdf")
-
   desc 'benchmark iggraph options'
   task :benchmark_iggraph_options do 
     Benchmark.bm() do |bm|
@@ -177,29 +107,6 @@ namespace :iggraph do
       }
       # bm.report("prob") {
       # }
-    end
-  end
-
-  desc 'label mouse Ig-seq'
-  task :run_mouse_igseq do
-    unless !Dir.glob("mouse_label*.tab").empty?
-      mouse_igseq = "../data/mouse_igseq.fa"
-      cmd = "./label_ig.rb #{mouse_igseq} -p 7 -o ../mouse_label -g mouse"
-      out,err,pip = Open3.capture3(cmd, :chdir => "tools")
-      puts out
-      File.open("mouse_label_runtime.txt","w"){|f| f.puts out}
-    end
-  end
-  
-  desc 'label human Ig-seq'
-  task :run_human_igseq do
-    unless !Dir.glob("human_label*.tab").empty?
-      human_igseq = 
-        "#{ENV['HOME']}/data/ig_seq/gen_data/7_SAM15574987_HС_naive.clusters.fa"
-      cmd = "./label_ig.rb #{human_igseq} -p 7 -o ../human_label -g human"
-      out,err,pip = Open3.capture3(cmd, :chdir => "tools")
-      puts out
-      File.open("human_label_runtime.txt","w"){|f| f.puts out}
     end
   end
   

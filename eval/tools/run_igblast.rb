@@ -59,7 +59,6 @@ class RunIgBlast < RunTool
     ft_cdr3.close
     # join vdj and cdr3 files
     cmd = "join -t'\t' #{ft_vdj.path} #{ft_cdr3.path} > #{out_file}"
-    puts cmd
     Open3.capture3(cmd)
   end
   

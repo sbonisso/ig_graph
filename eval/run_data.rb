@@ -54,7 +54,6 @@ def run_data_unsupervised(read_fasta,
   num_entries = `grep \"^>\" #{read_fasta} | wc -l`.to_i
   
   read_p = File.expand_path(read_fasta)
-  puts read_p
   rmt = RunMultipleTools.new(read_p, out_path_base, tools)
   h = rmt.run
   #
