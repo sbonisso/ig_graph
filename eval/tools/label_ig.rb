@@ -9,6 +9,7 @@ require 'parallel'
 require 'tempfile'
 require 'progressbar'
 require 'open3'
+require 'fileutils'
 
 module IgSeq
   #
@@ -176,6 +177,7 @@ module IgSeq
       cat_outputs(vdj_file_lst, output_base + "_vdj.tab", ["#id", "V", "D", "J"])
       cat_outputs(cdr3_file_lst, output_base + "_cdr3.tab", ["#id", "cdr3"])
       cat_outputs(muts_file_lst, output_base + "_muts.tab", ["#id", @regions])
+      FileUtils.cp(output_base + "_vdj.tab", output_base + ".tab")
       cleanup(vdj_file_lst)
       cleanup(cdr3_file_lst)
       cleanup(muts_file_lst)
@@ -195,7 +197,7 @@ module IgSeq
         fvdj if File.exists?(fvdj)
       end.compact
       cat_outputs(vdj_file_lst, 
-                  output_base + "_out.tab", 
+                  output_base + ".tab", 
                   ["#id", "V", "D", "J", "junc"])
       cleanup(file_lst)
     end

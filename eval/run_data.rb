@@ -106,9 +106,29 @@ def compare_unsupervised(pred_lst, out_file_base, type="allele", name_lst=nil)
   out,err,pip =Open3.capture3(valve_cmd)
   
 end
+#
+# parse a mat file (output from compare_*), to all pairwise relations 
+#
+def mat_to_pairwise(mat_file)
+  lines = IO.readlines(mat_file).map{|l| l.chomp.split(",")}
+  header = lines[0]
+  #lst = []
+  h = {}
+  lines[1..lines.size].each_with_index do |ary,i|
+    t1 = ary[0]
+    ary[1..ary.size].each_with_index do |v,j|
+      next if j <= i
+      #lst.push( [t1,header[j+1], v] )
+      h[[t1,header[j+1]]] = v
+    end    
+  end
+  #lst  
+  h
+end
 
 if __FILE__ == $0 then
 
-  run_data_supervised("../tests/data/ten_ab.fa")
-
+  #run_data_supervised("../tests/data/ten_ab.fa")
+  puts mat_to_pairwise("stanford_s22_data_comparison_allele_total.csv").to_s
+  
 end

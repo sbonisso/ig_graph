@@ -39,7 +39,10 @@ module IgSeq
     def run(fastaPath)
       #runCMD = "#{@binPath} -germline_db_V #{@dbPath}/human_gl_V -germline_db_D #{@dbPath}/human_gl_D -germline_db_J #{@dbPath}/human_gl_J -num_alignments_V #{@numOutput} -num_alignments_D #{@numOutput} -num_alignments_J #{@numOutput} -query #{fastaPath} -outfmt 7"
       runCMD = "#{@binPath} -germline_db_V #{@dbPath}/#{@org}_gl_V -germline_db_D #{@dbPath}/#{@org}_gl_D -germline_db_J #{@dbPath}/#{@org}_gl_J -num_alignments_V #{@numOutput} -num_alignments_D #{@numOutput} -num_alignments_J #{@numOutput} -query #{fastaPath} -outfmt 7"
+      puts @baseDir
+      puts runCMD
       output, errStr, pstatus = Open3.capture3(runCMD, :chdir=> "#{@baseDir}")
+      puts errStr
       @outAry = output.split("\n")
       queryRowIndex = (0..@outAry.size-1).select{|i| @outAry[i].include?("# Query:")}
       @queryIDs = queryRowIndex.map{|qI| @outAry[qI].match(/\# Query:\s+(.+)$/)[1]}
