@@ -5,6 +5,7 @@
 #
 require_relative 'ig_blast'
 require_relative 'run_iggraph'
+require_relative 'run_igblast'
 require 'parallel'
 require 'tempfile'
 require 'progressbar'
@@ -81,28 +82,6 @@ module IgSeq
     #
     # cat output files into single file
     # 
-    # def cat_output_files(file_lst, out_base)
-    #   vdj_file_lst = file_lst.map{|f| fvdj = f.split(".fa")[0]+"_vdj.tab"; fvdj if File.exists?(fvdj)}.compact
-    #   cdr3_file_lst = file_lst.map{|f| fcdr3 = f.split(".fa")[0]+"_cdr3.tab"; fcdr3 if File.exists?(fcdr3)}.compact
-    #   muts_file_lst = file_lst.map{|f| fmut = f.split(".fa")[0]+"_muts.tab"; fmut if File.exists?(fmut)}.compact
-      
-    #   File.open(out_base+"_cdr3.tab", "w") do |fcdr3|
-    #     fcdr3.puts ["#id", "cdr3"].join(@delim)
-    #     cdr3_file_lst.each{|curr_f| IO.foreach(curr_f){|l| fcdr3.puts l}}
-    #   end
-    #   File.open(out_base+"_vdj.tab", "w") do |fvdj|
-    #     fvdj.puts ["#id", "V", "D", "J"].join(@delim)
-    #     vdj_file_lst.each{|curr_f| IO.foreach(curr_f){|l| fvdj.puts l}}
-    #   end
-    #   File.open(out_base+"_muts.tab", "w") do |fmut|
-    #     fmut.puts ["#id", @regions].flatten.join(@delim)
-    #     muts_file_lst.each{|curr_f| IO.foreach(curr_f){|l| fmut.puts l}}
-    #   end
-
-    # end
-    #
-    #
-    #
     def cat_outputs(file_lst, out_filename, header)
        File.open(out_filename, "w") do |ft|
         ft.puts header.join(@delim)
@@ -111,76 +90,73 @@ module IgSeq
     end
     #
     # delete any temp files created
-    #
-    # def cleanup(file_lst)
-    #   file_lst.each do |f|
-    #     fvdj = f.split(".fa")[0]+"_vdj.tab"
-    #     fcdr3 = f.split(".fa")[0]+"_cdr3.tab"
-    #     fmut = f.split(".fa")[0]+"_muts.tab"
-        
-    #     File.delete(fvdj) if File.exists?(fvdj)
-    #     File.delete(fcdr3) if File.exists?(fcdr3)
-    #     File.delete(fmut) if File.exists?(fmut)
-    #     File.delete(f) if File.exists?(f)
-    #   end
-    # end
+    #    
     def cleanup(file_lst)
       file_lst.each do |f|
         File.delete(f) if File.exists?(f)
       end
     end
     private :split_to_ranges, :cleanup, :process #, :cat_output_files
-
     #
-    # given an output base string, process, cat output files, and cleanup temp files
-    #
-    # def label_ig(output_base)
-    #   file_lst = process()
-    #   cat_output_files(file_lst, output_base)
+    # def label_ig_blast_old(output_base, organism="human")
+    #   file_lst = process() do |curr_file|
+    #     igb = IgBlast.new
+    #     igb.org = organism
+    #     igb.run(curr_file)
+    #     #
+    #     out_vdj = curr_file.split(".fa")[0] + "_vdj.tab"
+    #     fvdj = File.new(out_vdj,"w")
+    #     fvdj.puts igb.getVDJ
+    #     fvdj.close
+    #     #
+    #     out_cdr3 = curr_file.split(".fa")[0] + "_cdr3.tab"
+    #     fcdr3 = File.new(out_cdr3,"w")
+    #     #fcdr3.puts igb.getCDR3
+    #     igb.getCDR3.each{|l| ary = l.split("\t"); fcdr3.puts [ary[0], ary[1..ary.size].join("")].join(@delim)}
+    #     fcdr3.close
+    #     #
+    #     out_mut = curr_file.split(".fa")[0] + "_muts.tab"
+    #     fmut = File.new(out_mut, "w")
+    #     mut_h = igb.getMutations
+    #     #mut_h.keys.each{|k| fmut.puts [k, mut_h[k].to_s].join(@delim)}
+    #     mut_h.keys.each{|k| fmut.puts [k, @regions.map{|r| val = mut_h[k][r]; val.nil? ? 0 : val}].flatten.join(@delim)}
+    #     fmut.close
+    #   end
+    #   #cat_output_files(file_lst, output_base)
+    #   vdj_file_lst = file_lst.map do |f| 
+    #     fvdj = f.split(".fa")[0]+"_vdj.tab"; fvdj if File.exists?(fvdj)
+    #   end.compact
+    #   cdr3_file_lst = file_lst.map do |f| 
+    #     fcdr3 = f.split(".fa")[0]+"_cdr3.tab"; fcdr3 if File.exists?(fcdr3)
+    #   end.compact
+    #   muts_file_lst = file_lst.map do |f| 
+    #     fmut = f.split(".fa")[0]+"_muts.tab"; fmut if File.exists?(fmut)
+    #   end.compact
+    #   cat_outputs(vdj_file_lst, output_base + "_vdj.tab", ["#id", "V", "D", "J"])
+    #   cat_outputs(cdr3_file_lst, output_base + "_cdr3.tab", ["#id", "cdr3"])
+    #   cat_outputs(muts_file_lst, output_base + "_muts.tab", ["#id", @regions])
+    #   FileUtils.cp(output_base + "_vdj.tab", output_base + ".tab")
+    #   cleanup(vdj_file_lst)
+    #   cleanup(cdr3_file_lst)
+    #   cleanup(muts_file_lst)
     #   cleanup(file_lst)
     # end
-    
+
     def label_ig_blast(output_base, organism="human")
       file_lst = process() do |curr_file|
-        igb = IgBlast.new
-        igb.org = organism
-        igb.run(curr_file)
-        #
+        rigg = RunIgBlast.new(curr_file, organism)
         out_vdj = curr_file.split(".fa")[0] + "_vdj.tab"
-        fvdj = File.new(out_vdj,"w")
-        fvdj.puts igb.getVDJ
-        fvdj.close
-        #
-        out_cdr3 = curr_file.split(".fa")[0] + "_cdr3.tab"
-        fcdr3 = File.new(out_cdr3,"w")
-        #fcdr3.puts igb.getCDR3
-        igb.getCDR3.each{|l| ary = l.split("\t"); fcdr3.puts [ary[0], ary[1..ary.size].join("")].join(@delim)}
-        fcdr3.close
-        #
-        out_mut = curr_file.split(".fa")[0] + "_muts.tab"
-        fmut = File.new(out_mut, "w")
-        mut_h = igb.getMutations
-        #mut_h.keys.each{|k| fmut.puts [k, mut_h[k].to_s].join(@delim)}
-        mut_h.keys.each{|k| fmut.puts [k, @regions.map{|r| val = mut_h[k][r]; val.nil? ? 0 : val}].flatten.join(@delim)}
-        fmut.close
+        rigg.compute
+        rigg.write_preds(out_vdj)
+        rigg.cleanup
       end
-      #cat_output_files(file_lst, output_base)
       vdj_file_lst = file_lst.map do |f| 
-        fvdj = f.split(".fa")[0]+"_vdj.tab"; fvdj if File.exists?(fvdj)
+        fvdj = f.split(".fa")[0]+"_vdj.tab"
+        fvdj if File.exists?(fvdj)
       end.compact
-      cdr3_file_lst = file_lst.map do |f| 
-        fcdr3 = f.split(".fa")[0]+"_cdr3.tab"; fcdr3 if File.exists?(fcdr3)
-      end.compact
-      muts_file_lst = file_lst.map do |f| 
-        fmut = f.split(".fa")[0]+"_muts.tab"; fmut if File.exists?(fmut)
-      end.compact
-      cat_outputs(vdj_file_lst, output_base + "_vdj.tab", ["#id", "V", "D", "J"])
-      cat_outputs(cdr3_file_lst, output_base + "_cdr3.tab", ["#id", "cdr3"])
-      cat_outputs(muts_file_lst, output_base + "_muts.tab", ["#id", @regions])
-      FileUtils.cp(output_base + "_vdj.tab", output_base + ".tab")
-      cleanup(vdj_file_lst)
-      cleanup(cdr3_file_lst)
-      cleanup(muts_file_lst)
+      cat_outputs(vdj_file_lst, 
+                  output_base + ".tab", 
+                  ["#id", "V", "D", "J", "junc"])
       cleanup(file_lst)
     end
 
