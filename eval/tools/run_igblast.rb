@@ -30,6 +30,7 @@ class RunIgBlast < RunTool
     t1 = Time.new
     @igb = IgSeq::IgBlast.new
     @igb.org = @org
+    puts @read_fasta
     out = @igb.run(@read_fasta)
     t2 = Time.new
     @runtime_s = t2-t1
@@ -70,8 +71,11 @@ end
 
 if __FILE__ == $0 then
 
-  test_f = "../tests/data/ten_ab.fa"
-  rigg = RunIgBlast.new(test_f)
+  #test_f = File.expand_path("../tests/data/ten_ab.fa")
+  #test_f = File.expand_path("/home/stef/git_repos/ig_graph/tests/data/ten_ab.fa")
+  test_f = "/tmp/mouse1.fa"
+  rigg = RunIgBlast.new(test_f, "mouse")
+  rigg.compute
   rigg.write_preds("/tmp/test_runigblast.tab")
   rigg.cleanup
   puts rigg.get_time
