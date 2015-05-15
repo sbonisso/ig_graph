@@ -25,6 +25,20 @@ namespace :unsupervised do
       File.open("mouse_label_runtime.txt","w"){|f| f.puts out}
     end
   end
+
+  desc 'compare mouse Ig-seq'
+  task :cmp_mouse_igseq do 
+    out_file_base = "mouse_data_comparison"
+    unless !Dir.glob(out_file_base+"*").empty?
+      #
+      pred_lst = ["./mouse_label_igblast.tab",
+                  "./mouse_label_iggraph.tab"]
+      ["allele", "gene"].each do |type|
+        compare_unsupervised(pred_lst, [out_file_base, type].join("_"), type)
+      end
+    end
+  end
+  CLOBBER << Dir.glob("mouse_data_comparison*")
   
   desc 'label human Ig-seq'
   task :run_human_igseq do
@@ -37,8 +51,29 @@ namespace :unsupervised do
       File.open("human_label_runtime.txt","w"){|f| f.puts out}
     end
   end
+
+  desc 'compare human Ig-seq'
+  task :cmp_human_igseq do 
+    out_file_base = "human_data_comparison"
+    unless !Dir.glob(out_file_base+"*").empty?
+      #
+      pred_lst = ["./human_label_igblast.tab",
+                  "./human_label_iggraph.tab"]
+      header = nil
+      rows = []
+      ["allele", "gene"].each do |type|
+        cmd = "/home/stef/git_repos/valve/bin/valve supervised -t #{pred_lst[0]} -p #{pred_lst[1]} -y #{type}"
+        out,err,pip = Open3.capture3(cmd)
+        out_ary = out.split("\n")
+        header = out_ary[0]
+        rows.push([type, out_ary[1]].join("\t"))
+      end
+      puts header
+      puts rows
+    end
+  end
   
-   desc 'compare all Stanford_S22 tools'  
+  desc 'compare all Stanford_S22 tools'  
   s22_out_file_base = "stanford_s22_all_comparison"
   #task :cmp_all_stanford_s22 do     
   task :cmp_all_s22 do 
@@ -76,18 +111,23 @@ namespace :unsupervised do
   CLEAN << Dir.glob("stanford_s22_mat_*.pdf")
 
   desc 'run on stanford_s22 data'
-  #task :test_stanford_s22_data do 
   task :run_s22 do 
     unless File.exists?("stanford_s22_runs.csv")
       #tools = ["igblast", "iggraph", "ihmmune"]
       tools = ["igblast", "iggraph"]
-      #tools = ["igblast"]
       File.open("stanford_s22_runs.csv", "w") do |f|
         run_data_unsupervised("./data/Stanford_S22_upcase.fasta",
                               f, 
                               "./stanford_s22_run_pred",
                               tools, 
                               "allele")
+      end
+      File.open("stanford_s22_run_pred_ihmmune.tab","w") do |fw|
+        IO.foreach("data/s22_results/iHMMune_S22_results.txt") do |line|
+          ary = line.split("\t")
+          id = "lcl|" + ary[0] + ".1"
+          fw.puts [id, ary[1..ary.size]].flatten.join("\t")
+        end
       end
     end
   end
@@ -96,14 +136,31 @@ namespace :unsupervised do
   
   
   desc 'compare Stanford_S22 data predictions'
-  #task :cmp_stanford_s22_data => :run_s22 do
-  task :cmp_run_s22_data => :run_s22 do
+  task :cmp_s22_data => :run_s22 do
     out_file_base = "stanford_s22_data_comparison"
-    type = "allele"
     unless !Dir.glob(out_file_base+"*").empty?
-      #
       pred_lst = Dir.glob("./stanford_s22_run_pred*")
-      compare_unsupervised(pred_lst, out_file_base, "allele")
+      #
+      ["allele","gene"].each do |type|
+        outfile_base_type = [out_file_base,type].join("_")
+        compare_unsupervised(pred_lst, outfile_base_type, type)
+        h = {}
+        Dir.glob(outfile_base_type+"*").each do |tf|
+          var = tf.split(/#{type}\_(\w+)\.csv/)[1]
+          pair_h = mat_to_pairwise(tf)
+          h[var] = pair_h
+        end
+        #
+        # now output as table
+        puts ["tools\t", ["V", "D", "J", "total"]].flatten.join("\t")
+        pair_lst = h[h.keys[0]].keys
+        pair_lst.each do |pair|
+          row = ["V", "D", "J", "total"].map do |seg|
+            h[seg][pair]
+          end
+          puts [pair.join("-"), row].flatten.join("\t")
+        end
+      end
     end
   end
   CLOBBER << Dir.glob("stanford_s22_data_comparison*")
