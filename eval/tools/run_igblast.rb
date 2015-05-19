@@ -30,7 +30,6 @@ class RunIgBlast < RunTool
     t1 = Time.new
     @igb = IgSeq::IgBlast.new
     @igb.org = @org
-    puts @read_fasta
     out = @igb.run(@read_fasta)
     t2 = Time.new
     @runtime_s = t2-t1

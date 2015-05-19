@@ -2,7 +2,7 @@
 
 
 namespace :unsupervised do
-  num_proc = 8
+  num_proc = 7
   
   desc 'run unsupervised on smAb data'
   task :run_smab_data do 
@@ -10,10 +10,11 @@ namespace :unsupervised do
       tools = ["igblast", "iggraph"]
       File.open("smab_runs_unsup.csv", "w") do |f|
         run_data_unsupervised("./data/smab_data_mut10.fa", f, 
-                            "./smab_run_pred", tools)
+                              "./smab_run_pred", tools)
       end
     end
   end
+  CLOBBER << "smab_runs_unsup.csv"
   
   desc 'label mouse Ig-seq'
   task :run_mouse_igseq do
@@ -25,9 +26,11 @@ namespace :unsupervised do
       File.open("mouse_label_runtime.txt","w"){|f| f.puts out}
     end
   end
-
+  CLOBBER << Dir.glob("mouse_label*.tab")
+  CLOBBER << "mouse_label_runtime.txt"
+  
   desc 'compare mouse Ig-seq'
-  task :cmp_mouse_igseq do 
+  task :cmp_mouse_igseq => :run_mouse_igseq do 
     out_file_base = "mouse_data_comparison"
     unless !Dir.glob(out_file_base+"*").empty?
       #

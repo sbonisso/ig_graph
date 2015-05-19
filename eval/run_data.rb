@@ -125,10 +125,33 @@ def mat_to_pairwise(mat_file)
   #lst  
   h
 end
+#
+#
+def multi_mat_to_table(out_file_base, type)
+  h = {}
+  outfile_base_type = [out_file_base,type].join("_")
+  Dir.glob(outfile_base_type+"*").each do |tf|
+    var = tf.split(/#{type}\_(\w+)\.csv/)[1]
+    pair_h = mat_to_pairwise(tf)
+    h[var] = pair_h
+  end
+  #
+  # now output as table
+  puts ["tools\t", ["V", "D", "J", "total"]].flatten.join("\t")
+  pair_lst = h[h.keys[0]].keys
+  pair_lst.each do |pair|
+    row = ["V", "D", "J", "total"].map do |seg|
+      h[seg][pair]
+    end
+    puts [pair.join("-"), row].flatten.join("\t")
+  end
+end
+
 
 if __FILE__ == $0 then
 
   #run_data_supervised("../tests/data/ten_ab.fa")
-  puts mat_to_pairwise("stanford_s22_data_comparison_allele_total.csv").to_s
+  #puts mat_to_pairwise("stanford_s22_data_comparison_allele_total.csv").to_s
+  multi_mat_to_table("mouse_data_comparison", "gene")
   
 end
