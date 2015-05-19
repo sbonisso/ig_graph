@@ -36,7 +36,7 @@ namespace :unsupervised do
       #
       pred_lst = ["./mouse_label_igblast.tab",
                   "./mouse_label_iggraph.tab"]
-      ["allele", "gene"].each do |type|
+      ["allele", "gene", "clone"].each do |type|
         compare_unsupervised(pred_lst, [out_file_base, type].join("_"), type)
       end
     end

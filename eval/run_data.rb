@@ -100,11 +100,11 @@ def compare_unsupervised(pred_lst, out_file_base, type="allele", name_lst=nil)
   #
   # run comparison tool
   #
-  valve_bin = "/home/stef/git_repos/valve/bin/valve"
+  #valve_bin = "/home/stef/git_repos/valve/bin/valve"
+  valve_bin = "/home/stef/RubymineProjects/valve/bin/valve"
   valve_cmd = 
     "#{valve_bin} unsupervised -f #{tmp_f.path} -n #{name_f.path} -y #{type} -o #{out_file_base}"
-  out,err,pip =Open3.capture3(valve_cmd)
-  
+  out,err,pip =Open3.capture3(valve_cmd)  
 end
 #
 # parse a mat file (output from compare_*), to all pairwise relations 
@@ -153,5 +153,5 @@ if __FILE__ == $0 then
   #run_data_supervised("../tests/data/ten_ab.fa")
   #puts mat_to_pairwise("stanford_s22_data_comparison_allele_total.csv").to_s
   multi_mat_to_table("mouse_data_comparison", "gene")
-  
+  multi_mat_to_table("mouse_data_comparison", "allele")
 end
