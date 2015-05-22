@@ -285,7 +285,6 @@ bool CreateProfile::computeCDR3(string seq, ColorProfileMatrix &cp_mat) {
     vector<pair<int,int> > v_part = cp_mat.getPartitions(cp_mat.getVColorProfile());
     vector<pair<int,int> > d_part = cp_mat.getPartitions(cp_mat.getDColorProfile());
     vector<pair<int,int> > j_part = cp_mat.getPartitions(cp_mat.getJColorProfile());
-    //v_range = cp_mat
     // cout<<v_part[v_max_ind_[0]]<<endl;
     // cout<<d_part[d_max_ind_[0]]<<endl;
     // cout<<j_part[j_max_ind_[0]]<<endl;
@@ -295,7 +294,7 @@ bool CreateProfile::computeCDR3(string seq, ColorProfileMatrix &cp_mat) {
     pair<int,int> j_range = j_part[j_max_ind_[0]];    
     if(v_range.first > v_range.second) { return false; }
     if(j_range.first > j_range.second) { return false; }
-    
+    if(v_range.second > j_range.first) { return false; }
     // find 2nd cys - start codon after
     int cdr3_start = 0;
     for(int i = (v_range.second+best_frame)/3; i > 0; i--) {
@@ -315,7 +314,6 @@ bool CreateProfile::computeCDR3(string seq, ColorProfileMatrix &cp_mat) {
     // cout<<(cdr3_start+best_frame)/3<<"\t"<<(cdr3_end+best_frame)/3<<endl;
     // cout<<cdr3_start<<"\t"<<cdr3_end<<endl;
     
-    //return seq.substr(cdr3_start, cdr3_end-cdr3_start);
     cdr3_str_ = seq.substr(cdr3_start, cdr3_end-cdr3_start);
     return true;
 }
