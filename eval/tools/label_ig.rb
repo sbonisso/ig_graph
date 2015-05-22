@@ -215,8 +215,17 @@ if __FILE__ == $0 then
     opt.on("-c", "--chunk_size INT", "number of sequences in a chunk") do |c_i|
       options[:chunk_size] = c_i.to_i
     end
+    options[:benchmark] = false
+    opt.on("-b", "--benchmark", "benchmark IgBlast and IgGraph") do |bm|
+      options[:benchmark] = true
+    end
+    options[:tool]
+    opt.on("-t", "--tool [igblast/iggraph]", "tool to run") do |tool_s|
+      options[:tool] = tool_s
+    end
     opt.on("-h","--help","help") do
       puts optparse
+      Process.exit(0)
     end
   end 
   optparse.parse!
@@ -242,13 +251,24 @@ if __FILE__ == $0 then
                            use_pbar: false,
                            chunk_size: options[:chunk_size]) #5000)
   
-  Benchmark.bm do |x|
-    x.report("IgBlast") { 
-      lig.label_ig_blast(options[:output]+"_igblast", options[:organism]) 
-    }
-    x.report("IgGraph") { 
-      lig.label_ig_graph(options[:output]+"_iggraph", options[:organism])
-    }
+  if options[:benchmark] then
+    Benchmark.bm do |x|
+      x.report("IgBlast") { 
+        lig.label_ig_blast(options[:output]+"_igblast", options[:organism]) 
+      }
+      x.report("IgGraph") { 
+        lig.label_ig_graph(options[:output]+"_iggraph", options[:organism])
+      }
+    end
+    Process.exit(0)
+  end
+
+  if options[:tool] == 'igblast' then
+    lig.label_ig_blast(options[:output]+"_igblast", options[:organism]) 
+  elsif options[:tool] == 'igblast' then
+    lig.label_ig_graph(options[:output]+"_iggraph", options[:organism])
+  else
+    raise 'incorrect tool selected'    
   end
   
 end

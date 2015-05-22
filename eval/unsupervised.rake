@@ -20,7 +20,7 @@ namespace :unsupervised do
   task :run_mouse_igseq do
     unless !Dir.glob("mouse_label*.tab").empty?
       mouse_igseq = "../data/mouse_igseq.fa"
-      cmd = "./label_ig.rb #{mouse_igseq} -p #{num_proc} -o ../mouse_label -g mouse"
+      cmd = "./label_ig.rb #{mouse_igseq} -p #{num_proc} -o ../mouse_label -g mouse -b"
       out,err,pip = Open3.capture3(cmd, :chdir => "tools")
       puts out
       File.open("mouse_label_runtime.txt","w"){|f| f.puts out}
@@ -48,15 +48,15 @@ namespace :unsupervised do
     unless !Dir.glob("human_label*.tab").empty?
       human_igseq = 
         "#{ENV['HOME']}/data/ig_seq/gen_data/7_SAM15574987_HС_naive.clusters.fa"
-      cmd = "./label_ig.rb #{human_igseq} -p #{num_proc} -o ../human_label -g human"
+      cmd = "./label_ig.rb #{human_igseq} -p #{num_proc} -o ../human_label -g human -b"
       out,err,pip = Open3.capture3(cmd, :chdir => "tools")
       puts out
       File.open("human_label_runtime.txt","w"){|f| f.puts out}
     end
   end
-
+  
   desc 'compare human Ig-seq'
-  task :cmp_human_igseq do 
+  task :cmp_human_igseq => :run_human_igseq do 
     out_file_base = "human_data_comparison"
     unless !Dir.glob(out_file_base+"*").empty?
       #
@@ -75,6 +75,21 @@ namespace :unsupervised do
       puts rows
     end
   end
+
+  desc 'compare human Ig-seq clone partition'
+  task :cmp_human_igseq_clone => :run_human_igseq do   
+    out_file_base = "human_data_comparison"
+    type = "clone"
+    out_f = [out_file_base, type].join("_")
+    unless !Dir.glob(out_f+"*").empty?
+      puts 'human clone comparison'
+      pred_lst = ["./human_label_igblast.tab",
+                  "./human_label_iggraph.tab"]
+      compare_unsupervised(pred_lst, out_f, type)
+    end
+  end
+  CLOBBER << Dir.glob("human_data_comparison_clone*")
+  
   
   desc 'compare all Stanford_S22 tools'  
   s22_out_file_base = "stanford_s22_all_comparison"
@@ -134,8 +149,8 @@ namespace :unsupervised do
       end
     end
   end
-  #CLEAN << "stanford_s22_runs.csv"
-  #CLEAN << Dir.glob("stanford_s22_run_pred*")
+  CLEAN << "stanford_s22_runs.csv"
+  CLEAN << Dir.glob("stanford_s22_run_pred*")
   
   
   desc 'compare Stanford_S22 data predictions'
@@ -167,5 +182,15 @@ namespace :unsupervised do
     end
   end
   CLOBBER << Dir.glob("stanford_s22_data_comparison*")
+  
+  desc 'compare S22 clone partition'
+  task :cmp_s22_clone => :run_s22 do
+    pred_lst = ["./stanford_s22_run_pred_igblast.tab",
+                "./stanford_s22_run_pred_iggraph.tab"]
+    type = "clone"
+    out_file_base = "stanford_s22_data_comparison"
+    compare_unsupervised(pred_lst, [out_file_base, type].join("_"), type)
+  end
+  CLOBBER << Dir.glob("stanford_s22_data_comparison_clone*")
   
 end
