@@ -262,10 +262,10 @@ if __FILE__ == $0 then
     end
     Process.exit(0)
   end
-
+  
   if options[:tool] == 'igblast' then
     lig.label_ig_blast(options[:output]+"_igblast", options[:organism]) 
-  elsif options[:tool] == 'igblast' then
+  elsif options[:tool] == 'iggraph' then
     lig.label_ig_graph(options[:output]+"_iggraph", options[:organism])
   else
     raise 'incorrect tool selected'    
