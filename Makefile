@@ -12,6 +12,7 @@ TESTDIR = tests
 TESTSRC	= $(wildcard $(TESTDIR)/*.cpp)
 TESTOBJ	= $(TESTSRC:.cpp=.o)
 
+#LIBS += -lpthread -static -static-libgcc -static-libstdc++
 
 all : subdirs $(EXE)
 
