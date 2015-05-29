@@ -12,7 +12,7 @@ TESTDIR = tests
 TESTSRC	= $(wildcard $(TESTDIR)/*.cpp)
 TESTOBJ	= $(TESTSRC:.cpp=.o)
 
-#LIBS += -lpthread -static -static-libgcc -static-libstdc++
+SLIBS = -lpthread -static -static-libgcc -static-libstdc++
 
 all : subdirs $(EXE)
 
@@ -22,6 +22,10 @@ subdirs :
 $(EXE) : RunIgGraph.o $(OBJECTS)
 	$(ECHO) $(CC) $(INC) -o $(EXE) $(OBJECTS) RunIgGraph.o $(LIBS)
 	$(CC) $(INC) -o $(EXE) $(OBJECTS) RunIgGraph.o $(LIBS)
+
+static : subdirs RunIgGraph.o $(OBJECTS)
+	$(ECHO) $(CC) $(INC) -o $(EXE) $(OBJECTS) RunIgGraph.o $(LIBS)
+	$(CC) $(INC) -o $(EXE) $(OBJECTS) RunIgGraph.o $(LIBS) $(SLIBS)
 
 RunIgGraph.o: RunIgGraph.cpp
 	$(ECHO) $(CC) $(INC) $(CFLAGS) $< -o $@
