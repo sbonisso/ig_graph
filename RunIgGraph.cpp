@@ -33,6 +33,7 @@ int main(int argc, char **argv) {
     int k = 21, maxKeep = 3, scoringScheme = 0;
     int v_k = -1; int d_k = -1; int j_k = -1;
     bool no_cdr3 = false;
+    bool out_scores = false;
     string homeDir(getenv("HOME"));
     string default_paramDir(homeDir+"/.nb_params/4mer_amp/");
     try {
@@ -69,6 +70,9 @@ int main(int argc, char **argv) {
 	SwitchArg cdr3Arg("c", "no_cdr3", "Omit computing CDR3 sequence", false);
 	cmd.add(cdr3Arg);
 
+	SwitchArg outScoresArg("S", "output_scores", "flag to output top scorig of each V, D, and J", false);
+	cmd.add(outScoresArg);
+
 	ValueArg<std::string> paramDirArg("p", "param_dir", "path to parameter directory", false, default_paramDir, "string");
 	cmd.add(paramDirArg);
 
@@ -91,6 +95,7 @@ int main(int argc, char **argv) {
 	maxKeep = maxReportArg.getValue();
 	scoringScheme = scoringArg.getValue();
 	no_cdr3 = cdr3Arg.getValue();
+	out_scores = outScoresArg.getValue();
 	// parameter dir
 	paramDir = paramDirArg.getValue();
 
@@ -138,7 +143,7 @@ int main(int argc, char **argv) {
     cab.addDReferences(dRefFasta);
     cab.addJReferences(jRefFasta);
     //
-    CreateProfile cp(&cab, !no_cdr3);
+    CreateProfile cp(&cab, !no_cdr3, out_scores);
     MAIN_DEBUG_PRINT("SIZE:\t"<<cp.getProfileSize());
     //
     FastaRefID<FastaParser> fp(readFasta);

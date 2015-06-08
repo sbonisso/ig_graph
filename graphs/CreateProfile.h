@@ -34,7 +34,8 @@ public:
     CreateProfile();
     CreateProfile(CanonicalAntibodyGraph *cab);
     CreateProfile(CanonicalAntibodyGraph *cab, bool cmp_cdr3);
-    CreateProfile(CanonicalAntibodyGraph *cab, int max_n, bool cmp_cdr3);
+    CreateProfile(CanonicalAntibodyGraph *cab, bool cmp_cdr3, bool cmp_score);
+    CreateProfile(CanonicalAntibodyGraph *cab, int max_n, bool cmp_cdr3, bool cmp_score);
     
     ColorProfileMatrix getColorProfile(string seq);
 
@@ -109,6 +110,7 @@ private:
     //
     string cdr3_str_;
     bool comp_cdr3_;
+    bool comp_scores_;
 };
 
 #endif

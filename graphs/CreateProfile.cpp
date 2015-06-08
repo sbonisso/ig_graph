@@ -6,12 +6,18 @@ CreateProfile::CreateProfile() {
 }
 
 CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab) : 
-    CreateProfile(cab, true)
+    CreateProfile(cab, true, false)
+{}
+
+CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab, bool cmp_cdr3=true) : 
+    CreateProfile(cab, cmp_cdr3, false)
 {}
 /**
  *
  */
-CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab, bool cmp_cdr3=true) {
+CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab, 
+			     bool cmp_cdr3=true,
+			     bool cmp_score=false) {
     cab_ = cab;
     n_ = (*cab_).getNumReferences();
     v_scores_.resize( (*cab_).getNumV() );
@@ -19,12 +25,16 @@ CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab, bool cmp_cdr3=true) {
     j_scores_.resize( (*cab_).getNumJ() );
     max_report_ = 2;
     comp_cdr3_ = cmp_cdr3;
+    comp_scores_ = cmp_score;
 }
 CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab, 
 			     int max_n, 
-			     bool cmp_cdr3=true) : CreateProfile(cab, cmp_cdr3){
+			     bool cmp_cdr3=true,
+			     bool cmp_score=false) : 
+    CreateProfile(cab, cmp_cdr3, cmp_score){
     max_report_ = max_n;
     comp_cdr3_ = cmp_cdr3;
+    comp_scores_ = cmp_score;
 }
 /**
  *
@@ -237,7 +247,7 @@ vector<double> CreateProfile::getPredScores(int num_ret,
 					    vector<double> score_v) {
     vector<double> n_scores(num_ret, -1);
     for(int i = 0; i < num_ret; i++) { 
-	n_scores[i] = j_scores_[max_inds[i]];
+	n_scores[i] = score_v[max_inds[i]];
     }
     return n_scores;
 }
@@ -337,16 +347,24 @@ ostream& operator<< (ostream &out, CreateProfile &cp) {
     for(int i = 0; i < m; i++) { out<<vpred[i]<<(i == m-1 ? "\t" : delim); }
     for(int i = 0; i < m; i++) { out<<dpred[i]<<(i == m-1 ? "\t" : delim); }
 
-    // for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "\t" : delim); }
+    for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "\t" : delim); }
     // out<<cp.getCDR3(); 
 
     // if compute CDR3, leave space for col
+    // if(cp.comp_cdr3_) { 
+    // 	for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "\t" : delim); }
+    // 	out<<cp.getCDR3(); 
+    // }
+    // else {
+    // 	for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "" : delim); }
+    // }
     if(cp.comp_cdr3_) { 
-    	for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "\t" : delim); }
-    	out<<cp.getCDR3(); 
+	out<<"\t"<<cp.getCDR3();
     }
-    else {
-    	for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "" : delim); }
+    if(cp.comp_scores_) {
+	out<<"\t"<<vscores[0]
+	   <<"\t"<<dscores[0]
+	   <<"\t"<<jscores[0];
     }
     
     // for(int i = 0; i < m; i++) { out<<vscores[i]<<(i == m-1 ? "\t" : delim); }
