@@ -12,7 +12,8 @@ class RunIgGraph < RunTool
                  ref_dir: "#{File.dirname(__FILE__)}/../../data/igh_refs_simple/",
                  kvj: 21, kd: 10,
                  org: "human",
-                 score: :std)
+                 score: :std,
+                 out_scores: nil)
     #
     super(read_f)
     #
@@ -30,7 +31,7 @@ class RunIgGraph < RunTool
     #
     @no_cdr3 = false
     @runtime_s = nil
-    #run()   
+    @output_scores = (!out_scores ? false : true)
   end
   #
   #
@@ -48,6 +49,7 @@ class RunIgGraph < RunTool
     cmd += " -s #{@scoring}"
     cmd += " -r #{@read_fasta} -V #{@k_vj} -D #{@k_d} -J #{@k_vj} -o #{@pred_f.path}"
     cmd += " --no_cdr3" if @no_cdr3
+    cmd += " --output_scores" if @output_scores
     #
     cout,cerr,cpip = Open3.capture3(cmd)
     @pred_f.close
