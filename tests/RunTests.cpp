@@ -13,6 +13,8 @@
 #include "TestColorProfileMatrix.h"
 #include "TestCreateProfile.h"
 
+#include "TestDClassify.h"
+
 using namespace std;
 
 int main(int argc, char **argv) {
@@ -35,7 +37,8 @@ int main(int argc, char **argv) {
     sts.add(auto_ptr<Test::Suite>(new TestMultiKCanonAbGraph));
     sts.add(auto_ptr<Test::Suite>(new TestColorProfileMatrix));
     sts.add(auto_ptr<Test::Suite>(new TestCreateProfile));
+    sts.add(auto_ptr<Test::Suite>(new TestDClassify));
     
-return sts.run(output, false); // Note the 'false' parameter
+    return sts.run(output, false); // Note the 'false' parameter
 //return sts.run(output, true);
 }
