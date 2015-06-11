@@ -53,11 +53,9 @@ void process_fasta(ostream &out, CreateProfile cp, string &readFasta,
     	string readID = fp.getCurrIDLine().substr(1);  // remove the '>'
     	string seq = entry.second;
     	if(index < start_index || index > end_index) { continue; }
-		
-    	//if(index % 100 == 0) {
+	// output each 10%	
 	if( (index-start_index) % tenth_val == 0) {
 	    mu_cerr.lock();
-	    //cerr<<"[T"<<thread_index<<"] "<<index<<endl; 
 	    cerr<<"[T"<<thread_index<<"] "<<percent_done<<"%\t"<<index<<endl; 
 	    mu_cerr.unlock();
 	    percent_done += 10;
@@ -164,7 +162,7 @@ int main(int argc, char **argv) {
 	cerr<<"K_v = "<<v_k<<"\tK_d = "<<d_k<<"\tJ_k = "<<j_k<<endl;
 	cerr<<"MAX REPORT =\t"<<maxKeep<<endl;
 	cerr<<"NO CDR3 =\t"<<no_cdr3<<endl;
-	cerr<<"NUM THREAD=\t"<<num_thread<<endl;
+	cerr<<"NUM THREAD =\t"<<num_thread<<endl;
     }catch(ArgException &e)  // catch any exceptions
     { cerr << "error: " << e.error() << " for arg " << e.argId() << endl; }
 
@@ -215,7 +213,7 @@ int main(int argc, char **argv) {
 			       std::istreambuf_iterator<char>(), '\n');
     std::cerr<<"NUM FASTA LINES:\t"<<num_lines<<std::endl;
     int chunk_size = ceil( (double)((double)num_lines/2.0)/((double)num_thread) );
-
+    
     std::thread *tt = new std::thread[num_thread];
     // create the threads for work ...
     for(int i = 0; i < num_thread; i++) {
