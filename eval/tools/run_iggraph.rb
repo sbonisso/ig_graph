@@ -30,6 +30,7 @@ class RunIgGraph < RunTool
                end
     #
     @no_cdr3 = false
+    @fill_in_d = true # to be modifiable later...
     @runtime_s = nil
     @output_scores = (!out_scores ? false : true)
   end
@@ -49,6 +50,7 @@ class RunIgGraph < RunTool
     cmd += " -s #{@scoring}"
     cmd += " -r #{@read_fasta} -V #{@k_vj} -D #{@k_d} -J #{@k_vj} -o #{@pred_f.path}"
     cmd += " --no_cdr3" if @no_cdr3
+    cmd += " --fill_in_d" if @fill_in_d
     cmd += " --output_scores" if @output_scores
     #
     cout,cerr,cpip = Open3.capture3(cmd)

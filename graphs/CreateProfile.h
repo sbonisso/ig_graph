@@ -18,6 +18,9 @@
 #include "CanonicalAntibodyGraph.h"
 #include "ColorProfileMatrix.h"
 
+#include "d_align/IgClassify.hpp"
+#include "d_align/DClassify.hpp"
+
 #include "tests/TestCreateProfile.h"
 
 #ifdef DEBUG
@@ -38,7 +41,18 @@ public:
     CreateProfile(CanonicalAntibodyGraph *cab, int max_n, bool cmp_cdr3, bool cmp_score);
     
     ColorProfileMatrix getColorProfile(string seq);
-
+    
+    
+    void fill_in_d() { comp_fill_in_d_ = true; }
+    void set_ig_classify(IgClassify *igc) { 
+	ig_class_ = igc; 
+	ig_class_->set_num_d(30);
+    }
+    void set_d_classify(DClassify *dc) { 
+	d_class_ = dc;
+	d_class_->set_num_d_report(2);
+    }
+    
     int getProfileSize();
     
     void compute(string seq);
@@ -108,9 +122,15 @@ private:
     vector<string> pred_d_;
     vector<string> pred_j_;
     //
+    pair<int,int> v_range_;
+    pair<int,int> j_range_;
+    //
     string cdr3_str_;
     bool comp_cdr3_;
     bool comp_scores_;
+    bool comp_fill_in_d_;
+    IgClassify *ig_class_;
+    DClassify *d_class_;
 };
 
 #endif

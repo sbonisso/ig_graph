@@ -3,6 +3,7 @@
 CreateProfile::CreateProfile() {
     n_ = 0;
     comp_cdr3_ = true;
+    comp_fill_in_d_ = false;
 }
 
 CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab) : 
@@ -26,6 +27,7 @@ CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab,
     max_report_ = 2;
     comp_cdr3_ = cmp_cdr3;
     comp_scores_ = cmp_score;
+    comp_fill_in_d_ = false;
 }
 CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab, 
 			     int max_n, 
@@ -259,11 +261,28 @@ void CreateProfile::compute(string seq) {
     this->pred_d_ = getTopPredicted(max_report_, d_scores_, Segment::D_GENE);
     this->pred_j_ = getTopPredicted(max_report_, j_scores_, Segment::J_GENE);
     
+    CREATEPROFILE_DEBUG_PRINT("D SCORES:\t"<<d_pred_scores_);
     // if couldn't find cdr3 (possibly from truncated sequence) return nothing
     if(comp_cdr3_ && !this->computeCDR3(seq, cp_mat)) {
 	cdr3_str_ = "?";
     }
-
+    //
+    if(comp_fill_in_d_ && d_pred_scores_[0] == 0) {
+	// std::vector<std::vector<std::string> > d_class = 
+	//     ig_class_->get_d_classification(seq, pred_v_[0], pred_j_[0]);
+ 	// int len = std::min(max_report_, (int)d_class[1].size());
+	// for(int i = 0; i < len; i++) {
+	//     pred_d_[i] = d_class[1][i];
+	// }
+	CREATEPROFILE_DEBUG_PRINT(seq<<"\t"<<v_range_<<"\t"<<j_range_);
+	std::vector<DLabel> d_lst = d_class_->classify_d(seq, v_range_, j_range_);
+	CREATEPROFILE_DEBUG_PRINT(d_lst);
+	int len = std::min(max_report_, (int)d_lst.size());
+	for(int i = 0; i < len; i++) { 
+	    pred_d_[i] = d_lst[i].label; 
+	    d_pred_scores_[i] = d_lst[i].ident;
+	}
+    }
 }
 
 /**
@@ -301,7 +320,9 @@ bool CreateProfile::computeCDR3(string seq, ColorProfileMatrix &cp_mat) {
 
     //
     pair<int,int> v_range = v_part[v_max_ind_[0]];
-    pair<int,int> j_range = j_part[j_max_ind_[0]];    
+    pair<int,int> j_range = j_part[j_max_ind_[0]];
+    v_range_ = v_range;
+    j_range_ = j_range;
     if(v_range.first > v_range.second) { return false; }
     if(j_range.first > j_range.second) { return false; }
     if(v_range.second > j_range.first) { return false; }
@@ -328,7 +349,7 @@ bool CreateProfile::computeCDR3(string seq, ColorProfileMatrix &cp_mat) {
     return true;
 }
 /**
- * overload operator<< 
+ * overload operator<< to output a single line of output
  */
 ostream& operator<< (ostream &out, CreateProfile &cp) {
     //
@@ -339,37 +360,38 @@ ostream& operator<< (ostream &out, CreateProfile &cp) {
     vector<double> vscores = cp.getPredictedVScores();
     vector<double> dscores = cp.getPredictedDScores();
     vector<double> jscores = cp.getPredictedJScores();
-    // 
-    // out<<vpred<<"\t"<<dpred<<"\t"<<jpred<<"\t"
-    //    <<vscores<<"\t"<<dscores<<"\t"<<jscores<<endl;
-    int m = cp.max_report_;
+    //
     string delim = ",";
-    for(int i = 0; i < m; i++) { out<<vpred[i]<<(i == m-1 ? "\t" : delim); }
-    for(int i = 0; i < m; i++) { out<<dpred[i]<<(i == m-1 ? "\t" : delim); }
+    //int m = cp.max_report_;
+    // for(int i = 0; i < m; i++) { out<<vpred[i]<<(i == m-1 ? "\t" : delim); }
+    // for(int i = 0; i < m; i++) { out<<dpred[i]<<(i == m-1 ? "\t" : delim); }
+    // for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "\t" : delim); }
+    
+    int v_i = find(vpred.begin(), vpred.end(), "?") - vpred.begin();
+    int v_m = min(cp.max_report_, v_i);
+    for(int i = 0; i < v_m; i++) { out<<vpred[i]<<(i == v_m-1 ? "\t" : delim); }
+    if(v_m == 0) { out<<vpred[0]<<"\t"; }
 
-    for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "\t" : delim); }
-    // out<<cp.getCDR3(); 
-
-    // if compute CDR3, leave space for col
-    // if(cp.comp_cdr3_) { 
-    // 	for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "\t" : delim); }
-    // 	out<<cp.getCDR3(); 
-    // }
-    // else {
-    // 	for(int i = 0; i < m; i++) { out<<jpred[i]<<(i == m-1 ? "" : delim); }
-    // }
+    int d_i = find(dpred.begin(), dpred.end(), "?") - dpred.begin();
+    int d_m = min(cp.max_report_, d_i);
+    for(int i = 0; i < d_m; i++) { out<<dpred[i]<<(i == d_m-1 ? "\t" : delim); }
+    if(d_m == 0) { out<<dpred[0]<<"\t"; }
+    
+    int j_i = find(jpred.begin(), jpred.end(), "?") - jpred.begin();
+    int j_m = min(cp.max_report_, j_i);
+    for(int i = 0; i < j_m; i++) { out<<jpred[i]<<(i == j_m-1 ? "\t" : delim); }
+    if(j_m == 0) { out<<jpred[0]<<"\t"; }
+    //
     if(cp.comp_cdr3_) { 
 	out<<"\t"<<cp.getCDR3();
     }
+    //
     if(cp.comp_scores_) {
 	out<<"\t"<<vscores[0]
 	   <<"\t"<<dscores[0]
 	   <<"\t"<<jscores[0];
     }
-    
-    // for(int i = 0; i < m; i++) { out<<vscores[i]<<(i == m-1 ? "\t" : delim); }
-    // for(int i = 0; i < m; i++) { out<<dscores[i]<<(i == m-1 ? "\t" : delim); }
-    // for(int i = 0; i < m; i++) { out<<jscores[i]<<(i == m-1 ? "\t" : delim); }
+    //
     out<<endl;    
     //
     return out;

@@ -19,6 +19,9 @@
 #include "graphs/ColorProfileMatrix.h"
 #include "graphs/CreateProfile.h"
 
+#include "d_align/IgClassify.hpp"
+#include "d_align/DClassify.hpp"
+
 using namespace std;
 using namespace TCLAP;
 
@@ -34,6 +37,7 @@ int main(int argc, char **argv) {
     int v_k = -1; int d_k = -1; int j_k = -1;
     bool no_cdr3 = false;
     bool out_scores = false;
+    bool fill_in_d = false;
     string homeDir(getenv("HOME"));
     string default_paramDir(homeDir+"/.nb_params/4mer_amp/");
     try {
@@ -78,6 +82,9 @@ int main(int argc, char **argv) {
 
 	ValueArg<std::string> outFileNameArg("o","output_file","Name of output file",false,"","string");
 	cmd.add( outFileNameArg );
+
+	SwitchArg fillInDArg("f", "fill_in_d", "flag to perform additional alignment for filling in missing D gene-segments", false);
+	cmd.add(fillInDArg);
 	
 	// Parse the argv array.
 	cmd.parse( argc, argv );
@@ -96,6 +103,8 @@ int main(int argc, char **argv) {
 	scoringScheme = scoringArg.getValue();
 	no_cdr3 = cdr3Arg.getValue();
 	out_scores = outScoresArg.getValue();
+	// experimental
+	fill_in_d = fillInDArg.getValue();
 	// parameter dir
 	paramDir = paramDirArg.getValue();
 
@@ -142,8 +151,17 @@ int main(int argc, char **argv) {
     cab.addVReferences(vRefFasta);
     cab.addDReferences(dRefFasta);
     cab.addJReferences(jRefFasta);
+    
+
     //
     CreateProfile cp(&cab, !no_cdr3, out_scores);
+    IgClassify igc(vRefFasta, dRefFasta, jRefFasta, 5);
+    DClassify dc(dRefFasta);
+    if(fill_in_d) {
+	cp.fill_in_d();
+	cp.set_ig_classify(&igc);
+	cp.set_d_classify(&dc);
+    }
     MAIN_DEBUG_PRINT("SIZE:\t"<<cp.getProfileSize());
     //
     FastaRefID<FastaParser> fp(readFasta);
