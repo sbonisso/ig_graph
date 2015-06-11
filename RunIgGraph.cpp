@@ -177,31 +177,8 @@ int main(int argc, char **argv) {
 	
 	// one-stop shop for computing everything for sequence
 	cp.compute(seq);
-	
-	//ColorProfileMatrix cp_mat = cp.getColorProfile(seq);
-        //cp.computeCDR3(seq, cp_mat);
-	
-	// vector<double> vscores = cp.getPredictedVScores();
-	// vector<double> dscores = cp.getPredictedDScores();
-	// vector<double> jscores = cp.getPredictedJScores();
-
-	// cout<<"D:\t"<<cp.getDScores()<<endl;
-	// cout<<cp_mat.getDColorProfile()<<endl;
-	// MAIN_DEBUG_PRINT("V:\t"<<cp.getVScores());
-	// MAIN_DEBUG_PRINT("D:\t"<<cp.getDScores());
-	// MAIN_DEBUG_PRINT("J:\t"<<cp.getJScores());
-	
-	// vector<string> vpred = cp.getPredictedV(2);
-	// vector<string> dpred = cp.getPredictedD(2);
-	// vector<string> jpred = cp.getPredictedJ(2);	
-	
-	// out<<readID<<"\t"<<vpred<<"\t"<<dpred<<"\t"<<jpred<<"\t"
-	//    <<vscores<<"\t"<<dscores<<"\t"<<jscores<<endl;
+	// output to stream
 	out<<readID<<"\t"<<cp;
-	
-	// MAIN_DEBUG_PRINT("V:\t"<<vpred);
-	// MAIN_DEBUG_PRINT("D:\t"<<dpred);
-	// MAIN_DEBUG_PRINT("J:\t"<<jpred);
 	
 	index++;
     }
