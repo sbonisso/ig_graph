@@ -19,7 +19,6 @@
 #include "graphs/ColorProfileMatrix.h"
 #include "graphs/CreateProfile.h"
 
-#include "d_align/IgClassify.hpp"
 #include "d_align/DClassify.hpp"
 
 using namespace std;
@@ -155,11 +154,9 @@ int main(int argc, char **argv) {
 
     //
     CreateProfile cp(&cab, !no_cdr3, out_scores);
-    IgClassify igc(vRefFasta, dRefFasta, jRefFasta, 5);
     DClassify dc(dRefFasta);
     if(fill_in_d) {
 	cp.fill_in_d();
-	cp.set_ig_classify(&igc);
 	cp.set_d_classify(&dc);
     }
     MAIN_DEBUG_PRINT("SIZE:\t"<<cp.getProfileSize());

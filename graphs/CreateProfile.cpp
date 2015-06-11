@@ -268,12 +268,6 @@ void CreateProfile::compute(string seq) {
     }
     //
     if(comp_fill_in_d_ && d_pred_scores_[0] == 0) {
-	// std::vector<std::vector<std::string> > d_class = 
-	//     ig_class_->get_d_classification(seq, pred_v_[0], pred_j_[0]);
- 	// int len = std::min(max_report_, (int)d_class[1].size());
-	// for(int i = 0; i < len; i++) {
-	//     pred_d_[i] = d_class[1][i];
-	// }
 	CREATEPROFILE_DEBUG_PRINT(seq<<"\t"<<v_range_<<"\t"<<j_range_);
 	std::vector<DLabel> d_lst = d_class_->classify_d(seq, v_range_, j_range_);
 	CREATEPROFILE_DEBUG_PRINT(d_lst);

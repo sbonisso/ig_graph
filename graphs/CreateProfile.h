@@ -18,7 +18,6 @@
 #include "CanonicalAntibodyGraph.h"
 #include "ColorProfileMatrix.h"
 
-#include "d_align/IgClassify.hpp"
 #include "d_align/DClassify.hpp"
 
 #include "tests/TestCreateProfile.h"
@@ -44,13 +43,9 @@ public:
     
     
     void fill_in_d() { comp_fill_in_d_ = true; }
-    void set_ig_classify(IgClassify *igc) { 
-	ig_class_ = igc; 
-	ig_class_->set_num_d(30);
-    }
     void set_d_classify(DClassify *dc) { 
 	d_class_ = dc;
-	d_class_->set_num_d_report(2);
+	d_class_->set_num_d_report(max_report_);
     }
     
     int getProfileSize();
@@ -129,7 +124,7 @@ private:
     bool comp_cdr3_;
     bool comp_scores_;
     bool comp_fill_in_d_;
-    IgClassify *ig_class_;
+    //
     DClassify *d_class_;
 };
 
