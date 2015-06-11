@@ -8,7 +8,7 @@ ARFLAGS	=
 RANLIB	= ranlib
 RM	= rm -f
 ECHO	= echo
-CFLAGS	= -c -Wall -std=c++11 -O3
+CFLAGS	= -c -Wall -std=c++11 -O3 -pthread
 DBGFLAGS=-c -Wall -std=c++11 -I. -g -DDEBUG
 SHELL	= /bin/sh
 .SILENT :
