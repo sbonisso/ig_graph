@@ -379,10 +379,10 @@ ostream& operator<< (ostream &out, CreateProfile &cp) {
     
     int j_i = find(jpred.begin(), jpred.end(), "?") - jpred.begin();
     int j_m = min(cp.max_report_, j_i);
-    for(int i = 0; i < j_m; i++) { out<<jpred[i]<<(i == j_m-1 ? "\t" : delim); }
-    if(j_m == 0) { out<<jpred[0]<<"\t"; }
+    for(int i = 0; i < j_m; i++) { out<<jpred[i]<<(i == j_m-1 ? "" : delim); }
+    if(j_m == 0) { out<<jpred[0]; }
     //
-    if(cp.comp_cdr3_) { 
+    if(cp.comp_cdr3_) {
 	out<<"\t"<<cp.getCDR3();
     }
     //
