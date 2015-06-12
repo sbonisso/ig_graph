@@ -201,6 +201,7 @@ int main(int argc, char **argv) {
     cab.addJReferences(jRefFasta);   
     //
     CreateProfile cp(&cab, !no_cdr3, out_scores);
+    cp.set_scoring(scoringScheme);
     DClassify dc(dRefFasta);
     if(fill_in_d) {
 	cp.fill_in_d();

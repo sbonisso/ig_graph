@@ -41,12 +41,9 @@ public:
     
     ColorProfileMatrix getColorProfile(string seq);
     
-    
-    void fill_in_d() { comp_fill_in_d_ = true; }
-    void set_d_classify(DClassify *dc) { 
-	d_class_ = dc;
-	d_class_->set_num_d_report(max_report_);
-    }
+    void fill_in_d();
+    void set_d_classify(DClassify *dc);
+    void set_scoring(int score_flag);
     
     int getProfileSize();
     
@@ -98,6 +95,7 @@ private:
     
     int n_;
     int max_report_;
+    int scoring_type_;
 
     CanonicalAntibodyGraph *cab_;
     // all scores

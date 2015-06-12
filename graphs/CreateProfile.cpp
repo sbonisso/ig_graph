@@ -42,6 +42,15 @@ CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab,
  *
  */
 int CreateProfile::getProfileSize() { return n_; }
+
+void CreateProfile::set_scoring(int score_flag) { scoring_type_ = score_flag; }
+
+void CreateProfile::fill_in_d() { comp_fill_in_d_ = true; }
+
+void CreateProfile::set_d_classify(DClassify *dc) { 
+    d_class_ = dc;
+    d_class_->set_num_d_report(max_report_);
+}
 /**
  *
  */
@@ -57,8 +66,20 @@ ColorProfileMatrix CreateProfile::getColorProfile(string seq) {
     index = fillProfile((*cab_).getDRefs(), seq, index, Segment::D_GENE, &cp);
     index = fillProfile((*cab_).getJRefs(), seq, index, Segment::J_GENE, &cp);
     //
-    //v_scores_ = cp.getNormalizedLMerProbScoring(cp.cp_mat_v_);
-    vector<int> vscores = cp.getSimpleScoring(cp.cp_mat_v_);
+    vector<int> vscores;
+    if(scoring_type_ == 1) {
+	vector<double> vscores_p = cp.getNormalizedLMerProbScoring(cp.cp_mat_v_);
+	int vlen = (int)vscores_p.size();
+	vscores.resize(vlen);
+	for(int i = 0; i < vlen; i++) { 
+	    vscores[i] = (int)(vscores_p[i]*1000);
+	}
+    }
+    else if(scoring_type_ == 0)
+	vscores = cp.getSimpleScoring(cp.cp_mat_v_);
+    else 
+	vscores = cp.getSimpleScoring(cp.cp_mat_v_);
+    
     vector<int> dscores = cp.getSimpleScoring(cp.cp_mat_d_);
     vector<int> jscores = cp.getSimpleScoring(cp.cp_mat_j_);
     //
