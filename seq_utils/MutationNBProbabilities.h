@@ -14,6 +14,9 @@
 #include <fstream>
 #include <sstream>
 #include <map>
+#include <unordered_map>
+
+#include "seq_utils/Encoding.hpp"
 
 #include "Utils.h"
 
@@ -29,12 +32,12 @@ private:
 	~MutationNBProbabilities();
 	
 	// hashes to hold class conditional probabilities
-	std::map<std::string,std::map<std::string, int> > lmerCounts;
-	std::map<std::string,std::map<int, int> > posCounts;
+	std::unordered_map<std::string,std::unordered_map<std::string, int> > lmerCounts;
+	std::unordered_map<std::string,std::unordered_map<int, int> > posCounts;
 
-	std::map<std::string,std::map<std::string, double> > lmerProbs;
-	std::map<std::string,std::map<int, double> > posProbs;
-	std::map<std::string,double> priorProbs;
+	std::unordered_map<std::string,std::unordered_map<std::string, double> > lmerProbs;
+	std::unordered_map<std::string,std::unordered_map<int, double> > posProbs;
+	std::unordered_map<std::string,double> priorProbs;
 
 	std::string paramDir;
 	int lmer_len;
@@ -48,7 +51,14 @@ private:
 	// to control singleton
 	static bool _instanceExists;
 	static MutationNBProbabilities* _nbInstance;
-
+	
+	vector<double> pos_mut_;
+	vector<double> pos_nomut_;
+	vector<double> lmer_mut_;
+	vector<double> lmer_nomut_;
+	double prior_mut_;
+	double prior_nomut_;
+	
 public:
 
 	static MutationNBProbabilities& getInstance();
@@ -57,6 +67,12 @@ public:
 
 	double getProb(std::string lmer, int pos);
 	double getScore(std::string lmer, int pos);
+
+	double getProb(unsigned int lmer_i, int pos);
+	int getMaxVal() { return max_val_; }
+	
+	int max_val_;
+
 };
 
 #endif /* MUTATIONNBPROBABILITIES_H_ */
