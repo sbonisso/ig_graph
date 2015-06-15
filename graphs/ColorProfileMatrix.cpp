@@ -61,36 +61,43 @@ vector<double> ColorProfileMatrix::getLMerProbScore(//int lmerLen,
 	//int posPad = refPosStarts[i];	
 	string ref_id = (*cab_).getVRefID(i);
 	string curr_ref_seq = (*cab_).getVRefSeq(ref_id);
+	// added
+	string ref_lmer( curr_ref_seq.substr(9-leftShift, lmerLen) );
+	int lmer_i = Encoding::encode_kmer(ref_lmer);
+	
 	// compute by summing matches
-	for(int j = 10; j < len_ && j < 300; j++) {
+	for(int j = 10; j < len_ && j < 300; j++) {	    
 	    if(j+lmerLen >= (int)curr_ref_seq.size()) { 
 		vscores[i] += log2(1.0);
 		continue;
 	    }
-	    
+	    // added
 	    string lmer( curr_ref_seq.substr(j-leftShift, lmerLen) );
-	    
+	    lmer_i = Encoding::update_kmer(lmer_i, lmer[lmerLen-1], lmer_len_);
+	    //lmer_i = Encoding::encode_kmer(lmer);
+	    	    
 	    double prob = 0.0;
 	    // if find mismatch, use mismatch l-mer
 	    if(std::find(lmer.begin(), lmer.end(), '.') != lmer.end()) {
 		prob = (MutationNBProbabilities::getInstance()).
-		    getProb(nullLmerStr, j);
-		    //getProb(nullLmerStr, posPad+j);
+		    //getProb(nullLmerStr, j);
+		    getProb(999999, j);
 	    }
 	    // otherwise, use l-mer of reference
 	    else {
 		double p = (MutationNBProbabilities::getInstance()).
-		    getProb(lmer, j);
-		    //getProb(lmer, posPad+j);
+		    //    getProb(lmer, j);
+		    getProb(lmer_i, j);
+		
 		if(cp_mat[i][j] == -1) { prob = p; }
 		else { prob = (1.0-p); }
 	    }
 	    vscores[i] += log2(prob);
 	    
-	    COLORPROFMAT_DEBUG_PRINT(i<<"\t"<<j<<"\t"<<j<<"\t"//posPad+j<<"\t"
-				     <<lmer<<"\t"<<cp_mat[i][j]<<"\t"
-				     <<prob<<"\t"<<log2(prob)<<"\t"
-				     <<vscores[i]);
+	    // COLORPROFMAT_DEBUG_PRINT(i<<"\t"<<j<<"\t"<<j<<"\t"//posPad+j<<"\t"
+	    // 			     <<lmer<<"\t"<<cp_mat[i][j]<<"\t"
+	    // 			     <<prob<<"\t"<<log2(prob)<<"\t"
+	    // 			     <<vscores[i]);
 	}
     }
     return vscores;
