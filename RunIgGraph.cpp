@@ -45,7 +45,7 @@ void process_fasta(ostream &out, CreateProfile cp, string &readFasta,
 	exit(1);
     }
     int index = -1;
-    int tenth_val = (end_index-start_index)/10;
+    int tenth_val = end_index < 10 ? 1 : (end_index-start_index)/10;
     int percent_done = 0;
     while(fp.hasNextSequence()) {
     	index++;
