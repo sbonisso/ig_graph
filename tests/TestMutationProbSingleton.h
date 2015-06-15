@@ -23,6 +23,7 @@
 #include "file_io/FastaParser.h"
 #include "graphs/ColorProfile.h"
 #include "seq_utils/MutationNBProbabilities.h"
+#include "seq_utils/Encoding.hpp"
 
 using namespace std;
 
@@ -34,7 +35,8 @@ public:
 //		TEST_ADD(TestColoredAntibodyGraph::test_label_1)
 //		TEST_ADD(TestMutationProbSingleton::test_nb_probs)
 	TEST_ADD(TestMutationProbSingleton::test_lmer_indexer);
-	TEST_ADD(TestMutationProbSingleton::test_nb_probs_against_pMat);
+	//TEST_ADD(TestMutationProbSingleton::test_nb_probs_against_pMat);
+	TEST_ADD(TestMutationProbSingleton::test_lmer_encode);
     }
     
 private:
@@ -42,6 +44,7 @@ private:
     void test_nb_probs_against_pMat();
     void test_lmer_indexer();
     void test_nb_probs();
+    void test_lmer_encode();
 };
 
 #endif /* TESTMUTATIONPROBSINGLETON_H_ */
