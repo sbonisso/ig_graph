@@ -14,6 +14,7 @@
 #include "TestCreateProfile.h"
 
 #include "TestDClassify.h"
+#include "TestEncoding.h"
 
 using namespace std;
 
@@ -32,13 +33,13 @@ int main(int argc, char **argv) {
 //	sts.add(auto_ptr<Test::Suite>(new TestColorProfileScoring));
 //    sts.add(auto_ptr<Test::Suite>(new TestReferenceMap));
     
-    //sts.add(auto_ptr<Test::Suite>(new TestMutationProbSingleton));
+    sts.add(auto_ptr<Test::Suite>(new TestMutationProbSingleton));
     sts.add(auto_ptr<Test::Suite>(new TestCanonicalAntibodyGraph));
     sts.add(auto_ptr<Test::Suite>(new TestMultiKCanonAbGraph));
     sts.add(auto_ptr<Test::Suite>(new TestColorProfileMatrix));
     sts.add(auto_ptr<Test::Suite>(new TestCreateProfile));
     sts.add(auto_ptr<Test::Suite>(new TestDClassify));
+    sts.add(auto_ptr<Test::Suite>(new TestEncoding));
     
     return sts.run(output, false); // Note the 'false' parameter
-//return sts.run(output, true);
 }
