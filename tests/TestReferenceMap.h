@@ -11,7 +11,7 @@
 #include "file_io/FastaRefID.hpp"
 #include "file_io/FastaWriter.hpp"		// for writing FASTA files
 
-#include "graphs/ReferenceMap.h"
+#include "graphs/ReferenceMap.hpp"
 
 using namespace std;
 

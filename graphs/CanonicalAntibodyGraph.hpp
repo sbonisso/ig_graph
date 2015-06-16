@@ -14,7 +14,7 @@
 #include "file_io/FastaRefID.hpp"
 #include "file_io/FastaWriter.hpp"		// for writing FASTA files
 
-#include "ReferenceMap.h"
+#include "graphs/ReferenceMap.hpp"
 
 #include "tests/TestCanonicalAntibodyGraph.h"
 //#include "tests/TestColorProfileMatrix.h"

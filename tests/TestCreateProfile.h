@@ -12,9 +12,9 @@
 #include "file_io/FastaRefID.hpp"
 #include "file_io/FastaWriter.hpp"		// for writing FASTA files
 
-#include "graphs/ReferenceMap.h"
-#include "graphs/CanonicalAntibodyGraph.h"
-#include "graphs/CreateProfile.h"
+#include "graphs/ReferenceMap.hpp"
+#include "graphs/CanonicalAntibodyGraph.hpp"
+#include "graphs/CreateProfile.hpp"
 
 using namespace std;
 

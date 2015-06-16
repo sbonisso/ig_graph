@@ -5,7 +5,7 @@
  *      Author: sbonisso
  */
 
-#include "ColorProfile.h"
+#include "ColorProfile.hpp"
 
 // init class static constant
 const double ColorProfile::THRESH_P = 0.8;  //0.999; //0.80;	// 0.95

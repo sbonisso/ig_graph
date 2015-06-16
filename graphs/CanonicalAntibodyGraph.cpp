@@ -1,4 +1,4 @@
-#include "CanonicalAntibodyGraph.h"
+#include "CanonicalAntibodyGraph.hpp"
 /**
  *
  */

@@ -9,8 +9,8 @@
 #include "prettyprint.hpp"
 
 #include "Utils.h"
-#include "graphs/CanonicalAntibodyGraph.h"
 
+#include "graphs/CanonicalAntibodyGraph.hpp"
 
 #ifdef DEBUG
 #define MULTIKAB_DEBUG_PRINT(EXPR) DEBUG_PRINT("[MULTI-K]", EXPR)

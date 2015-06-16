@@ -18,10 +18,10 @@
 #include "file_io/FastaRefID.hpp"
 #include "file_io/FastaWriter.hpp"  // for writing FASTA files
 
-#include "graphs/CanonicalAntibodyGraph.h"
-#include "graphs/MultiKCanonAbGraph.h"
-#include "graphs/ColorProfileMatrix.h"
-#include "graphs/CreateProfile.h"
+#include "graphs/CanonicalAntibodyGraph.hpp"
+#include "graphs/MultiKCanonAbGraph.hpp"
+#include "graphs/ColorProfileMatrix.hpp"
+#include "graphs/CreateProfile.hpp"
 
 #include "d_align/DClassify.hpp"
 

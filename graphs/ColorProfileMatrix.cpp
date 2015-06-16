@@ -1,4 +1,4 @@
-#include "graphs/ColorProfileMatrix.h"
+#include "graphs/ColorProfileMatrix.hpp"
 
 const double ColorProfileMatrix::THRESH_P = 0.8;  //0.999; //0.80; // 0.95
 

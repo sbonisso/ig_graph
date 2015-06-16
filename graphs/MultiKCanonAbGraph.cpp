@@ -1,4 +1,4 @@
-#include "MultiKCanonAbGraph.h"
+#include "MultiKCanonAbGraph.hpp"
 
 MultiKCanonAbGraph::MultiKCanonAbGraph() {
     v_k_ = 21;

@@ -14,9 +14,9 @@
 
 #include "Utils.h"
 
-#include "ReferenceMap.h"
-#include "CanonicalAntibodyGraph.h"
-#include "ColorProfileMatrix.h"
+#include "graphs/ReferenceMap.hpp"
+#include "graphs/CanonicalAntibodyGraph.hpp"
+#include "graphs/ColorProfileMatrix.hpp"
 
 #include "d_align/DClassify.hpp"
 

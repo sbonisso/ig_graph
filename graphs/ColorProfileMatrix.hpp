@@ -15,7 +15,7 @@
 #include "seq_utils/MutationMemoizedProbabilities.h"
 #include "seq_utils/Encoding.hpp"
 
-#include "graphs/CanonicalAntibodyGraph.h"
+#include "graphs/CanonicalAntibodyGraph.hpp"
 
 #ifdef DEBUG
 #define COLORPROFMAT_DEBUG_PRINT(EXPR) DEBUG_PRINT("[COLOR_PROF_MAT]", EXPR)

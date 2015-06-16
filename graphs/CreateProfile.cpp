@@ -1,4 +1,4 @@
-#include "CreateProfile.h"
+#include "CreateProfile.hpp"
 
 CreateProfile::CreateProfile() {
     n_ = 0;

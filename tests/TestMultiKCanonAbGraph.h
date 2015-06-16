@@ -12,8 +12,8 @@
 #include "file_io/FastaRefID.hpp"
 #include "file_io/FastaWriter.hpp"	// for writing FASTA files
 
-#include "graphs/MultiKCanonAbGraph.h"
-#include "graphs/CanonicalAntibodyGraph.h"
+#include "graphs/MultiKCanonAbGraph.hpp"
+#include "graphs/CanonicalAntibodyGraph.hpp"
 
 using namespace std;
 
