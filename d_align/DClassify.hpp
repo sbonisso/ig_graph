@@ -14,8 +14,8 @@
 
 #include "Utils.h"
 
-#include "file_io/FastaParser.h"
-#include "file_io/FastaRefID.h"
+#include "file_io/FastaParser.hpp"
+#include "file_io/FastaRefID.hpp"
 
 #include "d_align/DLabel.hpp"
 

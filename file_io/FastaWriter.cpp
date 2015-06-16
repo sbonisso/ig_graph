@@ -5,7 +5,7 @@
  *      Author: stef
  */
 
-#include "FastaWriter.h"
+#include "FastaWriter.hpp"
 
 FastaWriter::FastaWriter(string filePath) {
 	this->numEntries = 0;

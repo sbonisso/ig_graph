@@ -16,11 +16,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-//#include "../graphs/ColoredAntibodyGraphMultiple.h"
-//#include "ParameterizedGraph.h"
-//#include "../ParameterizedColorGraph.h"
+#include "file_io/FastaParser.hpp"
 
-#include "file_io/FastaParser.h"
 #include "graphs/ColorProfile.h"
 #include "seq_utils/MutationNBProbabilities.h"
 #include "seq_utils/Encoding.hpp"

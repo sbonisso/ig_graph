@@ -13,10 +13,10 @@
 #include <tclap/CmdLine.h> 	  // for parsing command line args
 #include "ProcessMemUsage.h" 	  // for checking process memory usage
 
-#include "file_io/FastaParser.h"  // for parsing FASTA files
-#include "file_io/FastaMult.h"
-#include "file_io/FastaRefID.h"
-#include "file_io/FastaWriter.h"  // for writing FASTA files
+#include "file_io/FastaParser.hpp"  // for parsing FASTA files
+#include "file_io/FastaMult.hpp"
+#include "file_io/FastaRefID.hpp"
+#include "file_io/FastaWriter.hpp"  // for writing FASTA files
 
 #include "graphs/CanonicalAntibodyGraph.h"
 #include "graphs/MultiKCanonAbGraph.h"

@@ -5,7 +5,7 @@
  *      Author: stef
  */
 
-#include "FastaParser.h"
+#include "FastaParser.hpp"
 #include <cstring>
 
 /*

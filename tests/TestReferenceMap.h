@@ -6,11 +6,10 @@
 #include <string>
 #include <ostream>
 
-#include "file_io/FastaParser.h"
-#include "file_io/FastaMult.h"
-#include "file_io/FastaRefID.h"
-#include "file_io/FastaWriter.h"		// for writing FASTA files
-#include "file_io/FastaFlowParser.h"
+#include "file_io/FastaParser.hpp"
+#include "file_io/FastaMult.hpp"
+#include "file_io/FastaRefID.hpp"
+#include "file_io/FastaWriter.hpp"		// for writing FASTA files
 
 #include "graphs/ReferenceMap.h"
 
