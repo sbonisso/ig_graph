@@ -1,4 +1,4 @@
-#include "TestEncoding.h"
+#include "TestEncoding.hpp"
 
 /**
  * test encoding k-mers

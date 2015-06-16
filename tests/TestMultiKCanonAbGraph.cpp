@@ -1,4 +1,4 @@
-#include "TestMultiKCanonAbGraph.h"
+#include "TestMultiKCanonAbGraph.hpp"
 #include "../prettyprint.hpp"
 
 TestMultiKCanonAbGraph::TestMultiKCanonAbGraph() {

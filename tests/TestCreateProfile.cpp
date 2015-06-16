@@ -1,4 +1,4 @@
-#include "TestCreateProfile.h"
+#include "TestCreateProfile.hpp"
 #include "../prettyprint.hpp"
 
 TestCreateProfile::TestCreateProfile() { 

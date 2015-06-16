@@ -1,4 +1,4 @@
-#include "TestCanonicalAntibodyGraph.h"
+#include "TestCanonicalAntibodyGraph.hpp"
 #include "../prettyprint.hpp"
 
 TestCanonicalAntibodyGraph::TestCanonicalAntibodyGraph() { 

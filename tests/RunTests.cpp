@@ -1,29 +1,21 @@
 #include <iostream>
 #include <ostream>
 
-// #include "TestColoredAntibodyGraph.h"
-// #include "TestColorProfileScoring.h"
-//#include "TestPartitionedReads.h"
+#include "TestReferenceMap.hpp"
+#include "TestCanonicalAntibodyGraph.hpp"
+#include "TestMultiKCanonAbGraph.hpp"
 
-#include "TestReferenceMap.h"
-#include "TestCanonicalAntibodyGraph.h"
-#include "TestMultiKCanonAbGraph.h"
+#include "TestMutationProbSingleton.hpp"
+#include "TestColorProfileMatrix.hpp"
+#include "TestCreateProfile.hpp"
 
-#include "TestMutationProbSingleton.h"
-#include "TestColorProfileMatrix.h"
-#include "TestCreateProfile.h"
-
-#include "TestDClassify.h"
-#include "TestEncoding.h"
+#include "TestDClassify.hpp"
+#include "TestEncoding.hpp"
 
 using namespace std;
 
 int main(int argc, char **argv) {
 
-//	TestColoredAntibodyGraph sts;
-//	TestMutationProbSingleton sts;
-//	TestColorProfileScoring sts;
-//    TestPartitionedReads sts;
     TestReferenceMap sts;
     Test::TextOutput output(Test::TextOutput::Verbose);
         

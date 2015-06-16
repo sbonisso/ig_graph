@@ -1,4 +1,4 @@
-#include "TestColorProfileMatrix.h"
+#include "TestColorProfileMatrix.hpp"
 #include "../prettyprint.hpp"
 
 TestColorProfileMatrix::TestColorProfileMatrix() { 

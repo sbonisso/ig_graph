@@ -1,4 +1,4 @@
-#include "TestDClassify.h"
+#include "TestDClassify.hpp"
 
 TestDClassify::TestDClassify() {
     TEST_ADD(TestDClassify::test_d_align_id);

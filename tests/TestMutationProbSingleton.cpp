@@ -5,9 +5,7 @@
  *      Author: sbonisso
  */
 
-
-
-#include "TestMutationProbSingleton.h"
+#include "TestMutationProbSingleton.hpp"
 
 void TestMutationProbSingleton::test_lmer_indexer() {
 

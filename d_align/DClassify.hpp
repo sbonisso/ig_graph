@@ -19,7 +19,7 @@
 
 #include "d_align/DLabel.hpp"
 
-#include "tests/TestDClassify.h"
+#include "tests/TestDClassify.hpp"
 
 #include <seqan/align.h>
 

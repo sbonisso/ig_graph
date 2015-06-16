@@ -1,4 +1,4 @@
-#include "TestReferenceMap.h"
+#include "TestReferenceMap.hpp"
 #include "../prettyprint.hpp"
 
 TestReferenceMap::TestReferenceMap() {

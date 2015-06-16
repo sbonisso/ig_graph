@@ -20,7 +20,7 @@
 
 #include "d_align/DClassify.hpp"
 
-#include "tests/TestCreateProfile.h"
+#include "tests/TestCreateProfile.hpp"
 
 #ifdef DEBUG
 #define CREATEPROFILE_DEBUG_PRINT(EXPR) DEBUG_PRINT("[CREATE_PROFILE]", EXPR)
