@@ -2,6 +2,7 @@
 *~
 *.txt
 *.tab
+*.tsv
 *.csv
 *.pdf
 
