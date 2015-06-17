@@ -18,7 +18,6 @@
 
 #include "file_io/FastaParser.hpp"
 
-#include "graphs/ColorProfile.hpp"
 #include "seq_utils/MutationNBProbabilities.h"
 #include "seq_utils/Encoding.hpp"
 

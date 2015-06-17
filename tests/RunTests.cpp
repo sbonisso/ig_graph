@@ -6,6 +6,7 @@
 #include "TestMultiKCanonAbGraph.hpp"
 
 #include "TestMutationProbSingleton.hpp"
+#include "TestMutationNBModel.hpp"
 #include "TestColorProfileMatrix.hpp"
 #include "TestCreateProfile.hpp"
 
@@ -32,6 +33,8 @@ int main(int argc, char **argv) {
     sts.add(auto_ptr<Test::Suite>(new TestCreateProfile));
     sts.add(auto_ptr<Test::Suite>(new TestDClassify));
     sts.add(auto_ptr<Test::Suite>(new TestEncoding));
+
+    sts.add(auto_ptr<Test::Suite>(new TestMutationNBModel));
     
     return sts.run(output, false); // Note the 'false' parameter
 }

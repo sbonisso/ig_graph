@@ -9,10 +9,7 @@
 #include "prettyprint.hpp"
 
 #include "seq_utils/MutationModel.h"
-#include "seq_utils/MutationProbabilities.h"
 #include "seq_utils/MutationNBProbabilities.h"
-#include "seq_utils/MutationMatrix.h"
-#include "seq_utils/MutationMemoizedProbabilities.h"
 #include "seq_utils/Encoding.hpp"
 
 #include "graphs/CanonicalAntibodyGraph.hpp"
