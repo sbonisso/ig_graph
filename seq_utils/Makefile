@@ -7,6 +7,7 @@ DBGFLAGS+= -I..
 LDFLAGS=
 SOURCES = $(wildcard *.cpp)
 OBJECTS=$(SOURCES:.cpp=.o)
+INC	= -I.. -I ${CURDIR}/../ext/cereal/include/
 
 all: $(OBJECTS) 
 
@@ -17,5 +18,5 @@ subdirs_debug : CFLAGS	= $(DBGFLAGS)
 subdirs_debug : $(OBJECTS)
 
 .cpp.o:
-	$(ECHO) $(CC) $(CFLAGS) $< -o $@
-	$(CC) $(CFLAGS) $< -o $@
+	$(ECHO) $(CC) $(INC) $(CFLAGS) $< -o $@
+	$(CC) $(INC) $(CFLAGS) $< -o $@
