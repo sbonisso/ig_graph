@@ -4,3 +4,6 @@
 [submodule "ext/seqan"]
 	path = ext/seqan
 	url = https://github.com/sbonisso/seqan
+[submodule "ext/tclap"]
+	path = ext/tclap
+	url = https://github.com/sbonisso/tclap
