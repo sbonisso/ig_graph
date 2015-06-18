@@ -1,6 +1,3 @@
 [submodule "ext/cereal"]
 	path = ext/cereal
 	url = https://github.com/USCiLab/cereal
-[submodule "ext/seqan-include"]
-	path = ext/seqan-include
-	url = https://github.com/sbonisso/seqan-include
