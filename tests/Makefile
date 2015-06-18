@@ -1,7 +1,7 @@
 include ../Makefile.inc
 
 CC=g++
-CFLAGS=-c -g -Wall -std=c++11 -I.. -I../ext/seqan-library-2.0.0/include/ -I../ext/
+CFLAGS=-c -g -Wall -std=c++11 -I.. -I../ext/seqan-library-2.0.0/include/ -I../ext/cereal/include/
 LDFLAGS=
 SOURCES = $(wildcard *.cpp)
 OBJECTS=$(SOURCES:.cpp=.o)
