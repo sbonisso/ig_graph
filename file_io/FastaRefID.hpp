@@ -11,7 +11,6 @@
 #include <sstream>
 #include <utility>
 #include <string>
-#include <boost/regex.hpp>
 
 using namespace std;
 
@@ -26,7 +25,6 @@ public:
 
 	string getCurrentRefID() { return currRefID; }
 	virtual pair<string,string> getNextEntry();
-//	pair<string,string> getNextEntry();
 };
 
 
@@ -40,18 +38,14 @@ template <class FP> pair<string,string> FastaRefID<FP>::getNextEntry() {
 	string readID = entry.first;
 	string seq = entry.second;
 
-	// boost regex matching of reference ID
-//	boost::regex re("reference=([\\w|\\d|\\.|\\:|\\,]+)");
-	boost::regex re("reference=([\\w|\\d|\\.|\\:|\\,|\\*|\\-]+)");
-	boost::smatch match;
-	string::const_iterator start = this->currIDLine.begin();
-	string::const_iterator end   = this->currIDLine.end();
-	boost::regex_search(start, end, match, re);
-	string stest(match[1].first, match[1].second);
-	currRefID = stest;
-//	cout<<stest<<endl;
-//	cout<<this->currIDLine<<endl;
-//	cout<<"pos: "<<pos<<"\tspacepos: "<<spacePos<<endl;
+        //boost regex matching of reference ID - no support for this
+	// boost::regex re("reference=([\\w|\\d|\\.|\\:|\\,|\\*|\\-]+)");
+	// boost::smatch match;
+	// string::const_iterator start = this->currIDLine.begin();
+	// string::const_iterator end   = this->currIDLine.end();
+	// boost::regex_search(start, end, match, re);
+	// string stest(match[1].first, match[1].second);
+	// currRefID = stest;
 
 	return entry;
 }
