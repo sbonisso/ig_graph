@@ -6,7 +6,7 @@
 #include <string>
 #include <ostream>
 
-#include "../prettyprint.hpp"
+#include "prettyprint.hpp"
 
 #include "file_io/FastaParser.hpp"
 #include "file_io/FastaMult.hpp"

@@ -1,5 +1,4 @@
 #include "TestCreateProfile.hpp"
-#include "../prettyprint.hpp"
 
 TestCreateProfile::TestCreateProfile() { 
     TEST_ADD(TestCreateProfile::test_cp_preds_1);

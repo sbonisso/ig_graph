@@ -1,5 +1,4 @@
 #include "TestColorProfileMatrix.hpp"
-#include "../prettyprint.hpp"
 
 TestColorProfileMatrix::TestColorProfileMatrix() { 
     TEST_ADD(TestColorProfileMatrix::test_cp_matrix_scores_1);    

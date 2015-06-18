@@ -1,5 +1,4 @@
 #include "TestMultiKCanonAbGraph.hpp"
-#include "../prettyprint.hpp"
 
 TestMultiKCanonAbGraph::TestMultiKCanonAbGraph() {
     TEST_ADD(TestMultiKCanonAbGraph::test_multi_k_ident);
