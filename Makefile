@@ -4,7 +4,7 @@ DIRS	= graphs seq_utils file_io d_align
 EXE	= iggraph
 
 INC	= -I. -I ${CURDIR}/ext/seqan-include/ -I ${CURDIR}/ext/ -I ${CURDIR}/ext/tclap/include/
-LIBS	= -lemon -lpthread
+LIBS	= -lpthread
 SOURCES = $(wildcard graphs/*.cpp) $(wildcard seq_utils/*.cpp) $(wildcard file_io/*.cpp)  $(wildcard d_align/*.cpp)
 
 OBJECTS=$(SOURCES:.cpp=.o)
