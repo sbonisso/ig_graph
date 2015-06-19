@@ -143,7 +143,7 @@ void MutationNBProbabilities::fillLMerHash(std::string &filePath) {
 	totalMut += mutCount;
     }
     
-    string max_lmer;
+    std::string max_lmer;
     max_lmer.assign(lmer_len, 'T');
     max_val_ = Encoding::encode_kmer(max_lmer);
     

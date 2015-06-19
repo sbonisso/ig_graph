@@ -16,7 +16,7 @@
 #include <map>
 #include <unordered_map>
 
-#include "Utils.h"
+//#include "Utils.h"
 
 class Encoding {
 
@@ -24,8 +24,8 @@ public:
     Encoding() {}
     virtual ~Encoding() {}
     
-    static unsigned int encode_kmer(string kmer);
-    static string decode_kmer(unsigned int kmer_val, int k);
+    static unsigned int encode_kmer(std::string kmer);
+    static std::string decode_kmer(unsigned int kmer_val, int k);
     static  unsigned int update_kmer(unsigned int kmer_val, char bp, int k);
 };
 

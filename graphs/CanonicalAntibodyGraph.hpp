@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include "prettyprint.hpp"
 
-#include "Utils.h"
+//#include "Utils.h"
 #include "file_io/FastaParser.hpp"  		// for parsing FASTA files
 #include "file_io/FastaRefID.hpp"
 

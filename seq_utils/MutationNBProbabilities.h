@@ -15,10 +15,11 @@
 #include <sstream>
 #include <map>
 #include <unordered_map>
+#include <vector>
 
 #include "seq_utils/Encoding.hpp"
 
-#include "Utils.h"
+//#include "Utils.h"
 
 #ifdef DEBUG
 #define MUTNBPROB_DEBUG_PRINT(EXPR) DEBUG_PRINT("[MUT_NB_PROB]", EXPR)
@@ -52,10 +53,10 @@ private:
 	static bool _instanceExists;
 	static MutationNBProbabilities* _nbInstance;
 	
-	vector<double> pos_mut_;
-	vector<double> pos_nomut_;
-	vector<double> lmer_mut_;
-	vector<double> lmer_nomut_;
+	std::vector<double> pos_mut_;
+	std::vector<double> pos_nomut_;
+	std::vector<double> lmer_mut_;
+	std::vector<double> lmer_nomut_;
 	double prior_mut_;
 	double prior_nomut_;
 	

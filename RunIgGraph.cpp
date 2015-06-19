@@ -8,7 +8,7 @@
 #include <thread>
 #include <mutex>
 
-#include "Utils.h"
+//#include "Utils.h"
 
 #include <tclap/CmdLine.h> 	  // for parsing command line args
 #include "ProcessMemUsage.h" 	  // for checking process memory usage
@@ -25,6 +25,9 @@
 
 using namespace std;
 using namespace TCLAP;
+
+
+#define DEBUG_PRINT(PREFIXSTR, EXPR) std::cout<<PREFIXSTR<<":\t"<<EXPR<<std::endl
 
 #ifdef DEBUG
 #define MAIN_DEBUG_PRINT(EXPR) DEBUG_PRINT("[MAIN]", EXPR)

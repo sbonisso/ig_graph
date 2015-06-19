@@ -9,7 +9,7 @@
 
 #include "seq_utils/Encoding.hpp"
 
-#include "Utils.h"
+//#include "Utils.h"
 
 #include <cereal/cereal.hpp>
 #include <cereal/archives/json.hpp>
@@ -52,10 +52,10 @@ private:
     static bool _instanceExists;
     static MutationNBModel* _nbInstance;
 	
-    vector<double> pos_mut_;
-    vector<double> pos_nomut_;
-    vector<double> lmer_mut_;
-    vector<double> lmer_nomut_;
+    std::vector<double> pos_mut_;
+    std::vector<double> pos_nomut_;
+    std::vector<double> lmer_mut_;
+    std::vector<double> lmer_nomut_;
     double prior_mut_;
     double prior_nomut_;
 	

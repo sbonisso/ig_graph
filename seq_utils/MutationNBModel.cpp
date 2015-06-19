@@ -113,7 +113,7 @@ void MutationNBModel::fillLMerHash() {
     for(auto const &vals : lmerCounts["match"]) { totalMatch += vals.second; }
     for(auto const &vals : lmerCounts["mutation"]) { totalMut += vals.second; }
     
-    string max_lmer;
+    std::string max_lmer;
     max_lmer.assign(lmer_len, 'T');
     max_val_ = Encoding::encode_kmer(max_lmer);
     
