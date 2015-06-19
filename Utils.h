@@ -14,14 +14,6 @@
 #include <unordered_map>
 #include <algorithm>
 
-#include <lemon/list_graph.h>
-#include <lemon/concepts/graph.h>
-#include <lemon/connectivity.h>
-#include <lemon/concepts/digraph.h>
-#include <lemon/concepts/graph.h>
-#include <lemon/concepts/graph_components.h>
-
-using namespace lemon;
 using namespace std;
 
 #define DEBUG_PRINT(PREFIXSTR, EXPR) std::cout<<PREFIXSTR<<":\t"<<EXPR<<std::endl
