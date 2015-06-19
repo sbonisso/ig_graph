@@ -9,9 +9,7 @@
 #include "prettyprint.hpp"
 
 #include "file_io/FastaParser.hpp"
-#include "file_io/FastaMult.hpp"
 #include "file_io/FastaRefID.hpp"
-#include "file_io/FastaWriter.hpp"		// for writing FASTA files
 
 #include "d_align/DClassify.hpp"
 
