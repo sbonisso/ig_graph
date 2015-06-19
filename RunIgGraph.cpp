@@ -82,10 +82,9 @@ int main(int argc, char **argv) {
     bool out_scores = false;
     bool fill_in_d = false;
     string homeDir(getenv("HOME"));
-    //string default_paramDir(homeDir+"/.nb_params/4mer_amp/");
     string default_paramDir("data/model.bin");
     try {
-	CmdLine cmd("Command description message", ' ', "0.9");
+	CmdLine cmd("Command description message", ' ', "0.0");
 
 	ValueArg<std::string> readNameArg("r","read_file","Name to print1",true,"homer","string");
 	cmd.add( readNameArg );
@@ -176,10 +175,8 @@ int main(int argc, char **argv) {
     cerr<<"SCORING = "<<(standardScoring ? "STANDARD" : "PROBABILISTIC")<<endl;
     if(!standardScoring) {
 	MAIN_DEBUG_PRINT(paramDir);
-	//(MutationNBProbabilities::getInstance()).setParamDir(paramDir);
 	(MutationNBModel::getInstance()).setParamDir(paramDir);
 #ifdef DEBUG
-	//int lmerLen = (MutationNBProbabilities::getInstance()).getLMerLen();
 	int lmerLen = (MutationNBModel::getInstance()).getLMerLen();
 #endif
 	MAIN_DEBUG_PRINT("L-MER LEN:\t"<<lmerLen);
@@ -234,30 +231,7 @@ int main(int argc, char **argv) {
     for(int i = 0; i < num_thread; i++) { 
     	tt[i].join();
     }
-    delete [] tt;
-
-    // FastaRefID<FastaParser> fp(readFasta);
-    // if(!fp.openFile()) {
-    // 	cerr<<readFasta<<" not openend properly!\n";
-    // 	exit(1);
-    // }
-    // int index = 0;
-    // while(fp.hasNextSequence()) {
-    // 	pair<string,string> entry = fp.getNextEntry();
-    // 	string readID = fp.getCurrIDLine().substr(1);  // remove the '>'
-    // 	string seq = entry.second;
-    // 	if(index % 100 == 0) { cerr<<index<<endl; }
-    // 	MAIN_DEBUG_PRINT("READID:\t"<<readID);	
-    // 	MAIN_DEBUG_PRINT("SEQ:\t"<<seq);
-	
-    // 	// one-stop shop for computing everything for sequence
-    // 	cp.compute(seq);
-    // 	// output to stream
-    // 	out<<readID<<"\t"<<cp;
-	
-    // 	index++;
-    // }
-    // fp.closeFile();
+    delete [] tt;   
     
     if(out_s.is_open()) { out_s.close(); }
     
