@@ -3,8 +3,8 @@ include Makefile.inc
 DIRS	= graphs seq_utils file_io d_align
 EXE	= iggraph
 
-INC	= -I. -I ${CURDIR}/ext/seqan-include/ -I ${CURDIR}/ext/ -I ${CURDIR}/ext/tclap/include/
-LIBS	= -lpthread
+INC	= -I. -I ${CURDIR}/ext/seqan-include/ -I ${CURDIR}/ext/ -I ${CURDIR}/ext/tclap/include/ -I ${CURDIR}/ext/cereal/include/
+LIBS	= -pthread
 SOURCES = $(wildcard graphs/*.cpp) $(wildcard seq_utils/*.cpp) $(wildcard file_io/*.cpp)  $(wildcard d_align/*.cpp)
 
 OBJECTS=$(SOURCES:.cpp=.o)
@@ -12,7 +12,7 @@ TESTDIR = tests
 TESTSRC	= $(wildcard $(TESTDIR)/*.cpp)
 TESTOBJ	= $(TESTSRC:.cpp=.o)
 
-SLIBS = -lpthread -static -static-libgcc -static-libstdc++
+SLIBS = -lpthread -static -static-libgcc -static-libstdc++ -Wl,-u,pthread_join,-u,pthread_equal
 
 all : subdirs $(EXE)
 
