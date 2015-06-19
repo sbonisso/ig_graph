@@ -7,3 +7,6 @@
 [submodule "ext/tclap"]
 	path = ext/tclap
 	url = https://github.com/sbonisso/tclap
+[submodule "ext/cpptest"]
+	path = ext/cpptest
+	url = git://cpptest.git.sourceforge.net/gitroot/cpptest/cpptest

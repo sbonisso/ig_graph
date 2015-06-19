@@ -15,6 +15,7 @@
 #include <ostream>
 #include <stdlib.h>
 #include <stdio.h>
+#include <cmath>
 
 #include "file_io/FastaParser.hpp"
 

@@ -3,7 +3,7 @@ include Makefile.inc
 DIRS	= graphs seq_utils file_io d_align
 EXE	= iggraph
 
-INC	= -I. -I ${CURDIR}/ext/seqan-include/ -I ${CURDIR}/ext/ -I ${CURDIR}/ext/tclap/include/ -I ${CURDIR}/ext/cereal/include/
+INC	= -I. -I ${CURDIR}/ext/seqan-include/ -I ${CURDIR}/ext/ -I ${CURDIR}/ext/tclap/include/ -I ${CURDIR}/ext/cereal/include/ -I ${CURDIR}/ext/cpptest/cpptest/src/
 LIBS	= -pthread
 SOURCES = $(wildcard graphs/*.cpp) $(wildcard seq_utils/*.cpp) $(wildcard file_io/*.cpp)  $(wildcard d_align/*.cpp)
 

@@ -6,8 +6,7 @@ DBGFLAGS+= -I.. -DCPPPROG
 LDFLAGS=
 SOURCES = $(wildcard *.cpp)
 OBJECTS=$(SOURCES:.cpp=.o)
-#INC	= -I. -I ${CURDIR}/../ext/seqan-library-2.0.0/include/
-INC	= -I. -I ${CURDIR}/../ext/
+INC	= -I. -I ${CURDIR}/../ext/ -I ${CURDIR}/../ext/cpptest/cpptest/src/
 
 all: $(OBJECTS) 
 
