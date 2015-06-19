@@ -79,7 +79,8 @@ int main(int argc, char **argv) {
     bool out_scores = false;
     bool fill_in_d = false;
     string homeDir(getenv("HOME"));
-    string default_paramDir(homeDir+"/.nb_params/4mer_amp/");
+    //string default_paramDir(homeDir+"/.nb_params/4mer_amp/");
+    string default_paramDir("data/model.bin");
     try {
 	CmdLine cmd("Command description message", ' ', "0.9");
 
@@ -172,9 +173,11 @@ int main(int argc, char **argv) {
     cerr<<"SCORING = "<<(standardScoring ? "STANDARD" : "PROBABILISTIC")<<endl;
     if(!standardScoring) {
 	MAIN_DEBUG_PRINT(paramDir);
-	(MutationNBProbabilities::getInstance()).setParamDir(paramDir);
+	//(MutationNBProbabilities::getInstance()).setParamDir(paramDir);
+	(MutationNBModel::getInstance()).setParamDir(paramDir);
 #ifdef DEBUG
-	int lmerLen = (MutationNBProbabilities::getInstance()).getLMerLen();
+	//int lmerLen = (MutationNBProbabilities::getInstance()).getLMerLen();
+	int lmerLen = (MutationNBModel::getInstance()).getLMerLen();
 #endif
 	MAIN_DEBUG_PRINT("L-MER LEN:\t"<<lmerLen);
     }

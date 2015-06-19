@@ -8,7 +8,7 @@
 #include "Utils.h"
 #include "prettyprint.hpp"
 
-#include "seq_utils/MutationModel.h"
+#include "seq_utils/MutationNBModel.hpp"
 #include "seq_utils/MutationNBProbabilities.h"
 #include "seq_utils/Encoding.hpp"
 

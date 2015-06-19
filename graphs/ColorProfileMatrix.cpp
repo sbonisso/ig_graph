@@ -7,7 +7,8 @@ ColorProfileMatrix::ColorProfileMatrix() {
     this->len_ = 0;
     this->cab_ = NULL;
     //
-    this->lmer_len_ = (MutationNBProbabilities::getInstance()).getLMerLen();
+    //this->lmer_len_ = (MutationNBProbabilities::getInstance()).getLMerLen();
+    this->lmer_len_ = (MutationNBModel::getInstance()).getLMerLen();
     this->lmer_shift_ = (lmer_len_ == 6) ? 2 : lmer_len_-3;
 }
 
@@ -22,7 +23,8 @@ ColorProfileMatrix::ColorProfileMatrix(int num_seq,
     resize_mat(cp_mat_d_, (*cab_).getNumD(), this->len_);
     resize_mat(cp_mat_j_, (*cab_).getNumJ(), this->len_);
     //
-    this->lmer_len_ = (MutationNBProbabilities::getInstance()).getLMerLen();
+    //this->lmer_len_ = (MutationNBProbabilities::getInstance()).getLMerLen();
+    this->lmer_len_ = (MutationNBModel::getInstance()).getLMerLen();
     this->lmer_shift_ = (lmer_len_ == 6) ? 2 : lmer_len_-3;
 }
 /**
@@ -79,15 +81,15 @@ vector<double> ColorProfileMatrix::getLMerProbScore(//int lmerLen,
 	    double prob = 0.0;
 	    // if find mismatch, use mismatch l-mer
 	    if(std::find(lmer.begin(), lmer.end(), '.') != lmer.end()) {
-		prob = (MutationNBProbabilities::getInstance()).
+		//prob = (MutationNBProbabilities::getInstance()).
 		    //getProb(nullLmerStr, j);
-		    getProb(999999, j);
+		prob = (MutationNBModel::getInstance()).getProb(999999, j);		    
 	    }
 	    // otherwise, use l-mer of reference
 	    else {
-		double p = (MutationNBProbabilities::getInstance()).
+		//double p = (MutationNBProbabilities::getInstance()).
 		    //    getProb(lmer, j);
-		    getProb(lmer_i, j);
+		double p = (MutationNBModel::getInstance()).getProb(lmer_i, j);
 		
 		if(cp_mat[i][j] == -1) { prob = p; }
 		else { prob = (1.0-p); }
