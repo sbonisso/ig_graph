@@ -8,8 +8,6 @@
 #include <thread>
 #include <mutex>
 
-//#include "Utils.h"
-
 #include <tclap/CmdLine.h> 	  // for parsing command line args
 #include "ProcessMemUsage.h" 	  // for checking process memory usage
 
@@ -26,7 +24,6 @@
 using namespace std;
 using namespace TCLAP;
 
-
 #define DEBUG_PRINT(PREFIXSTR, EXPR) std::cout<<PREFIXSTR<<":\t"<<EXPR<<std::endl
 
 #ifdef DEBUG
@@ -37,7 +34,9 @@ using namespace TCLAP;
 
 std::mutex mu_cerr;
 std::mutex mu_out;
-
+/**
+ * worker thread function
+ */
 void process_fasta(ostream &out, CreateProfile cp, string &readFasta, 
 		   int start_index, int end_index, int thread_index) {
     FastaRefID<FastaParser> fp(readFasta);
@@ -72,7 +71,9 @@ void process_fasta(ostream &out, CreateProfile cp, string &readFasta,
     }
     fp.closeFile();
 }
-
+/**
+ *
+ */
 int main(int argc, char **argv) {
     string readFasta, vRefFasta, dRefFasta, jRefFasta, outFile, paramDir;
     int k = 21, maxKeep = 3, scoringScheme = 0;
@@ -86,16 +87,20 @@ int main(int argc, char **argv) {
     try {
 	CmdLine cmd("Command description message", ' ', "0.0");
 
-	ValueArg<std::string> readNameArg("r","read_file","Name to print1",true,"homer","string");
+	ValueArg<std::string> 
+	    readNameArg("r","read_file","Name to print1",true,"homer","string");
 	cmd.add( readNameArg );
 
-	ValueArg<std::string> vRefNameArg("v","V_ref_file","Name to print2",true,"blah","string");
+	ValueArg<std::string> 
+	    vRefNameArg("v","V_ref_file","Name to print2",true,"blah","string");
 	cmd.add( vRefNameArg );
 
-	ValueArg<std::string> dRefNameArg("d","D_ref_file","Name to print2",true,"blah","string");
+	ValueArg<std::string> 
+	    dRefNameArg("d","D_ref_file","Name to print2",true,"blah","string");
 	cmd.add( dRefNameArg );
 
-	ValueArg<std::string> jRefNameArg("j","J_ref_file","Name to print2",true,"blah","string");
+	ValueArg<std::string> 
+	    jRefNameArg("j","J_ref_file","Name to print2",true,"blah","string");
 	cmd.add( jRefNameArg );
 
 	ValueArg<int> kSizeArg("k","k_param","size of k",false,-1,"int");
@@ -108,28 +113,40 @@ int main(int argc, char **argv) {
 	ValueArg<int> jkSizeArg("J","j_k_param","size of k for J",false,-1,"int");
 	cmd.add( jkSizeArg );
 
-	ValueArg<int> maxReportArg("m", "max_report", "maximum gene segements to report, [1,2,..,10], default = 2", false, 2, "int");
+	ValueArg<int> 
+	    maxReportArg("m", "max_report", 
+			 "maximum gene segements to report, [1,2,..], default = 2", 
+			 false, 2, "int");
 	cmd.add(maxReportArg);
 
-	ValueArg<int> scoringArg("s", "scoring", "[0 = standard, 1 = prob]", false, 1, "int");
+	ValueArg<int> 
+	    scoringArg("s", "scoring", "[0 = standard, 1 = prob]", false, 1, "int");
 	cmd.add(scoringArg);
 
 	SwitchArg cdr3Arg("c", "no_cdr3", "Omit computing CDR3 sequence", false);
 	cmd.add(cdr3Arg);
 
-	SwitchArg outScoresArg("S", "output_scores", "flag to output top scorig of each V, D, and J", false);
+	SwitchArg 
+	    outScoresArg("S", "output_scores", 
+			 "flag to output top scorig of each V, D, and J", false);
 	cmd.add(outScoresArg);
 
 	ValueArg<int> nThreadArg("t","num_thread","number of threads",false,1,"int");
 	cmd.add( nThreadArg );
 
-	ValueArg<std::string> paramDirArg("p", "param_dir", "path to parameter directory", false, default_paramDir, "string");
+	ValueArg<std::string> 
+	    paramDirArg("p", "param_dir", "path to parameter directory", 
+			false, default_paramDir, "string");
 	cmd.add(paramDirArg);
 
-	ValueArg<std::string> outFileNameArg("o","output_file","Name of output file",false,"","string");
+	ValueArg<std::string> 
+	    outFileNameArg("o","output_file","Name of output file",
+			   false,"","string");
 	cmd.add( outFileNameArg );
 
-	SwitchArg fillInDArg("f", "fill_in_d", "flag to perform additional alignment for filling in missing D gene-segments", false);
+	SwitchArg 
+	    fillInDArg("f", "fill_in_d", 
+		       "flag to perform additional alignment for filling in missing D gene-segments", false);
 	cmd.add(fillInDArg);
 	
 	// Parse the argv array.

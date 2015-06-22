@@ -40,7 +40,7 @@ make test
 
 ###### Use
 
-The iggraph executable can be run directly, or for simplicity, you can use the two run_iggraph_{hsap,mmus}.sh scripts to run for either human or mouse.
+The iggraph executable can be run directly, or for simplicity, you can use the two run_iggraph_{hsap,mmus}.sh scripts, from inside the ig_graph directory, to run for either human or mouse.
 
 ```
 ./run_iggraph_hsap.sh --read_file igseq_reads.fa --output_file igseq_vdj.tsv --num_thread 4

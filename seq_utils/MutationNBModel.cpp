@@ -33,7 +33,6 @@ void MutationNBModel::setParamDir(std::string paramDirStr) {
  */
 void MutationNBModel::readInData() {	
     std::ifstream is(paramDir);
-    //cereal::JSONInputArchive ar(is);
     cereal::BinaryInputArchive ar(is);
     ar(lmerCounts, posCounts, priorProbs);
     is.close();

@@ -8,8 +8,6 @@
 #include <unordered_map>
 #include "prettyprint.hpp"
 
-//#include "Utils.h"
-
 #include "graphs/CanonicalAntibodyGraph.hpp"
 
 #ifdef DEBUG

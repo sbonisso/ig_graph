@@ -9,8 +9,6 @@
 
 #include "seq_utils/Encoding.hpp"
 
-//#include "Utils.h"
-
 #include <cereal/cereal.hpp>
 #include <cereal/archives/json.hpp>
 #include <cereal/archives/binary.hpp>
