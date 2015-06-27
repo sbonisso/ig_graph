@@ -15,7 +15,7 @@ IgGraph is for performing VDJ classification of antibody reads using the colored
 Clone the repository using the --recursive option to initialize each submodule dependency:
 
 ```
-git clone --recursive git@bitbucket.org:sbonisso/ig_graph
+git clone --recursive https://sbonisso@bitbucket.org/sbonisso/ig_graph.git
 ```
 
 Compile by running make in the top-level directory. 
