@@ -1,0 +1,23 @@
+	<h2>Compilation</h2>
+	<p>Clone the repository using the <code>--recursive</code> option to initialize each submodule dependency:</p>
+	
+	<div class="highlight">
+	   <pre><code>$ git clone --recursive https://github.com/sbonisso/ig_graph.git</code></pre>
+	</div>
+	
+	<p>Compile by running make in the top-level directory.</p>
+	<div class="highlight">
+	   <pre><code>$ cd ig_graph
+$ make</code></pre>
+	</div>
+
+	<p>To create tests, additionally run make test. To create the unit_test executable, you must install cpptest library, e.g., on Ubuntu:</p>
+	<div class="highlight">
+	   <pre><code>$ sudo apt-get install libcpptest-dev</code></pre>
+	</div>
+
+	<p>then you can run make test:</p>
+	<div class="highlight">
+	   <pre><code>$ make test
+$ ./unit_test</code></pre>
+	</div>

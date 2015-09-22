@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>IgGraph</title>
+    <link rel="stylesheet" href="assets/stylesheets/styles.css">
+    <link rel="stylesheet" href="assets/stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="assets/javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  </head>
+  <body>
+
+  <header>
+    <a href="">
+      <h1>IgGraph</h1>
+      <!-- <p>IgGraph is for performing VDJ classification of antibody reads using the colored antibody graph (i.e., a colored de Bruijn graph).</p> -->
+      <p>performing VDJ classification of antibody reads using the colored antibody graph.</p>
+    </a>
+  </header>
+
+
+<div id="banner">
+  <div class="banner-inner">
+    <span id="logo"><span class="octicon octicon-mark-github"></span></span>
+    <a href="https://github.com/sbonisso/ig_graph" class="button fork"><strong>View On GitHub</strong></a>
+    <div class="downloads">
+      <span>Downloads:</span>
+      <ul>
+        <li><a href="https://github.com/sbonisso/ig_graph/zipball/master" class="button">ZIP</a></li>
+        <li><a href="https://github.com/sbonisso/ig_graph/tarball/master" class="button">TAR</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<div class="wrapper">
+
+  <nav>
+  <ul></ul>
+</nav>
+
+
+  <section>
+    <h2>What is IgGraph?</h2>
+
+<p>IgGraph will provide the germline V, D, and J gene-segment usage from antibody (immunosequencing) reads. A colored de Bruijn graph is used to determine the generating V, D, and/or J gene-segment used for every read.</p>
+
+<h4>Input:</h4>
+<ul>
+  <li>FASTA file of unique immunoglobulin sequencing reads</li>
+  <li>FASTA files of V, D, J germline gene-segments
+</ul>
+
+<h4>Output:</h4>
+<p>Tab delimited file with the following</p>
+<ul>
+  <li>One row for each input read</li>
+  <li>The ID of each identified V, D, J gene-segment</li>
+  <li>Identified CDR3 sequence</li>
+</ul>
+
+<p><div style="text-align: center"><img src="img/dbgraph_k21.png" width="80%" align="middle"></div></p>
+
+
+    <h2>Dependencies</h2>
+<p>IgGraph has been tested on many different versions of Ubuntu, and should work on most unix-based OS. If building from source, the dependencies listed are contained as submodules in the git repository. Instructions for compilation are located below.</p>
+<ul>
+  <li>gcc with C++11 support (<a href="https://gcc.gnu.org/projects/cxx0x.html">GCC 4.7 and later</a>)</li>
+  <li><a href="http://packages.seqan.de/">SeqAn 2.0+</a></li>
+  <li><a href="http://tclap.sourceforge.net/">TCLAP</a></li>
+  <li><a href="https://github.com/USCiLab/cereal">cereal</a></li>
+  <li><a href="http://cpptest.sourceforge.net/">cpptest</a></li>
+</ul>
+
+
+    	<h2>Compilation</h2>
+	<p>Clone the repository using the <code>--recursive</code> option to initialize each submodule dependency:</p>
+	
+	<div class="highlight">
+	   <pre><code>$ git clone --recursive https://github.com/sbonisso/ig_graph.git</code></pre>
+	</div>
+	
+	<p>Compile by running make in the top-level directory.</p>
+	<div class="highlight">
+	   <pre><code>$ cd ig_graph
+$ make</code></pre>
+	</div>
+
+	<p>To create tests, additionally run make test. To create the unit_test executable, you must install cpptest library, e.g., on Ubuntu:</p>
+	<div class="highlight">
+	   <pre><code>$ sudo apt-get install libcpptest-dev</code></pre>
+	</div>
+
+	<p>then you can run make test:</p>
+	<div class="highlight">
+	   <pre><code>$ make test
+$ ./unit_test</code></pre>
+	</div>
+
+    
+    <h2>Usage</h2>
+
+<p>The iggraph executable can be run directly, or for simplicity, you can use the two run_iggraph_{hsap,mmus}.sh scripts, from inside the ig_graph directory, to run for either human or mouse.</p>
+
+<p>These scripts will call iggraph with useful parameter values and germline sequences, and only need the input file, output file, and optionally, the number of threads specified as input, for example:</p>
+
+<div class="highlight">
+  <pre><code>$ ./run_iggraph_hsap.sh --read_file igseq_reads.fa \
+      --output_file igseq_vdj.tsv \
+      --num_thread 4</code></pre>
+</div>
+
+<p>These scripts use germline references included in the repository, but any reference gene-segments can be passed as input in the form of FASTA files.</p>
+
+<p>The options and flags can be seen when running the built-in help:</p>
+<div class="highlight">
+  <pre><code>$ ./iggraph -h</code></pre>
+</div>
+
+
+    <h2>Speed</h2>
+<p>In addition to being accurate, IgGraph is very fast, faster than the few other antibody classification tools available for download. </p>
+
+<p>
+  <div style="text-align: center">
+    <a href="img/speed_comparison.png">
+      <img src="img/speed_comparison.png" width="75%">
+    </a>
+  </div>
+</p>
+       
+
+    <h2>Citation</h2>
+
+<p>If the software is used in a publication, please cite:</p>
+
+<blockquote>Bonissone, S.R. and Pevzner, P.A. (2015). Immunoglobulin classification using the colored antibody graph, Research in Computational Molecular Biology, Lecture Notes in Computer Science, vol. 9029, Springer International Publishing, pp. 44-59. [<a href="http://dx.doi.org/10.1007/978-3-319-16706-0_7">DOI</a>]</blockquote>
+
+
+    
+  </section>
+
+  
+
+
+    <footer>
+    <!-- <span class="small">Built in Jekyll for GitHub Pages by <a href="http://twitter.com/#!/michigangraham">@mattgraham</a></span> -->
+    <p>Project created by <a href="https://github.com/sbonisso">sbonisso</a></p>
+    <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/mattgraham">mattgraham</a></small></p>
+  </footer>
+  </div>
+  <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
+

@@ -1,0 +1,18 @@
+<h2>Usage</h2>
+
+<p>The iggraph executable can be run directly, or for simplicity, you can use the two run_iggraph_{hsap,mmus}.sh scripts, from inside the ig_graph directory, to run for either human or mouse.</p>
+
+<p>These scripts will call iggraph with useful parameter values and germline sequences, and only need the input file, output file, and optionally, the number of threads specified as input, for example:</p>
+
+<div class="highlight">
+  <pre><code>$ ./run_iggraph_hsap.sh --read_file igseq_reads.fa \
+      --output_file igseq_vdj.tsv \
+      --num_thread 4</code></pre>
+</div>
+
+<p>These scripts use germline references included in the repository, but any reference gene-segments can be passed as input in the form of FASTA files.</p>
+
+<p>The options and flags can be seen when running the built-in help:</p>
+<div class="highlight">
+  <pre><code>$ ./iggraph -h</code></pre>
+</div>

@@ -1,0 +1,19 @@
+<h2>What is IgGraph?</h2>
+
+<p>IgGraph will provide the germline V, D, and J gene-segment usage from antibody (immunosequencing) reads. A colored de Bruijn graph is used to determine the generating V, D, and/or J gene-segment used for every read.</p>
+
+<h4>Input:</h4>
+<ul>
+  <li>FASTA file of unique immunoglobulin sequencing reads</li>
+  <li>FASTA files of V, D, J germline gene-segments
+</ul>
+
+<h4>Output:</h4>
+<p>Tab delimited file with the following</p>
+<ul>
+  <li>One row for each input read</li>
+  <li>The ID of each identified V, D, J gene-segment</li>
+  <li>Identified CDR3 sequence</li>
+</ul>
+
+<p><div style="text-align: center"><img src="img/dbgraph_k21.png" width="80%" align="middle"></div></p>

@@ -1,0 +1,26 @@
+{% include header.html %}
+
+{% include banner.html %}
+
+<div class="wrapper">
+
+  {% include page-nav.html %}
+
+  <section>
+    {% include about.html %}
+
+    {% include dependencies.html %}
+
+    {% include compilation.html %}
+    
+    {% include usage.html %}
+
+    {% include speed.html %}       
+
+    {% include citation.html %}
+    
+  </section>
+
+  {{ content }}
+
+  {% include footer.html %}
