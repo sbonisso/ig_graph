@@ -1,7 +1,9 @@
 ig_graph
 =============
 
-IgGraph is for performing VDJ classification of antibody reads using the colored antibody graph (i.e., a colored de Bruijn graph).
+IgGraph performs VDJ classification of antibody reads using the colored antibody graph (i.e., a colored de Bruijn graph).
+
+[http://sbonisso.github.io/ig_graph/](http://sbonisso.github.io/ig_graph/)
 
 ###### Dependencies
 * gcc with C++11 support [GCC 4.7 and later](https://gcc.gnu.org/projects/cxx0x.html)
@@ -15,7 +17,7 @@ IgGraph is for performing VDJ classification of antibody reads using the colored
 Clone the repository using the --recursive option to initialize each submodule dependency:
 
 ```
-git clone --recursive https://sbonisso@bitbucket.org/sbonisso/ig_graph.git
+git clone --recursive https://github.com/sbonisso/ig_graph.git
 ```
 
 Compile by running make in the top-level directory. 
