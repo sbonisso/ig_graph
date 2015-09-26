@@ -13,8 +13,6 @@
 
 #include "graphs/ReferenceMap.hpp"
 
-#include "tests/TestCanonicalAntibodyGraph.hpp"
-
 #ifdef DEBUG
 #define CANONAB_DEBUG_PRINT(EXPR) DEBUG_PRINT("[CANON_AB]", EXPR)
 #else
@@ -57,9 +55,6 @@ public:
     vector<string> getVRefs() { return v_ids_; }
     vector<string> getDRefs() { return d_ids_; }
     vector<string> getJRefs() { return j_ids_; }
-	
-    friend class TestCanonicalAntibodyGraph; // for unit testing
-    /* friend TestColorProfileMatrix;     // for unit testing */
     
 protected:
     int k_;

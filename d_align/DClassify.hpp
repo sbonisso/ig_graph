@@ -17,8 +17,6 @@
 
 #include "d_align/DLabel.hpp"
 
-#include "tests/TestDClassify.hpp"
-
 #include <seqan/align.h>
 
 typedef seqan::String<char> TSequence; // sequence type
@@ -43,20 +41,17 @@ public:
     std::vector<DLabel> classify_d(std::string seq,
 				   std::pair<int,int> v_part,
 				   std::pair<int,int> j_part);
-    
-    void set_num_d_report(int num_d);
-    
-    friend class TestDClassify; // for unit testing
-    
-protected:
-    
-    void read_in_refs(std::string ref_fasta, 
-		      std::map<std::string,std::string> &ref_h);
 
     std::vector<DLabel> score_d(std::string seq,
 				std::pair<int,int> v_part,
 				std::pair<int,int> j_part);
+
+    void set_num_d_report(int num_d);
+        
+protected:
     
+    void read_in_refs(std::string ref_fasta, 
+		      std::map<std::string,std::string> &ref_h);    
     
     std::map<std::string,std::string> drefs_h_;
     

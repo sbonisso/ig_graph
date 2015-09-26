@@ -18,14 +18,11 @@
 
 #include "d_align/DClassify.hpp"
 
-#include "tests/TestCreateProfile.hpp"
-
 #ifdef DEBUG
 #define CREATEPROFILE_DEBUG_PRINT(EXPR) DEBUG_PRINT("[CREATE_PROFILE]", EXPR)
 #else
 #define CREATEPROFILE_DEBUG_PRINT(x) do {} while (0)
 #endif
-
 
 using namespace std;
 
@@ -72,9 +69,7 @@ public:
     pair<int,int> getPartitionJ();
     
     friend ostream& operator<< (ostream &out, CreateProfile &cp);
-    
-    friend class TestCreateProfile; // for unit testing
-
+        
 private:
     void init();
 
