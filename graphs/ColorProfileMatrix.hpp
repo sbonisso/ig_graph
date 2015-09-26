@@ -8,7 +8,6 @@
 #include "prettyprint.hpp"
 
 #include "seq_utils/MutationNBModel.hpp"
-#include "seq_utils/MutationNBProbabilities.h"
 #include "seq_utils/Encoding.hpp"
 
 #include "graphs/CanonicalAntibodyGraph.hpp"
