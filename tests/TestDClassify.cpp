@@ -1,0 +1,60 @@
+#include "catch.hpp"
+#include <stdlib.h>
+
+#include <utility>
+#include <string>
+#include <ostream>
+
+#include "prettyprint.hpp"
+
+#include "file_io/FastaParser.hpp"
+#include "file_io/FastaRefID.hpp"
+
+#include "d_align/DClassify.hpp"
+
+TEST_CASE("DClassify d_align_id", "[d_align]") {
+    string d_fasta = "data/igh_refs_simple/human_IGHD.fa";
+    DClassify dc(d_fasta);
+    
+    pair<int,int> v_part(0,293);
+    pair<int,int> j_part(309,364);
+    string seq = "CAGGTCCAGCTTGTGCAGTCTGGGGCTGAGGTGAAGAAGCCTGGGGCCTCAGTGAAGGTTTCCTGCAAGGCTTCTGGATACACCTTCACTAGCTATGCTATGCATTGGGTGCGCCAGGCCCCCGGACAAAGGCTTGAGTGGATGGGATGGATCAACGCTGGCAATGGTAACACAAAATATTCACAGAAGTTCCAGGGCAGAGTCACCATTACCAGGGACACATCCGCGAGCACAGCCTACATGGAGCTGAGCAGCCTGAGATCTGAAGACACGGCTGTGTATTACTGTGCGAGAATCATAACTGGTACCCTACTACTACGGTATGGACGTCTGGGGCCAAGGGACCACGGTCACCGTCTCCTCAGGGAGTGCATCCGCCCCAACCCTTTTCCCCCTCGTCTCCTGTGAGAATTCCCCGTCGGATACGAGCAGCGTGGCCGTTGGCTGCCTCGCACAGGACTTCC";
+    vector<DLabel> ret_id = dc.classify_d(seq, v_part, j_part);
+
+    REQUIRE((ret_id[0].label == "IGHD1-7*01" || 
+	     ret_id[0].label == "IGHD1-20*01"));
+    REQUIRE((ret_id[1].label == "IGHD1-20*01" || 
+	     ret_id[1].label == "IGHD1-7*01"));
+}
+
+TEST_CASE("DClassify d_align_score", "[d_align]") {
+    string d_fasta = "data/igh_refs_simple/human_IGHD.fa";
+    DClassify dc(d_fasta);
+    
+    pair<int,int> v_part(0,293);
+    pair<int,int> j_part(309,364);    
+    string seq = "CAGGTCCAGCTTGTGCAGTCTGGGGCTGAGGTGAAGAAGCCTGGGGCCTCAGTGAAGGTTTCCTGCAAGGCTTCTGGATACACCTTCACTAGCTATGCTATGCATTGGGTGCGCCAGGCCCCCGGACAAAGGCTTGAGTGGATGGGATGGATCAACGCTGGCAATGGTAACACAAAATATTCACAGAAGTTCCAGGGCAGAGTCACCATTACCAGGGACACATCCGCGAGCACAGCCTACATGGAGCTGAGCAGCCTGAGATCTGAAGACACGGCTGTGTATTACTGTGCGAGAATCATAACTGGTACCCTACTACTACGGTATGGACGTCTGGGGCCAAGGGACCACGGTCACCGTCTCCTCAGGGAGTGCATCCGCCCCAACCCTTTTCCCCCTCGTCTCCTGTGAGAATTCCCCGTCGGATACGAGCAGCGTGGCCGTTGGCTGCCTCGCACAGGACTTCC";
+    
+    vector<DLabel> ret_v = dc.score_d(seq, v_part, j_part);
+    std::sort(ret_v.begin(), ret_v.end(), std::greater<DLabel>());
+    
+    REQUIRE(ret_v[0].score == 47);
+    REQUIRE((ret_v[0].label == "IGHD1-7*01" || 
+	     ret_v[0].label == "IGHD1-20*01"));
+    
+    REQUIRE(ret_v[1].score == 47);    
+    REQUIRE((ret_v[1].label == "IGHD1-20*01" || 
+	     ret_v[1].label == "IGHD1-7*01"));
+}
+
+TEST_CASE("DClassify d_align_nohit", "[d_align]") {
+    string d_fasta = "data/igh_refs_simple/human_IGHD.fa";
+    DClassify dc(d_fasta);
+    
+    pair<int,int> v_part(1, 301);	
+    pair<int,int> j_part(301, 362);
+    string seq = "CAGGTGCAGCTGGTGCAGTCTGGGGGAGGCTTGGTAAAGCCTGGGGGGTCCCTTAGACTCTCCTGTGCAGCCTCTGGATTCACTTTCAGTGACGCCTGGATGAGCTGGGTCCGCCAGGCTCCAGGGAAGGGGCTGGAGTGGGTTGGCCGTATTAAAAGCAAAACTGATGGTGGGACAACAGACTACGCTGCACCCGTGAAAGGCGGATTCACCATCTCAAGAGATGATTCAAAAAACACGCTGTATCTGCAAATGAACAGCCTGAAAACCGAGGACACAGCCGTGTATTACTGTGCCGCCCAGACGACGATAGCATCAGCCTTGGACGTCTGGGGCCAAGGGACCACGGTCACCGTCTCCTCA";
+    
+    std::vector<DLabel> d_lst = dc.classify_d(seq, v_part, j_part);
+    REQUIRE(d_lst.size() == 0);
+}
