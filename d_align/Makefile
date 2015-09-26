@@ -6,7 +6,7 @@ DBGFLAGS+= -I.. -DCPPPROG
 LDFLAGS=
 SOURCES = $(wildcard *.cpp)
 OBJECTS=$(SOURCES:.cpp=.o)
-INC	= -I. -I ${CURDIR}/../ext/ -I ${CURDIR}/../ext/cpptest/cpptest/src/
+INC	= -I. -I ${CURDIR}/../ext/
 
 all: $(OBJECTS) 
 

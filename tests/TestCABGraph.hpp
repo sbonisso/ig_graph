@@ -1,7 +1,6 @@
 #ifndef TESTCABGRAPH_H_
 #define TESTCABGRAPH_H_
 
-#include "cpptest.h"
 #include <utility>
 #include <string>
 #include <ostream>

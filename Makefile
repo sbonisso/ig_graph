@@ -3,7 +3,7 @@ include Makefile.inc
 DIRS	= graphs seq_utils file_io d_align
 EXE	= iggraph
 
-INC	= -I. -I ${CURDIR}/ext/seqan-include/ -I ${CURDIR}/ext/ -I ${CURDIR}/ext/tclap/include/ -I ${CURDIR}/ext/cereal/include/ -I ${CURDIR}/ext/cpptest/cpptest/src/
+INC	= -I. -I ${CURDIR}/ext/seqan-include/ -I ${CURDIR}/ext/ -I ${CURDIR}/ext/tclap/include/ -I ${CURDIR}/ext/cereal/include/
 LIBS	= -pthread
 SOURCES = $(wildcard graphs/*.cpp) $(wildcard seq_utils/*.cpp) $(wildcard file_io/*.cpp)  $(wildcard d_align/*.cpp)
 
@@ -39,8 +39,8 @@ subdirs_debug :
 
 test : $(EXE)
 	cd $(TESTDIR); $(MAKE) $@
-	$(ECHO) $(CC) -o unit_test $(TESTOBJ) $(OBJECTS) -lcpptest $(LIBS)
-	$(CC) -o unit_test $(TESTOBJ) $(OBJECTS) -lcpptest $(LIBS)
+	$(ECHO) $(CC) -o unit_test $(TESTOBJ) $(OBJECTS) $(LIBS)
+	$(CC) -o unit_test $(TESTOBJ) $(OBJECTS) $(LIBS)
 
 clean : 
 	$(ECHO) cleaning up
