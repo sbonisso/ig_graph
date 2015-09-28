@@ -12,12 +12,14 @@ IgGraph performs VDJ classification of antibody reads using the colored antibody
 * [cereal](https://github.com/USCiLab/cereal)
 * [catch](https://github.com/philsquared/Catch)
 
+IgGraph has been tested on many different versions of Ubuntu, Mac OS X, and should work on most unix-based OSs. If building from source the dependencies listed are contained as subtrees in the git repository, so there is no need to install them separately.
+
 ###### Compilation
 
-Clone the repository using the --recursive option to initialize each submodule dependency:
+Clone the repository, all dependencies are contained as subtrees, so nothing special needs to be done. Alternatively, you can also download the tar/zip and build from those.
 
 ```
-git clone --recursive https://github.com/sbonisso/ig_graph.git
+git clone https://github.com/sbonisso/ig_graph.git
 ```
 
 Compile by running make in the top-level directory. 
@@ -39,7 +41,9 @@ make test
 The iggraph executable can be run directly, or for simplicity, you can use the two run_iggraph_{hsap,mmus}.sh scripts, from inside the ig_graph directory, to run for either human or mouse.
 
 ```
-./run_iggraph_hsap.sh --read_file igseq_reads.fa --output_file igseq_vdj.tsv --num_thread 4
+./run_iggraph_hsap.sh --read_file igseq_reads.fa \
+		      --output_file igseq_vdj.tsv \
+		      --num_thread 4
 ```
 
 The options and flags can be seen when running the built-in help:
