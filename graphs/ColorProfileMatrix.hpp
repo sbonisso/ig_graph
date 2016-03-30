@@ -6,6 +6,7 @@
 #include <algorithm>
 
 #include "prettyprint.hpp"
+#include "Utilities.hpp"
 
 #include "seq_utils/MutationNBModel.hpp"
 #include "seq_utils/Encoding.hpp"
@@ -48,6 +49,7 @@ public:
     
     // partition method
     vector<pair<int,int> > getPartitions(vector<vector<int> > cp_mat);
+    vector<pair<int,int> > getPartitions(vector<vector<int> > cp_mat, bool fwd);
     
     //vector<vector<int> > cp_mat_;
     vector<vector<int> > cp_mat_v_;

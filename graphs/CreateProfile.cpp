@@ -160,12 +160,12 @@ vector<string> CreateProfile::getTopPredicted(int num_ret,
 					      Segment seg) {
     vector<string> refs(num_ret, "");
     vector<int> max_inds = getNMaxIndex(num_ret, v);    
-    //cout<<"MAX INDS:\t"<<max_inds<<endl;
     //
     for(int i = 0; i < num_ret; i++) {
 	int ind = max_inds[i];
 	if(seg == Segment::V_GENE) { 
-	    refs[i] = (*cab_).getVRefID(ind);
+	    if(v[ind] == 0) refs[i] = "?";
+	    else refs[i] = (*cab_).getVRefID(ind);
 	    v_max_ind_ = max_inds;
 	    v_pred_scores_ = getPredScores(num_ret, max_inds, v);
 	}
@@ -176,7 +176,8 @@ vector<string> CreateProfile::getTopPredicted(int num_ret,
 	    d_pred_scores_ = getPredScores(num_ret, max_inds, v);
 	}
 	else if(seg == Segment::J_GENE) { 
-	    refs[i] = (*cab_).getJRefID(ind);
+	    if(v[ind] == 0) refs[i] = "?";
+	    else refs[i] = (*cab_).getJRefID(ind);
 	    j_max_ind_ = max_inds;
 	    j_pred_scores_ = getPredScores(num_ret, max_inds, v);
 	}
@@ -274,7 +275,9 @@ vector<double> CreateProfile::getPredScores(int num_ret,
     }
     return n_scores;
 }
-
+/**
+ *
+ */
 void CreateProfile::compute(string seq) {
     ColorProfileMatrix cp_mat = this->getColorProfile(seq);
     
@@ -299,11 +302,11 @@ void CreateProfile::compute(string seq) {
 	}
     }
 }
-
 /**
- * 
+ * determine the CDR3 sequence from a sequence given its ColorProfileMatrix
+ * @return true if was able to find a CDR3 sequence, false if couldn't - this
+ * could be due to a number of reasons.
  */
-//string CreateProfile::computeCDR3(string seq, ColorProfileMatrix &cp_mat) {
 bool CreateProfile::computeCDR3(string seq, ColorProfileMatrix &cp_mat) {
     //
     seqan::String<seqan::Dna> gSeq;
@@ -328,38 +331,43 @@ bool CreateProfile::computeCDR3(string seq, ColorProfileMatrix &cp_mat) {
     //   
     vector<pair<int,int> > v_part = cp_mat.getPartitions(cp_mat.getVColorProfile());
     vector<pair<int,int> > d_part = cp_mat.getPartitions(cp_mat.getDColorProfile());
-    vector<pair<int,int> > j_part = cp_mat.getPartitions(cp_mat.getJColorProfile());
-    // cout<<v_part[v_max_ind_[0]]<<endl;
-    // cout<<d_part[d_max_ind_[0]]<<endl;
-    // cout<<j_part[j_max_ind_[0]]<<endl;
-
+    vector<pair<int,int> > j_part = cp_mat.getPartitions(cp_mat.getJColorProfile(), false);    
     //
     pair<int,int> v_range = v_part[v_max_ind_[0]];
     pair<int,int> j_range = j_part[j_max_ind_[0]];
     v_range_ = v_range;
     j_range_ = j_range;
+    
     if(v_range.first > v_range.second) { return false; }
     if(j_range.first > j_range.second) { return false; }
     if(v_range.second > j_range.first) { return false; }
     // find 2nd cys - start codon after
     int cdr3_start = 0;
     for(int i = (v_range.second+best_frame)/3; i > 0; i--) {
-	if(frame_seq[i] == 'C') { 
+	if(frame_seq[i] == 'C') {
 	    cdr3_start = ((i+1)*3 - best_frame);
 	    break;
 	}
     }
-    int cdr3_end = 0;
+    if(cdr3_start < 200) {
+	cdr3_start = v_range.second-5;
+    }
     // take 5bp from start of J
-    cdr3_end = j_range.first+5;
+    int cdr3_end = j_range.first+5;
+    // but search for conserved tryp
+    int len = seq.size();
+    for(int i = (j_range.first+best_frame)/3; i <= len; i++) {
+	if(frame_seq[i] == 'W') {
+	    cdr3_end = ((i*3) - best_frame);
+	    break;
+	}
+    }
     
-    // cout<<seq<<endl;
-    // cout<<best_frame<<endl;
-    // cout<<frame_seq<<endl;
-    // cout<<v_range<<endl<<j_range<<endl;
-    // cout<<(cdr3_start+best_frame)/3<<"\t"<<(cdr3_end+best_frame)/3<<endl;
-    // cout<<cdr3_start<<"\t"<<cdr3_end<<endl;
+    CREATEPROFILE_DEBUG_PRINT("RANGES:\t"<<v_range<<"\t"<<j_range);
+    CREATEPROFILE_DEBUG_PRINT("CDR3 AA:\t"<<(cdr3_start+best_frame)/3<<"\t"<<(cdr3_end+best_frame)/3);
+    CREATEPROFILE_DEBUG_PRINT("CDR3 NT:\t"<<cdr3_start<<"\t"<<cdr3_end);
     
+    //
     cdr3_str_ = seq.substr(cdr3_start, cdr3_end-cdr3_start);
     return true;
 }

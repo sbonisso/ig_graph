@@ -7,6 +7,7 @@
 #include <sstream>
 #include <map>
 
+#include "Utilities.hpp"
 #include "seq_utils/Encoding.hpp"
 
 #include <cereal/cereal.hpp>

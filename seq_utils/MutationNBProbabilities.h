@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "seq_utils/Encoding.hpp"
+#include "Utilities.hpp"
 
 #ifdef DEBUG
 #define MUTNBPROB_DEBUG_PRINT(EXPR) DEBUG_PRINT("[MUT_NB_PROB]", EXPR)

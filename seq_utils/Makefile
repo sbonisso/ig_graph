@@ -7,7 +7,7 @@ DBGFLAGS+= -I..
 LDFLAGS=
 SOURCES = $(wildcard *.cpp)
 OBJECTS=$(SOURCES:.cpp=.o)
-INC	= -I.. -I ${CURDIR}/../ext/cereal/include/
+INC	= -I.. -I ${CURDIR}/../ext/cereal/include/ -I ${CURDIR}/../ext/
 
 all: $(OBJECTS) 
 

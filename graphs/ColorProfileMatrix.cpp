@@ -197,18 +197,37 @@ vector<int> ColorProfileMatrix::getSimpleScoring(vector<vector<int> > cp_mat) {
  */
 vector<pair<int,int> > 
 ColorProfileMatrix::getPartitions(vector<vector<int> > cp_mat) {
+    return getPartitions(cp_mat, true);
+}
+/**
+ * return partition of each reference as <start,end> pair, but can start 
+ * searching from either end using the bool flag fwd
+ */
+vector<pair<int,int> > 
+ColorProfileMatrix::getPartitions(vector<vector<int> > cp_mat, bool fwd) {
     vector<pair<int,int>> partitionPairs(cp_mat.size(), pair<int,int>(-1,-1));
     int num_rows = (int)cp_mat.size();
     for(int i = 0; i < num_rows; i++) {	
 	int len = (int)cp_mat[i].size();
-	// find index of first match
 	int strt_pos = 0;
-	for( ; cp_mat[i][strt_pos] < 0 && strt_pos < len; strt_pos++) { }
-	// find index of last match
 	int end_pos = len-1;
-	for( ; cp_mat[i][end_pos] < 0 && end_pos > 0; end_pos--) { }
+	if(fwd) {
+	    // find index of first match 	    
+	    for( ; cp_mat[i][strt_pos] < 0 && strt_pos < len; strt_pos++) { }
+	    // find index of last match	    
+	    for( ; cp_mat[i][end_pos] < 0 && end_pos > 0; end_pos--) { }
+	}
+	else {
+	    // find index of last match
+	    end_pos = len-1;
+	    for( ; cp_mat[i][end_pos] < 0 && end_pos > 0; end_pos--) { }
+	     // find index of first match 
+	    strt_pos = end_pos;
+	    for( ; cp_mat[i][strt_pos] >= 0 && strt_pos >= 0; strt_pos--) { }
+	    strt_pos++;
+	}
 	partitionPairs[i].first = strt_pos;
-	partitionPairs[i].second = end_pos;
+	partitionPairs[i].second = end_pos;	    
     }
     
     return partitionPairs;

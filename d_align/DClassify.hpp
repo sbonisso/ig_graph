@@ -11,6 +11,7 @@
 #include <functional>
 
 #include "prettyprint.hpp"
+#include "Utilities.hpp"
 
 #include "file_io/FastaParser.hpp"
 #include "file_io/FastaRefID.hpp"
