@@ -46,10 +46,8 @@ vector<double> ColorProfileMatrix::getLMerProbScore(//int lmerLen,
     int lmerLen = lmer_len_;
     int leftShift = lmer_shift_;
     string nullLmerStr(lmerLen,'.');
-    //int start_ref_index = 0;
-    //int end_ref_index = (*cab_).getNumV()-1;
-    //int num_ref = end_ref_index - start_ref_index + 1;    
     
+    //
     int n = (int)cp_mat.size();
     prob_scores_.resize(n, 0);
     vector<double> vscores(n, 0);
@@ -88,12 +86,7 @@ vector<double> ColorProfileMatrix::getLMerProbScore(//int lmerLen,
 		if(cp_mat[i][j] == -1) { prob = p; }
 		else { prob = (1.0-p); }
 	    }
-	    vscores[i] += log2(prob);
-	    
-	    // COLORPROFMAT_DEBUG_PRINT(i<<"\t"<<j<<"\t"<<j<<"\t"//posPad+j<<"\t"
-	    // 			     <<lmer<<"\t"<<cp_mat[i][j]<<"\t"
-	    // 			     <<prob<<"\t"<<log2(prob)<<"\t"
-	    // 			     <<vscores[i]);
+	    vscores[i] += log2(prob);	    	   
 	}
     }
     return vscores;

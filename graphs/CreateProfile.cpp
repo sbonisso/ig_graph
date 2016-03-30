@@ -215,51 +215,24 @@ vector<int> CreateProfile::getNMaxIndex(int num_ret, vector<double> &v) {
  * return predicted V, D, or J labels
  */
 vector<string> CreateProfile::getPredictedV() {    
-    //return getTopPredicted(max_report_, v_scores_, Segment::V_GENE);
     return pred_v_;
 }
 vector<string> CreateProfile::getPredictedD() {
-    //return getTopPredicted(max_report_, d_scores_, Segment::D_GENE);
     return pred_d_;
 }
 vector<string> CreateProfile::getPredictedJ() {
-    //return getTopPredicted(max_report_, j_scores_, Segment::J_GENE);
     return pred_j_;
 }
 /**
  * return scores of predicted V, D, or J labels
  */
-vector<double> CreateProfile::getPredictedVScores() {
-    // int num_ret = max_report_;
-    // vector<double> n_scores(num_ret, -1);
-    // vector<int> max_inds = getNMaxIndex(num_ret, v_scores_);
-    // v_max_ind_ = max_inds;
-    // for(int i = 0; i < num_ret; i++) { 
-    // 	n_scores[i] = v_scores_[max_inds[i]];
-    // }
-    // return n_scores;
+vector<double> CreateProfile::getPredictedVScores() {  
     return v_pred_scores_;
 }
-vector<double> CreateProfile::getPredictedDScores() {
-    // int num_ret = max_report_;
-    // vector<double> n_scores(num_ret, -1);
-    // vector<int> max_inds = getNMaxIndex(num_ret, d_scores_);
-    // d_max_ind_ = max_inds;
-    // for(int i = 0; i < num_ret; i++) { 
-    // 	n_scores[i] = d_scores_[max_inds[i]];
-    // }
-    // return n_scores;
+vector<double> CreateProfile::getPredictedDScores() {   
     return d_pred_scores_;
 }
-vector<double> CreateProfile::getPredictedJScores() {
-    // int num_ret = max_report_;
-    // vector<double> n_scores(num_ret, -1);
-    // vector<int> max_inds = getNMaxIndex(num_ret, j_scores_);    
-    // j_max_ind_ = max_inds;
-    // for(int i = 0; i < num_ret; i++) { 
-    // 	n_scores[i] = j_scores_[max_inds[i]];
-    // }
-    // return n_scores;
+vector<double> CreateProfile::getPredictedJScores() { 
     return j_pred_scores_;
 }
 /**

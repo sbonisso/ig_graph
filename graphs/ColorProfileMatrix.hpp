@@ -35,23 +35,17 @@ public:
     vector<vector<int> > getDColorProfile() { return this->cp_mat_d_; }
     vector<vector<int> > getJColorProfile() { return this->cp_mat_j_; }
     
-    //vector<double> getLMerProbScore(int lmerLen, int leftShift, vector<vector<int> > cp_mat);
     vector<double> getLMerProbScore(vector<vector<int> > cp_mat);
     vector<double> getNormalizedLMerProbScoring(vector<vector<int> > cp_mat);
-    //vector<double> getMemoizedProbScore(int lmerLen, int leftShift, int vStartIndex);
     
     // scoring methods
-    //vector<double> getSimpleScoring(int start_ref_index, int end_ref_index);
     vector<int> getSimpleScoring(vector<vector<int> > cp_mat);
-    /* vector<double> getSimpleMotifScoring(); */
-    /* vector<double> getProbScoring(); */
-    /* vector<double> getMutationMatrixScoring(); */
     
     // partition method
     vector<pair<int,int> > getPartitions(vector<vector<int> > cp_mat);
     vector<pair<int,int> > getPartitions(vector<vector<int> > cp_mat, bool fwd);
     
-    //vector<vector<int> > cp_mat_;
+    // representations of color profile matrix
     vector<vector<int> > cp_mat_v_;
     vector<vector<int> > cp_mat_d_;
     vector<vector<int> > cp_mat_j_;
