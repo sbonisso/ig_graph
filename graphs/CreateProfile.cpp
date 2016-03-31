@@ -29,6 +29,9 @@ CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab,
     comp_scores_ = cmp_score;
     comp_fill_in_d_ = false;
 }
+/**
+ *
+ */
 CreateProfile::CreateProfile(CanonicalAntibodyGraph *cab, 
 			     int max_n, 
 			     bool cmp_cdr3=true,
@@ -46,7 +49,9 @@ int CreateProfile::getProfileSize() { return n_; }
 void CreateProfile::set_scoring(int score_flag) { scoring_type_ = score_flag; }
 
 void CreateProfile::fill_in_d() { comp_fill_in_d_ = true; }
-
+/**
+ *
+ */
 void CreateProfile::set_d_classify(DClassify *dc) { 
     d_class_ = dc;
     d_class_->set_num_d_report(max_report_);
@@ -328,8 +333,8 @@ bool CreateProfile::computeCDR3(string seq, ColorProfileMatrix &cp_mat) {
     // take 5bp from start of J
     int cdr3_end = j_range.first+5;
     // but search for conserved tryp
-    int len = seq.size();
-    for(int i = (j_range.first+best_frame)/3; i <= len; i++) {
+    int len = length(frame_seq);
+    for(int i = (j_range.first+best_frame)/3; i < len; i++) {
 	if(frame_seq[i] == 'W') {
 	    cdr3_end = ((i*3) - best_frame);
 	    break;
